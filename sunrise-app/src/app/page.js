@@ -40,60 +40,45 @@ export default function Login() {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", paddingTop: "3rem" }}>
-      <h2>Login</h2>
+    <div className={styles['login-box']}>
+      <h2 className={styles['header']}>Login</h2>
+      <p className={styles['under-header']}>
+        Don&apos;t have an account? <Link href="/signup">Sign Up</Link>
+      </p>
 
       {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
 
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={{ width: "100%", marginBottom: "1rem" }}
-        />
-
-        <div style={{ position: "relative", width: "100%", marginBottom: "1rem" }}>
+      <form className={styles['form']} onSubmit={handleLogin}>
+        <h4 className={styles['account-details-headers']}>Email</h4>
           <input
+            className={styles['account-details-input']}
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        <h4 className={styles['account-details-headers']}>Password</h4>
+
+        <div>
+          <input
+            className={styles['account-details-input']}
             type={showPassword ? "text" : "password"}
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{
-              width: "100%",
-              paddingRight: "2.5rem",
-            }}
           />
-          <button
-            type="button"
-            onClick={() => setShowPassword((prev) => !prev)}
-            style={{
-              position: "absolute",
-              right: "0.5rem",
-              top: "50%",
-              transform: "translateY(-50%)",
-              background: "none",
-              border: "none",
-              fontSize: "1.2rem",
-              cursor: "pointer",
-            }}
-            aria-label={showPassword ? "Hide password" : "Show password"}
-          >
-            {showPassword ? "🙈" : "👁️"}
-          </button>
+          <input className={styles['show-password']} type="checkbox" id="showPassword" onChange={() => setShowPassword((prev) => !prev)}></input>
+          <label for="showPassword"> Show password</label>
         </div>
 
-        <button type="submit" style={{ width: "100%" }}>
-          Login
-        </button>
+        <div className={styles['submit-button-container']}>
+          <button className={styles['submit-button']} type="submit">
+            Login
+          </button>
+        </div>
       </form>
-
-      <p style={{ marginTop: "1rem" }}>
-        Don&apos;t have an account? <Link href="/signup">Sign Up</Link>
-      </p>
     </div>
   );
 }

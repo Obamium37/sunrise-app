@@ -26,11 +26,13 @@ export default function Signup() {
   };
 
   return (
-    <div>
-      <h2>Sign Up</h2>
+    <div className={styles['signup-box']}>
+      <h2 className={styles['header']}>Sign Up</h2>
       {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-      <form onSubmit={handleSignup}>
+      <form className={styles['form']} onSubmit={handleSignup}>
+        <h4 className={styles['account-details-headers']}>Email</h4>
         <input
+          className={styles['account-details-input']}
           type="email"
           placeholder="Email"
           value={email}
@@ -38,35 +40,26 @@ export default function Signup() {
           required
         />
 
-        <div style={{ position: "relative" }}>
+        <div>
+          <h4 className={styles['account-details-headers']}>Password</h4>
           <input
+            className={styles['account-details-input']}
             type={showPassword ? "text" : "password"}
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button
-            type="button"
-            onClick={() => setShowPassword((prev) => !prev)}
-            style={{
-              position: "absolute",
-              right: "8px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            {showPassword ? "🙈" : "👁️"}
-          </button>
+          <input className={styles['show-password']} type="checkbox" id="showPassword" onChange={() => setShowPassword((prev) => !prev)}></input>
+          <label for="showPassword"> Show password</label>
         </div>
 
-        <button type="submit">Sign Up</button>
+        <div className={styles['submit-button-container']}>
+          <button className={styles['submit-button']} type="submit">Sign Up</button>
+        </div>
       </form>
 
-      <p>
+      <p style={{ textAlign: "center" }}>
         Already have an account? <Link href="/">Login</Link>
       </p>
     </div>
