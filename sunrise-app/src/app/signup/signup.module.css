@@ -1,0 +1,60 @@
+.signup-box {
+    background-color: lightgray;
+    border-radius: 15px;
+    position: fixed;
+    inset: 0px;
+    width: 25rem;
+    height: 28rem;
+    max-width: 80vw;
+    max-height: 60dvh;
+    margin: auto;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+    font-family: Verdana, sans-serif;
+}
+
+.header {
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+.under-button {
+    text-align: center;
+}
+
+.form {
+    margin-top: 1.5rem;
+}
+
+.account-details-input {
+    display: block;
+    border: none;
+    margin-top: 7px;
+    font-size: 1.3rem;
+    padding-left: 10px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    width: 23.5rem;
+    max-width: 30rem;
+    outline: none;
+}
+
+.submit-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5em;
+}
+
+.submit-button {
+    background-color: rgb(124, 183, 232);
+    border: none;
+    padding: 6px 10px 6px 10px;
+    font-size: 1.15rem;
+}
+
+.account-details-headers {
+    margin-bottom: 0.6em;
+    font-size: 1.1rem;
+}
