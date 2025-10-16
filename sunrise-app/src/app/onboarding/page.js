@@ -64,7 +64,7 @@ export default function Onboarding() {
   };
 
   return (
-    <div style={{ maxWidth: "600px", margin: "auto", paddingTop: "2rem" }}>
+    <div style={{ transform: 'scale(1.5)', maxWidth: "600px", margin: "auto", paddingTop: "4rem" }}>
       <h2>Welcome! Let’s get to know you 👋</h2>
       {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
       {successMsg && <p style={{ color: "green" }}>{successMsg}</p>}
@@ -92,7 +92,12 @@ export default function Onboarding() {
           required
         />
 
-        <label htmlFor="gpaScale">GPA Scale:</label>
+        <label>
+          <br />
+        </label>
+
+
+        <label htmlFor="gpaScale"><br />GPA Scale:<br /></label>
         <select id="gpaScale" value={gpaScale} onChange={(e) => setGpaScale(e.target.value)}>
           <option value="4">4.0</option>
           <option value="5">5.0</option>
@@ -101,7 +106,7 @@ export default function Onboarding() {
         </select>
 
         <label>
-          Weighted GPA?
+          <br />Weighted GPA?<br />
           <input
             type="checkbox"
             checked={isWeighted}
@@ -109,7 +114,7 @@ export default function Onboarding() {
           />
         </label>
 
-        <label>Test Type:</label>
+        <label><br />Test Type:<br /></label>
         <label>
           <input
             type="radio"
@@ -138,16 +143,17 @@ export default function Onboarding() {
           required
         />
 
-        <label htmlFor="location">Location Preference:</label>
+        <label htmlFor="location"><br /><br />Location Preference:</label>
         <select id="location" value={location} onChange={(e) => setLocation(e.target.value)}>
           <option value="PNW">PNW</option>
           <option value="West">West</option>
           <option value="East">East</option>
           <option value="Midwest">Midwest</option>
           <option value="South">South</option>
+          <option value="None">None</option>
         </select>
 
-        <label>Cost Preference:</label>
+        <label><br />Cost Preference:</label>
         <label>
           <input
             type="radio"
@@ -168,9 +174,19 @@ export default function Onboarding() {
           />
           Private
         </label>
+          <label>
+          <input
+            type="radio"
+            name="costPref"
+            value="none"
+            checked={costPref === "none"}
+            onChange={(e) => setCostPref(e.target.value)}
+          />
+          None
+        </label>
 
         <label htmlFor="majorPrestige">
-          Importance of Prestige for Major:
+          <br />Importance of Prestige for Major:
         </label>
         <input
           type="range"

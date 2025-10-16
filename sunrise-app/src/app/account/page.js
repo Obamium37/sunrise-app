@@ -145,7 +145,7 @@ export default function Account() {
   };
 
   return (
-    <div style={{ maxWidth: "600px", margin: "auto", paddingTop: "2rem" }}>
+    <div style={{ transform: 'scale(1.3)', maxWidth: "600px", margin: "auto", paddingTop: "4rem" }}>
       <h2>👤 Account Details</h2>
       {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
       {successMsg && <p style={{ color: "green" }}>{successMsg}</p>}
@@ -161,7 +161,7 @@ export default function Account() {
           required
         />
 
-        <label>City</label>
+        <label><br />City</label>
         <input
           placeholder="City"
           value={city}
@@ -169,7 +169,7 @@ export default function Account() {
           required
         />
 
-        <label>GPA</label>
+        <label><br />GPA</label>
         <input
           placeholder="GPA"
           value={gpa}
@@ -177,7 +177,7 @@ export default function Account() {
           required
         />
 
-        <label>GPA Scale</label>
+        <label><br />GPA Scale</label>
         <select value={gpaScale} onChange={(e) => setGpaScale(e.target.value)}>
           <option value="4">4.0</option>
           <option value="5">5.0</option>
@@ -194,7 +194,7 @@ export default function Account() {
           />
         </label>
 
-        <label>Test Type</label>
+        <label><br />Test Type</label>
         <select value={testType} onChange={(e) => setTestType(e.target.value)}>
           <option value="SAT">SAT</option>
           <option value="ACT">ACT</option>
@@ -208,7 +208,7 @@ export default function Account() {
           required
         />
 
-        <label>Location Preference</label>
+        <label><br /><br />Location Preference</label>
         <select value={location} onChange={(e) => setLocation(e.target.value)}>
           <option value="PNW">PNW</option>
           <option value="West">West</option>
@@ -217,13 +217,13 @@ export default function Account() {
           <option value="South">South</option>
         </select>
 
-        <label>Cost Preference</label>
+        <label><br />Cost Preference</label>
         <select value={costPref} onChange={(e) => setCostPref(e.target.value)}>
           <option value="public">Public</option>
           <option value="private">Private</option>
         </select>
 
-        <label>Major Prestige Importance</label>
+        <label><br />Major Prestige Importance</label>
         <input
           type="range"
           min="1"

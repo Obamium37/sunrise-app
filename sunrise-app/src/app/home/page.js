@@ -72,7 +72,7 @@ export default function Home() {
   if (!stats) return <p>Loading...</p>;
 
   return (
-    <div style={{ maxWidth: "600px", margin: "auto", paddingTop: "3rem" }}>
+    <div style={{ transform: 'scale(1.2)', maxWidth: "800px", margin: "auto", paddingTop: "2rem" }}>
       <SidebarLayout>
         <h1>Welcome to the Home Page!</h1>
       </SidebarLayout>
