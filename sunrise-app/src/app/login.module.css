@@ -62,3 +62,16 @@
 .show-password {
     margin-top: 0.6rem;
 }
+
+.password-field-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.show-password-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 0.4rem;
+}

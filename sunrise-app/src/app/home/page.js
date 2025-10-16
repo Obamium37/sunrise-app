@@ -6,7 +6,8 @@ import { auth, db } from "../../lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { decryptData } from "../../lib/crypto";
 import { useAuth } from "../../context/AuthContext";
-import { auth } from "../../lib/firebase";
+import SidebarLayout from "../../components/SidebarLayout";
+import Link from "next/link";
 
 export default function Home() {
   const { user } = useAuth();
@@ -25,22 +26,36 @@ export default function Home() {
       try {
         const docRef = doc(db, "users", user.uid);
         const snap = await getDoc(docRef);
+
         if (!snap.exists()) {
           router.push("/onboarding");
           return;
         }
 
         const data = snap.data();
-        const decrypted = await decryptData(user.uid, data.encryptedStats);
 
-        setStats({
-          name: decrypted.name,
-          city: decrypted.city,
-          gpa: data.gpa,
-          sat: data.sat,
-          weighted: data.weighted,
-        });
+        // 🔐 Decrypt each field individually
+        const decrypted = {
+          name: await decryptData(user.uid, data.encryptedName),
+          city: await decryptData(user.uid, data.encryptedCity),
+          gpa: await decryptData(user.uid, data.encryptedGPA),
+          gpaScale: await decryptData(user.uid, data.encryptedGpaScale),
+          weighted: await decryptData(user.uid, data.encryptedWeighted),
+          testType: await decryptData(user.uid, data.encryptedTestType),
+          testScore: await decryptData(user.uid, data.encryptedTestScore),
+          location: await decryptData(user.uid, data.encryptedLocation),
+          costPref: await decryptData(user.uid, data.encryptedCostPref),
+          majorPrestige: await decryptData(user.uid, data.encryptedMajorPrestige),
+        };
+
+        if (!decrypted.name || !decrypted.city) {
+          setErrorMsg("Missing or corrupted encrypted user data.");
+          return;
+        }
+
+        setStats(decrypted);
       } catch (err) {
+        console.error("Fetch error:", err);
         setErrorMsg("Failed to load data: " + err.message);
       }
     };
@@ -53,18 +68,24 @@ export default function Home() {
     router.push("/");
   };
 
-  if (!stats) {
-    return <p>{errorMsg || "Loading..."}</p>;
-  }
+  if (errorMsg) return <p style={{ color: "red" }}>{errorMsg}</p>;
+  if (!stats) return <p>Loading...</p>;
 
   return (
     <div style={{ maxWidth: "600px", margin: "auto", paddingTop: "3rem" }}>
+      <SidebarLayout>
+        <h1>Welcome to the Home Page!</h1>
+      </SidebarLayout>
+
       <h1>Welcome, {stats.name} 👋</h1>
       <p>📍 City: {stats.city}</p>
       <p>
-        🎓 GPA: {stats.gpa} ({stats.weighted ? "Weighted" : "Unweighted"})
+        🎓 GPA: {stats.gpa} ({stats.weighted === "true" ? "Weighted" : "Unweighted"})
       </p>
-      <p>🧮 SAT: {stats.sat}</p>
+      <p>🧮 {stats.testType}: {stats.testScore}</p>
+      <p>🌎 Preferred Region: {stats.location}</p>
+      <p>🏫 Cost Preference: {stats.costPref}</p>
+      <p>⭐ Major Prestige Importance: {stats.majorPrestige}/5</p>
 
       <div style={{ marginTop: "2rem" }}>
         <Link href="/account">⚙️ Account Details</Link>

@@ -6,6 +6,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 import Link from "next/link";
 import styles from "./signup.module.css";
+import { parseFirebaseError } from "../../lib/firebaseErrors";
 
 export default function Signup() {
   const router = useRouter();
@@ -17,18 +18,23 @@ export default function Signup() {
   const handleSignup = async (e) => {
     e.preventDefault();
     setErrorMsg("");
+
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       router.push("/onboarding");
     } catch (err) {
-      setErrorMsg("Signup failed: " + err.message);
+      setErrorMsg(parseFirebaseError(err));
     }
   };
 
   return (
     <div className={styles['signup-box']}>
       <h2 className={styles['header']}>Sign Up</h2>
-      {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
+      {errorMsg && (
+        <p style={{ color: "red", marginBottom: "1rem", fontSize: "0.9rem" }}>
+          {errorMsg}
+        </p>
+      )}
       <form className={styles['form']} onSubmit={handleSignup}>
         <h4 className={styles['account-details-headers']}>Email</h4>
         <input
@@ -51,7 +57,7 @@ export default function Signup() {
             required
           />
           <input className={styles['show-password']} type="checkbox" id="showPassword" onChange={() => setShowPassword((prev) => !prev)}></input>
-          <label for="showPassword"> Show password</label>
+          <label htmlFor="showPassword"> Show password</label>
         </div>
 
         <div className={styles['submit-button-container']}>
