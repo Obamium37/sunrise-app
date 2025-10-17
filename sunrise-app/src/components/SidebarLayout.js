@@ -22,7 +22,6 @@ export default function SidebarLayout({ children }) {
           <ul style={{ listStyle: "none", padding: 0 }}>
             <li><Link href="/home">Home</Link></li>
             <li><Link href="/colleges">Colleges</Link></li>
-            <li><Link href="/activitylists">Activity Lists</Link></li>
           </ul>
         </nav>
       )}

@@ -1,86 +1,114 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { auth, db } from "../../lib/firebase";
-import { collection, query, where, onSnapshot, addDoc } from "firebase/firestore";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
+import { db } from "../../lib/firebase";
+import { collection, query, onSnapshot, addDoc } from "firebase/firestore";
+import { encryptData, decryptData } from "../../lib/crypto";
+import Link from "next/link";
+import { isCommonAppCollege } from "../../lib/collegeClassification"; // from earlier
 
-export default function Colleges() {
+export default function CollegesPage() {
   const { user } = useAuth();
   const router = useRouter();
+
   const [colleges, setColleges] = useState([]);
   const [newCollegeName, setNewCollegeName] = useState("");
-  const [newDeadline, setNewDeadline] = useState("");
-  const [error, setError] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     if (!user) {
       router.push("/");
       return;
     }
-    const q = query(
-      collection(db, "colleges"),
-      where("userId", "==", user.uid)
-    );
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const arr = snapshot.docs.map((doc) => ({
+    const q = query(collection(db, "users", user.uid, "colleges"));
+    const unsub = onSnapshot(q, (snap) => {
+      const arr = snap.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data(),
+        data: doc.data(),
       }));
       setColleges(arr);
     });
-    return () => unsubscribe();
+    return () => unsub();
   }, [user, router]);
 
-  const handleAdd = async (e) => {
+  const handleAddCollege = async (e) => {
     e.preventDefault();
-    setError("");
-    if (!newCollegeName || !newDeadline) {
-      setError("Both name and deadline are required.");
+    setErrorMsg("");
+    if (!newCollegeName || !deadline) {
+      setErrorMsg("College name and deadline are required.");
       return;
     }
+
     try {
-      await addDoc(collection(db, "colleges"), {
-        userId: user.uid,
-        name: newCollegeName,
-        deadline: newDeadline,
-        created: new Date().toISOString(),
+      const encName = await encryptData(user.uid, newCollegeName);
+      const encDeadline = await encryptData(user.uid, deadline);
+
+      const appType = isCommonAppCollege(newCollegeName) ? "commonApp" : "other";
+
+      await addDoc(collection(db, "users", user.uid, "colleges"), {
+        encryptedCollegeName: encName,
+        encryptedDeadline: encDeadline,
+        appType,
+        activityTemplateType: appType,
       });
+
       setNewCollegeName("");
-      setNewDeadline("");
+      setDeadline("");
     } catch (err) {
-      setError("Error adding college: " + err.message);
+      console.error("Add college error:", err);
+      setErrorMsg("Failed to add college: " + err.message);
     }
   };
 
   return (
-    <div>
+    <div style={{ maxWidth: "600px", margin: "auto", padding: "2rem" }}>
       <h2>Your Colleges</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleAdd}>
+      {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
+
+      <form onSubmit={handleAddCollege} style={{ marginBottom: "2rem" }}>
         <input
           placeholder="College Name"
           value={newCollegeName}
           onChange={(e) => setNewCollegeName(e.target.value)}
+          required
         />
         <input
           type="date"
-          placeholder="Deadline"
-          value={newDeadline}
-          onChange={(e) => setNewDeadline(e.target.value)}
+          placeholder="Application Deadline"
+          value={deadline}
+          onChange={(e) => setDeadline(e.target.value)}
+          required
         />
         <button type="submit">Add College</button>
       </form>
 
       <ul>
         {colleges.map((c) => (
-          <li key={c.id}>
-            {c.name} — {c.deadline}
-            {/* Could make this a Link to detail page */}
+          <li key={c.id} style={{ marginBottom: "0.75rem" }}>
+            <Link href={`/colleges/${c.id}`}>
+              <DecryptCollegeName userId={user.uid} encrypted={c.data.encryptedCollegeName} />
+            </Link>{" "}
+            — {c.data.appType}
           </li>
         ))}
+        {colleges.length === 0 && <p>No colleges added yet.</p>}
       </ul>
     </div>
   );
+}
+
+function DecryptCollegeName({ userId, encrypted }) {
+  const [name, setName] = useState("");
+  useEffect(() => {
+    decryptData(userId, encrypted)
+      .then((dec) => setName(dec || "Unknown"))
+      .catch((err) => {
+        console.error("Decrypt college name error:", err);
+        setName("Unknown");
+      });
+  }, [userId, encrypted]);
+  return <>{name}</>;
 }
