@@ -1,0 +1,18 @@
+.sidebar {
+    width: 12rem;
+    max-width: 80vw;
+    height: 100vh;
+    background-color: lightgray;
+    box-sizing: border-box;
+    position: fixed;
+}
+
+.sidebar li {
+    display: block;
+    padding: 10px;
+    margin-left: -30px;
+}
+
+.sidebar li:hover {
+    background-color: rgb(207, 243, 231);
+}

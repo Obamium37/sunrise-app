@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import styles from "./SidebarLayout.module.css";
 
 export default function SidebarLayout({ children }) {
   const pathname = usePathname();
@@ -10,23 +11,17 @@ export default function SidebarLayout({ children }) {
   const showSidebar = !noSidebarRoutes.includes(pathname);
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className={styles['sidebar']}>
       {showSidebar && (
-        <nav
-          style={{
-            width: "200px",
-            padding: "1rem",
-            borderRight: "1px solid #ccc",
-          }}
-        >
-          <ul style={{ listStyle: "none", padding: 0 }}>
+        <nav>
+          <ul>
             <li><Link href="/home">Home</Link></li>
             <li><Link href="/colleges">Colleges</Link></li>
           </ul>
         </nav>
       )}
 
-      <main style={{ flex: 1, padding: "1rem" }}>
+      <main>
         {children}
       </main>
     </div>

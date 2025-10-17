@@ -1,0 +1,42 @@
+.container {
+    display: flex;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-left: 13rem;
+    text-align: justify;
+}
+
+.form {
+    margin-top: 1.5rem;
+}
+
+.form-input-header {
+    margin-bottom: 0.6em;
+    font-size: 1.3rem;
+}
+
+.form-input {
+    display: block;
+    border: none;
+    margin-top: 7px;
+    font-size: 1.3rem;
+    padding-left: 10px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    width: 23.5rem;
+    max-width: 30rem;
+    outline: none;
+    background-color: lightgray;
+}
+
+.submit-button {
+    margin-top: 30px;
+    background-color: rgb(124, 183, 232);
+    border: none;
+    padding: 6px 10px 6px 10px;
+    font-size: 1.15rem;
+}

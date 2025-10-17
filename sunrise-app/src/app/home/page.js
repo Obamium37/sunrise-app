@@ -8,6 +8,7 @@ import { decryptData } from "../../lib/crypto";
 import { useAuth } from "../../context/AuthContext";
 import SidebarLayout from "../../components/SidebarLayout";
 import Link from "next/link";
+import styles from "./home.module.css";
 
 export default function Home() {
   const { user } = useAuth();
@@ -72,28 +73,28 @@ export default function Home() {
   if (!stats) return <p>Loading...</p>;
 
   return (
-    <div style={{ transform: 'scale(1.2)', maxWidth: "800px", margin: "auto", paddingTop: "2rem" }}>
-      <SidebarLayout>
-        <h1>Welcome to the Home Page!</h1>
-      </SidebarLayout>
+    <div className={styles['container']}>
+      <SidebarLayout></SidebarLayout>
 
-      <h1>Welcome, {stats.name} 👋</h1>
-      <p>📍 City: {stats.city}</p>
-      <p>
-        🎓 GPA: {stats.gpa} ({stats.weighted === "true" ? "Weighted" : "Unweighted"})
-      </p>
-      <p>🧮 {stats.testType}: {stats.testScore}</p>
-      <p>🌎 Preferred Region: {stats.location}</p>
-      <p>🏫 Cost Preference: {stats.costPref}</p>
-      <p>⭐ Major Prestige Importance: {stats.majorPrestige}/5</p>
+      <div className={styles['content']}>
+        <h1>Welcome, {stats.name} 👋</h1>
+        <p>📍 City: {stats.city}</p>
+        <p>
+          🎓 GPA: {stats.gpa} ({stats.weighted === "true" ? "Weighted" : "Unweighted"})
+        </p>
+        <p>🧮 {stats.testType}: {stats.testScore}</p>
+        <p>🌎 Preferred Region: {stats.location}</p>
+        <p>🏫 Cost Preference: {stats.costPref}</p>
+        <p>⭐ Major Prestige Importance: {stats.majorPrestige}/5</p>
 
-      <div style={{ marginTop: "2rem" }}>
-        <Link href="/account">⚙️ Account Details</Link>
+        <div style={{ marginTop: "2rem" }}>
+          <Link href="/account">⚙️ Account Details</Link>
+        </div>
+
+        <button onClick={handleLogout} style={{ marginTop: "2rem" }}>
+          Logout
+        </button>
       </div>
-
-      <button onClick={handleLogout} style={{ marginTop: "2rem" }}>
-        Logout
-      </button>
     </div>
   );
 }

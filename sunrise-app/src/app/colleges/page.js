@@ -8,6 +8,8 @@ import { collection, query, onSnapshot, addDoc } from "firebase/firestore";
 import { encryptData, decryptData } from "../../lib/crypto";
 import Link from "next/link";
 import { isCommonAppCollege } from "../../lib/collegeClassification"; // from earlier
+import SidebarLayout from "../../components/SidebarLayout";
+import styles from "./colleges.module.css";
 
 export default function CollegesPage() {
   const { user } = useAuth();
@@ -64,38 +66,46 @@ export default function CollegesPage() {
   };
 
   return (
-    <div style={{ maxWidth: "600px", margin: "auto", padding: "2rem" }}>
-      <h2>Your Colleges</h2>
-      {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
+    <div className={styles['container']}>
+      <SidebarLayout></SidebarLayout>
 
-      <form onSubmit={handleAddCollege} style={{ marginBottom: "2rem" }}>
-        <input
-          placeholder="College Name"
-          value={newCollegeName}
-          onChange={(e) => setNewCollegeName(e.target.value)}
-          required
-        />
-        <input
-          type="date"
-          placeholder="Application Deadline"
-          value={deadline}
-          onChange={(e) => setDeadline(e.target.value)}
-          required
-        />
-        <button type="submit">Add College</button>
-      </form>
+      <div className={styles['content']}>
+        <h2>Your Colleges</h2>
+        {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
 
-      <ul>
-        {colleges.map((c) => (
-          <li key={c.id} style={{ marginBottom: "0.75rem" }}>
-            <Link href={`/colleges/${c.id}`}>
-              <DecryptCollegeName userId={user.uid} encrypted={c.data.encryptedCollegeName} />
-            </Link>{" "}
-            — {c.data.appType}
-          </li>
-        ))}
-        {colleges.length === 0 && <p>No colleges added yet.</p>}
-      </ul>
+        <form className={styles['form']} onSubmit={handleAddCollege}>
+          <h4 className={styles['form-input-header']}>College Name</h4>
+          <input
+            className={styles['form-input']}
+            placeholder="College Name"
+            value={newCollegeName}
+            onChange={(e) => setNewCollegeName(e.target.value)}
+            required
+          />
+          <h4 className={styles['form-input-header']}>Application Deadline</h4>
+          <input
+            className={styles['form-input']}
+            type="date"
+            placeholder="Application Deadline"
+            value={deadline}
+            onChange={(e) => setDeadline(e.target.value)}
+            required
+          />
+          <button className={styles['submit-button']} type="submit">Add College</button>
+        </form>
+
+        <ul>
+          {colleges.map((c) => (
+            <li key={c.id} style={{ marginBottom: "0.75rem" }}>
+              <Link href={`/colleges/${c.id}`}>
+                <DecryptCollegeName userId={user.uid} encrypted={c.data.encryptedCollegeName} />
+              </Link>{" "}
+              — {c.data.appType}
+            </li>
+          ))}
+          {colleges.length === 0 && <p>No colleges added yet.</p>}
+        </ul>
+      </div>
     </div>
   );
 }
