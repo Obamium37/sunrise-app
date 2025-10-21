@@ -13,11 +13,9 @@ export default function SidebarLayout({ children }) {
   return (
     <div className={styles['sidebar']}>
       {showSidebar && (
-        <nav>
-          <ul>
-            <li><Link href="/home">Home</Link></li>
-            <li><Link href="/colleges">Colleges</Link></li>
-          </ul>
+        <nav className={styles['blocks-container']}>
+          <div className={styles['block']}><Link href="/home">Home</Link></div>
+          <div className={styles['block']}><Link href="/colleges">Colleges</Link></div>
         </nav>
       )}
 

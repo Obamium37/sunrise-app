@@ -1,5 +1,5 @@
 .login-box {
-    background-color: lightgray;
+    background-color: white;
     border-radius: 15px;
     position: fixed;
     inset: 0px;
@@ -17,14 +17,17 @@
 .header {
     text-align: center;
     font-size: 1.4rem;
+    color: rgba(60, 52, 55);
 }
 
 .under-header {
     text-align: center;
+    color: rgba(60, 52, 55);
 }
 
 .form {
     margin-top: 1.5rem;
+    color: rgba(60, 52, 55);
 }
 
 .account-details-input {
@@ -37,7 +40,12 @@
     padding-bottom: 4px;
     width: 23.5rem;
     max-width: 30rem;
-    outline: none;
+    height: 1.8rem;
+    outline: solid;
+    outline-color: rgb(122, 156, 149);
+    outline-width: 2px;
+    border-radius: 4px;
+    color: rgba(60, 52, 55, 90%);
 }
 
 .submit-button-container {
@@ -47,10 +55,16 @@
 }
 
 .submit-button {
-    background-color: rgb(124, 183, 232);
+    background-color: rgb(251, 181, 95);
+    color: rgb(60, 52, 55);
     border: none;
-    padding: 6px 10px 6px 10px;
+    padding: 8px 12px 8px 12px;
     font-size: 1.15rem;
+}
+
+.submit-button:hover {
+    background-color: rgb(229, 108, 110);
+    color: white;
 }
 
 .account-details-headers {
@@ -70,7 +84,7 @@
 
 .show-password-container {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 6px;
   margin-top: 0.4rem;
 }

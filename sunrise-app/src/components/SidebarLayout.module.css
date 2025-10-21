@@ -2,17 +2,22 @@
     width: 12rem;
     max-width: 80vw;
     height: 100vh;
-    background-color: lightgray;
+    background-color: rgb(251, 181, 95);
     box-sizing: border-box;
     position: fixed;
 }
 
-.sidebar li {
-    display: block;
-    padding: 10px;
-    margin-left: -30px;
+.blocks-container {
+    display: flex;
+    flex-direction: column;
 }
 
-.sidebar li:hover {
-    background-color: rgb(207, 243, 231);
+.block {
+    padding: 10px;
+    color: rgb(60, 52, 55);
+}
+
+.block:hover {
+    background-color: rgb(229, 108, 110);
+    color: white;
 }
