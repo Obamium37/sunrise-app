@@ -21,3 +21,8 @@
     background-color: rgb(229, 108, 110);
     color: white;
 }
+
+.sidebar a{
+    color: rgb(60, 52, 55);
+    text-decoration: none;
+}

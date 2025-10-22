@@ -15,6 +15,7 @@ export default function CollegesPage() {
   const { user } = useAuth();
   const router = useRouter();
 
+  const [addCollegeFormVisible, setAddCollegeFormVisible] = useState(false);
   const [colleges, setColleges] = useState([]);
   const [newCollegeName, setNewCollegeName] = useState("");
   const [deadline, setDeadline] = useState("");
@@ -35,6 +36,10 @@ export default function CollegesPage() {
     });
     return () => unsub();
   }, [user, router]);
+
+  const handleShowAddCollegeForm = (e) => {
+    setAddCollegeFormVisible(!addCollegeFormVisible);
+  }
 
   const handleAddCollege = async (e) => {
     e.preventDefault();
@@ -72,27 +77,30 @@ export default function CollegesPage() {
       <div className={styles['content']}>
         <h2>Your Colleges</h2>
         {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
+        <button onClick={handleShowAddCollegeForm}>{addCollegeFormVisible ? 'Cancel' : 'Add a college'}</button>
+        {addCollegeFormVisible && (
+          <form className={styles['form']} onSubmit={handleAddCollege}>
+            <h4 className={styles['form-input-header']}>College Name</h4>
+            <input
+              className={styles['form-input']}
+              placeholder="College Name"
+              value={newCollegeName}
+              onChange={(e) => setNewCollegeName(e.target.value)}
+              required
+            />
+            <h4 className={styles['form-input-header']}>Application Deadline</h4>
+            <input
+              className={styles['form-input']}
+              type="date"
+              placeholder="Application Deadline"
+              value={deadline}
+              onChange={(e) => setDeadline(e.target.value)}
+              required
+            />
+            <button className={styles['submit-button']} type="submit">Add College</button>
+          </form>
+        )}
 
-        <form className={styles['form']} onSubmit={handleAddCollege}>
-          <h4 className={styles['form-input-header']}>College Name</h4>
-          <input
-            className={styles['form-input']}
-            placeholder="College Name"
-            value={newCollegeName}
-            onChange={(e) => setNewCollegeName(e.target.value)}
-            required
-          />
-          <h4 className={styles['form-input-header']}>Application Deadline</h4>
-          <input
-            className={styles['form-input']}
-            type="date"
-            placeholder="Application Deadline"
-            value={deadline}
-            onChange={(e) => setDeadline(e.target.value)}
-            required
-          />
-          <button className={styles['submit-button']} type="submit">Add College</button>
-        </form>
 
         <ul>
           {colleges.map((c) => (
