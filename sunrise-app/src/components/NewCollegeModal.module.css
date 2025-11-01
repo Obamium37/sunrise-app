@@ -1,10 +1,22 @@
-.login-box {
+.darkBG {
+    background-color: rgba(188, 132, 47, 0.2);
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
+
+.centered {
+    color: rgb(60, 52, 55);
     background-color: white;
     border-radius: 15px;
     position: fixed;
     inset: 0px;
     width: 25rem;
-    height: 28rem;
+    height: 24rem;
     max-width: 80vw;
     max-height: 60dvh;
     margin: auto;
@@ -12,25 +24,46 @@
     padding-right: 3rem;
     padding-top: 1.5rem;
     padding-bottom: 3rem;
+    box-shadow: 0 5px 20px 0 rgba(33, 5, 5, 0.04);
+}
+
+.close-button-container {
+    display: flex;
+    justify-content: right;
+    margin-right: -1rem;
+    margin-bottom: -0.5rem;
+}
+
+.close-button {
+    border: none;
+    background-color: white;
+    color: rgba(33, 5, 5, 0.50);
+    font-size: 1.3rem;
+}
+
+.close-button:hover {
+    cursor: pointer;
 }
 
 .header {
-    text-align: center;
-    font-size: 1.4rem;
-    color: rgba(60, 52, 55);
-}
-
-.under-header {
-    text-align: center;
-    color: rgba(60, 52, 55);
+    margin-top: 1rem;
+    text-align: left;
 }
 
 .form {
     margin-top: 1.5rem;
-    color: rgba(60, 52, 55);
+    width: 250px;
+    height: 170px;
+    z-index: 10;
+    border-radius: 16px;
 }
 
-.account-details-input {
+.form-input-header {
+    margin-bottom: 0.6em;
+    font-size: 1.2rem;
+}
+
+.form-input {
     display: block;
     border: none;
     margin-top: 7px;
@@ -55,6 +88,7 @@
 }
 
 .submit-button {
+    text-align: center;
     background-color: rgb(251, 181, 95);
     color: rgb(60, 52, 55);
     border: none;
@@ -66,26 +100,4 @@
     background-color: rgb(229, 108, 110);
     color: white;
     cursor: pointer;
-}
-
-.account-details-headers {
-    margin-bottom: 0.6em;
-    font-size: 1.1rem;
-}
-
-.show-password {
-    margin-top: 0.6rem;
-}
-
-.password-field-container {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.show-password-container {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  margin-top: 0.4rem;
 }

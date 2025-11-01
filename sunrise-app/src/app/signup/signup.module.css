@@ -66,6 +66,7 @@
 .submit-button:hover {
     background-color: rgb(229, 108, 110);
     color: white;
+    cursor: pointer;
 }
 
 .account-details-headers {

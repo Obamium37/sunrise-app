@@ -10,6 +10,7 @@ import Link from "next/link";
 import { isCommonAppCollege } from "../../lib/collegeClassification"; // from earlier
 import SidebarLayout from "../../components/SidebarLayout";
 import styles from "./colleges.module.css";
+import NewCollegeModal from "@/components/NewCollegeModal";
 
 export default function CollegesPage() {
   const { user } = useAuth();
@@ -37,16 +38,12 @@ export default function CollegesPage() {
     return () => unsub();
   }, [user, router]);
 
-  const handleShowAddCollegeForm = (e) => {
-    setAddCollegeFormVisible(!addCollegeFormVisible);
-  }
-
   const handleAddCollege = async (e) => {
-    e.preventDefault();
     setErrorMsg("");
+
     if (!newCollegeName || !deadline) {
       setErrorMsg("College name and deadline are required.");
-      return;
+      return false;
     }
 
     try {
@@ -64,9 +61,12 @@ export default function CollegesPage() {
 
       setNewCollegeName("");
       setDeadline("");
+
+      return true;
     } catch (err) {
       console.error("Add college error:", err);
       setErrorMsg("Failed to add college: " + err.message);
+      return false;
     }
   };
 
@@ -77,29 +77,8 @@ export default function CollegesPage() {
       <div className={styles['content']}>
         <h2>Your Colleges</h2>
         {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-        <button onClick={handleShowAddCollegeForm}>{addCollegeFormVisible ? 'Cancel' : 'Add a college'}</button>
-        {addCollegeFormVisible && (
-          <form className={styles['form']} onSubmit={handleAddCollege}>
-            <h4 className={styles['form-input-header']}>College Name</h4>
-            <input
-              className={styles['form-input']}
-              placeholder="College Name"
-              value={newCollegeName}
-              onChange={(e) => setNewCollegeName(e.target.value)}
-              required
-            />
-            <h4 className={styles['form-input-header']}>Application Deadline</h4>
-            <input
-              className={styles['form-input']}
-              type="date"
-              placeholder="Application Deadline"
-              value={deadline}
-              onChange={(e) => setDeadline(e.target.value)}
-              required
-            />
-            <button className={styles['submit-button']} type="submit">Add College</button>
-          </form>
-        )}
+        <button className={styles['add-college-button']} onClick={() => setAddCollegeFormVisible(true)}>Add a college</button>
+        {addCollegeFormVisible && <NewCollegeModal setIsOpen={setAddCollegeFormVisible} onSubmit={handleAddCollege} newCollegeName={newCollegeName} setNewCollegeName={setNewCollegeName} deadline={deadline} setDeadline={setDeadline}></NewCollegeModal>}
 
 
         <ul>
