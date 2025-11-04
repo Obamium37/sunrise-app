@@ -77,11 +77,45 @@ export default function CollegesPage() {
       <div className={styles['content']}>
         <h2>Your Colleges</h2>
         {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-        <button className={styles['add-college-button']} onClick={() => setAddCollegeFormVisible(true)}>Add a college</button>
+        <div className={styles['add-college-button-container']}>
+          <button className={styles['add-college-button']} onClick={() => setAddCollegeFormVisible(true)}>Add a college</button>
+        </div>
         {addCollegeFormVisible && <NewCollegeModal setIsOpen={setAddCollegeFormVisible} onSubmit={handleAddCollege} newCollegeName={newCollegeName} setNewCollegeName={setNewCollegeName} deadline={deadline} setDeadline={setDeadline}></NewCollegeModal>}
 
+        {colleges.length === 0 ? <p>No colleges added yet.</p> :
+          <table className={styles['table']}>
+            <thead>
+                <tr className={styles['table-header']}>
+                    <th scope="col" className={styles['table-column-name']}>
+                    Name
+                    </th>
+                    <th scope="col" className={styles['table-column-deadline']}>
+                    Deadline
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {colleges.map((c) => (
+                    <tr key={c.id}>
+                        <td className={styles['table-names']}>
+                            <div className={styles['table-text']}>
+                              <Link href={`/colleges/${c.id}`}>
+                                  <DecryptCollegeName userId={user.uid} encrypted={c.data.encryptedCollegeName} />
+                              </Link>
+                            </div>
+                        </td>
+                        <td className={styles['table-deadlines']}>
+                          <div className={styles['table-text']}>
+                            {c.data.appType}
+                          </div>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+          </table>
+        }
 
-        <ul>
+        {/* <ul>
           {colleges.map((c) => (
             <li key={c.id} style={{ marginBottom: "0.75rem" }}>
               <Link href={`/colleges/${c.id}`}>
@@ -91,7 +125,7 @@ export default function CollegesPage() {
             </li>
           ))}
           {colleges.length === 0 && <p>No colleges added yet.</p>}
-        </ul>
+        </ul> */}
       </div>
     </div>
   );

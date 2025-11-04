@@ -11,6 +11,12 @@
     text-align: justify;
 }
 
+.add-college-button-container {
+    text-align: right;
+    margin-right: 1.5rem;
+    margin-top: -3.2rem;
+}
+
 .add-college-button {
     text-align: center;
     background-color: rgb(251, 181, 95);
@@ -24,4 +30,52 @@
     background-color: rgb(229, 108, 110);
     color: white;
     cursor: pointer;
+}
+
+.table {
+    border-collapse: collapse;
+    border: 2px solid rgb(122, 156, 149);
+    width: 98%;
+    margin-top: 15px;
+}
+
+.table-header {
+    border-bottom: 2px solid rgb(122, 156, 149);
+}
+
+.table-names {
+    padding-left: 1.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 2px solid rgba(122, 156, 149, 0.5);
+}
+
+.table-deadlines {
+    padding-right: 1.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.35rem;
+    text-align: right;
+    border-bottom: 2px solid rgba(122, 156, 149, 0.5);
+}
+
+.table-text, .table-text a {
+    color: rgb(60, 52, 55);
+    text-decoration: none;
+}
+
+.table-text a:hover {
+    color:rgb(229, 108, 110);
+}
+
+.table-column-name {
+    padding-left: 1.5rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.4rem;
+}
+
+.table-column-deadline {
+    padding-right: 1.5rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.4rem;
+    text-align: right;
 }
