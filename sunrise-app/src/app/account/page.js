@@ -13,6 +13,8 @@ import {
   deleteUser,
 } from "firebase/auth";
 import { decryptData, encryptData } from "../../lib/crypto";
+import styles from './account.module.css';
+import SidebarLayout from "@/components/SidebarLayout";
 
 export default function Account() {
   const { user } = useAuth();
@@ -145,122 +147,139 @@ export default function Account() {
   };
 
   return (
-    <div style={{ transform: 'scale(1.3)', maxWidth: "600px", margin: "auto", paddingTop: "4rem" }}>
-      <h2>👤 Account Details</h2>
-      {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-      {successMsg && <p style={{ color: "green" }}>{successMsg}</p>}
+    <div className={styles['container']}>
+      <SidebarLayout></SidebarLayout>
+      <div className={styles['content']}>
+        <h2>Edit Account Details</h2>
+        {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
+        {successMsg && <p style={{ color: "green" }}>{successMsg}</p>}
 
-      <form onSubmit={handleUpdateInfo}>
-        <h3>Edit Info</h3>
+        <form onSubmit={handleUpdateInfo}>
+          <div className={styles['column-container']}>
+            <div className={styles['column']}>
+              <label className={styles['label']}>Full Name</label>
+              <input
+                className={styles['typed-input']}
+                placeholder="Full Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
 
-        <label>Full Name</label>
+              <label className={styles['label']}>City</label>
+              <input
+                className={styles['typed-input']}
+                placeholder="City"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                required
+              />
+
+              <label className={styles['label']}><br />GPA</label>
+              <input
+                className={styles['typed-input']}
+                placeholder="GPA"
+                value={gpa}
+                onChange={(e) => setGpa(e.target.value)}
+                required
+              />
+
+              <label className={styles['label']}><br />GPA Scale</label>
+              <select className={styles['dropdown-input']} value={gpaScale} onChange={(e) => setGpaScale(e.target.value)}>
+                <option value="4">4.0</option>
+                <option value="5">5.0</option>
+                <option value="6">6.0</option>
+                <option value="100">100</option>
+              </select>
+
+              <div style={{display: 'flex'}}>
+                <input
+                    className={styles['checked-input']}
+                    type="checkbox"
+                    checked={weighted}
+                    onChange={(e) => setWeighted(e.target.checked)}
+                  />
+                <label className={styles['label']}>Weighted GPA?</label>
+              </div>
+            </div>
+            
+            <div className={styles['column']}>
+              <label className={styles['label']}><br />Test Type</label>
+              <select className={styles['dropdown-input']} value={testType} onChange={(e) => setTestType(e.target.value)}>
+                <option value="SAT">SAT</option>
+                <option value="ACT">ACT</option>
+              </select>
+
+              <label className={styles['label']}>Test Score</label>
+              <input
+                className={styles['typed-input']}
+                placeholder="Test Score"
+                value={testScore}
+                onChange={(e) => setTestScore(e.target.value)}
+                required
+              />
+
+              <label className={styles['label']}><br /><br />Location Preference</label>
+              <select className={styles['dropdown-input']} value={location} onChange={(e) => setLocation(e.target.value)}>
+                <option value="PNW">PNW</option>
+                <option value="West">West</option>
+                <option value="East">East</option>
+                <option value="Midwest">Midwest</option>
+                <option value="South">South</option>
+              </select>
+
+              <label className={styles['label']}><br />Cost Preference</label>
+              <select className={styles['dropdown-input']} value={costPref} onChange={(e) => setCostPref(e.target.value)}>
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+              </select>
+
+              <div style={{display: 'flex',}}>
+                <label className={styles['label']}><br />Major Prestige Importance</label>
+              
+                <input
+                  className={styles['input']}
+                  type="range"
+                  min="1"
+                  max="5"
+                  value={majorPrestige}
+                  onChange={(e) => setMajorPrestige(e.target.value)}
+                />
+                <span className={styles['prestige']}>{majorPrestige}/5</span>
+              </div>
+            </div>
+          </div>
+
+          <button className={styles['submit-button']} type="submit" style={{ marginTop: "1rem" }}>
+              Update
+          </button>
+        </form>
+
+        <hr />
+
+        <h3 className={styles['header']}>Change Password</h3>
         <input
-          placeholder="Full Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
+          className={styles['typed-input']}
+          type="password"
+          placeholder="New Password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
         />
+        <button onClick={handlePasswordChange}>Update Password</button>
 
-        <label><br />City</label>
-        <input
-          placeholder="City"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          required
-        />
+        <hr />
 
-        <label><br />GPA</label>
-        <input
-          placeholder="GPA"
-          value={gpa}
-          onChange={(e) => setGpa(e.target.value)}
-          required
-        />
-
-        <label><br />GPA Scale</label>
-        <select value={gpaScale} onChange={(e) => setGpaScale(e.target.value)}>
-          <option value="4">4.0</option>
-          <option value="5">5.0</option>
-          <option value="6">6.0</option>
-          <option value="100">100</option>
-        </select>
-
-        <label>
-          Weighted GPA?
-          <input
-            type="checkbox"
-            checked={weighted}
-            onChange={(e) => setWeighted(e.target.checked)}
-          />
-        </label>
-
-        <label><br />Test Type</label>
-        <select value={testType} onChange={(e) => setTestType(e.target.value)}>
-          <option value="SAT">SAT</option>
-          <option value="ACT">ACT</option>
-        </select>
-
-        <label>Test Score</label>
-        <input
-          placeholder="Test Score"
-          value={testScore}
-          onChange={(e) => setTestScore(e.target.value)}
-          required
-        />
-
-        <label><br /><br />Location Preference</label>
-        <select value={location} onChange={(e) => setLocation(e.target.value)}>
-          <option value="PNW">PNW</option>
-          <option value="West">West</option>
-          <option value="East">East</option>
-          <option value="Midwest">Midwest</option>
-          <option value="South">South</option>
-        </select>
-
-        <label><br />Cost Preference</label>
-        <select value={costPref} onChange={(e) => setCostPref(e.target.value)}>
-          <option value="public">Public</option>
-          <option value="private">Private</option>
-        </select>
-
-        <label><br />Major Prestige Importance</label>
-        <input
-          type="range"
-          min="1"
-          max="5"
-          value={majorPrestige}
-          onChange={(e) => setMajorPrestige(e.target.value)}
-        />
-        <span>{majorPrestige}/5</span>
-
-        <button type="submit" style={{ marginTop: "1rem" }}>
-          Update Info
+        <h3 className={styles['header']}>❌ Delete Account</h3>
+        <button onClick={handleDeleteAccount} style={{ color: "red" }}>
+          Delete My Account
         </button>
-      </form>
 
-      <hr />
+        <hr />
 
-      <h3>🔒 Change Password</h3>
-      <input
-        type="password"
-        placeholder="New Password"
-        value={newPassword}
-        onChange={(e) => setNewPassword(e.target.value)}
-      />
-      <button onClick={handlePasswordChange}>Update Password</button>
-
-      <hr />
-
-      <h3>❌ Delete Account</h3>
-      <button onClick={handleDeleteAccount} style={{ color: "red" }}>
-        Delete My Account
-      </button>
-
-      <hr />
-
-      <Link href="/home" style={{ display: "block", marginTop: "2rem" }}>
-        ← Back to Home
-      </Link>
+        <Link href="/home" style={{ display: "block", marginTop: "2rem" }}>
+          ← Back to Home
+        </Link>
+      </div>
     </div>
   );
 }
