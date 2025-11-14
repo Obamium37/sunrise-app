@@ -72,7 +72,6 @@ export default function CollegesPage() {
 
   return (
     <div className={styles['container']}>
-      <SidebarLayout></SidebarLayout>
 
       <div className={styles['content']}>
         <h2>Your Colleges</h2>

@@ -5,9 +5,8 @@
 
 .content {
     flex: 1;
-    padding: 20px;
+    padding: 2rem;
     box-sizing: border-box;
-    margin-left: 13rem;
     text-align: justify;
 }
 

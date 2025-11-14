@@ -78,7 +78,6 @@ export default function Home() {
 
   return (
     <div className={styles['container']}>
-      <SidebarLayout></SidebarLayout>
 
       <div className={styles['content']}>
         <h1>Welcome, {stats.name} 👋</h1>
