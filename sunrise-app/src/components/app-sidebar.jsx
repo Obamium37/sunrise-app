@@ -1,10 +1,11 @@
 'use client'
 import * as React from "react"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, ChevronUp } from "lucide-react"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-
+import { useAuth } from "@/context/AuthContext";
+import { auth } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
 import { SearchForm } from "@/components/search-form"
 import { VersionSwitcher } from "@/components/version-switcher"
 import {
@@ -12,6 +13,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
@@ -19,6 +21,7 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
+  SidebarFooter,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -74,12 +77,20 @@ export function AppSidebar({
   ...props
 }) {
   const pathname = usePathname();
+  const { user } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await auth.signOut();
+    router.push("/login");
+  };
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
       </SidebarHeader>
       <SidebarContent className="gap-0">
-        
+
         {/* We create a collapsible SidebarGroup for each parent. */}
         {data.navMain.map((item) => {
           const hasChildren = item.items.length > 0;
@@ -154,6 +165,39 @@ export function AppSidebar({
         })}
 
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton>
+                  {user?.email ?? "Account"}
+                  <ChevronUp className="ml-auto" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent
+                side="top"
+                className="w-[--radix-popper-anchor-width] bg-white shadow-md border rounded-md"
+              >
+                <DropdownMenuItem asChild>
+                  <Link href="/account" className="block px-3 py-2 cursor-pointer">
+                    Account Details
+                  </Link>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem
+                  className="px-3 py-2 cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  Log Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+
       <SidebarRail />
     </Sidebar>
   );

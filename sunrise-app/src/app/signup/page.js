@@ -45,7 +45,7 @@ export default function Signup() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-
+        <div className={styles['spacer']}></div>
         <div>
           <h4 className={styles['account-details-headers']}>Password</h4>
           <input
@@ -65,8 +65,8 @@ export default function Signup() {
         </div>
       </form>
 
-      <p style={{ textAlign: "center" }}>
-        Already have an account? <Link href="/">Login</Link>
+      <p style={{ textAlign: "center", marginTop: "1.4rem" }}>
+        Already have an account? <Link href="/" style={{ color: "rgb(122, 156, 149)"}}>Login</Link>
       </p>
     </div>
   );

@@ -17,11 +17,13 @@
 .header {
     text-align: center;
     font-size: 1.4rem;
+    margin-top: 1rem;
     color: rgba(60, 52, 55);
 }
 
 .under-header {
     text-align: center;
+    font-size: 0.9rem;
     color: rgba(60, 52, 55);
 }
 
@@ -33,12 +35,12 @@
 .account-details-input {
     display: block;
     border: none;
-    margin-top: 7px;
+    margin-top: 0.2rem;
     font-size: 1.3rem;
     padding-left: 10px;
     padding-top: 4px;
     padding-bottom: 4px;
-    width: 23.5rem;
+    width: 19.5rem;
     max-width: 30rem;
     height: 1.8rem;
     outline: solid;
@@ -46,6 +48,10 @@
     outline-width: 2px;
     border-radius: 4px;
     color: rgba(60, 52, 55, 90%);
+}
+
+.spacer {
+    margin-top: 1rem;
 }
 
 .submit-button-container {
@@ -69,7 +75,7 @@
 }
 
 .account-details-headers {
-    margin-bottom: 0.6em;
+    margin-bottom: 0.3rem;
     font-size: 1.1rem;
 }
 
@@ -80,7 +86,6 @@
 .password-field-container {
   display: flex;
   flex-direction: column;
-  gap: 4px;
 }
 
 .show-password-container {
