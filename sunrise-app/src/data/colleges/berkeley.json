@@ -1,0 +1,79 @@
+{
+  "id": "uc-berkeley",
+  "university": "University of California, Berkeley",
+  "application_info": {
+    "app_type": "uc",
+    "deadlines": {
+      "regularDecision": "2024-11-30"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 3.9,
+      "high": 4.0
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1330,
+        "high": 1530,
+        "notes": "Test-blind (not considered)."
+      },
+      "ACT": {
+        "low": 31,
+        "high": 35,
+        "notes": "Test-blind (not considered)."
+      }
+    }
+  },
+  "location": "Berkeley, California",
+  "region": "West",
+  "total_cost": {
+    "in_state": 37465,
+    "out_of_state": 68659,
+    "type": "public"
+  },
+  "areas_of_interest": {
+    "business": {
+      "prestige": 5,
+      "school": "Haas School of Business",
+      "degree_length": 4,
+      "approx_program_size": 1400
+    },
+    "computer_and_information_sciences": {
+      "prestige": 5,
+      "school": "College of Engineering - EECS",
+      "degree_length": 4,
+      "approx_program_size": 2000
+    },
+    "engineering": {
+      "prestige": 5,
+      "school": "College of Engineering",
+      "degree_length": 4,
+      "approx_program_size": 4500
+    },
+    "social_sciences": {
+      "prestige": 5,
+      "school": "College of Letters and Science",
+      "degree_length": 4,
+      "approx_program_size": 5000
+    },
+    "biological_and_biomedical_science": {
+      "prestige": 5,
+      "school": "College of Letters and Science - MCB",
+      "degree_length": 4,
+      "approx_program_size": 2500
+    },
+    "psychology": {
+      "prestige": 5,
+      "school": "Department of Psychology",
+      "degree_length": 4,
+      "approx_program_size": 1800
+    },
+    "liberal_arts_and_humanities": {
+      "prestige": 5,
+      "school": "College of Letters and Science",
+      "degree_length": 4,
+      "approx_program_size": 8000
+    }
+  }
+}

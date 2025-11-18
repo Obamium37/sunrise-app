@@ -1,0 +1,79 @@
+{
+  "id": "university-of-washington",
+  "university": "University of Washington",
+  "application_info": {
+    "app_type": "other",
+    "deadlines": {
+      "regularDecision": "2024-11-15"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 3.7,
+      "high": 3.95
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1220,
+        "high": 1470,
+        "notes": "Test-optional."
+      },
+      "ACT": {
+        "low": 27,
+        "high": 33,
+        "notes": "Test-optional."
+      }
+    }
+  },
+  "location": "Seattle, Washington",
+  "region": "PNW",
+  "total_cost": {
+    "in_state": 29600,
+    "out_of_state": 56700,
+    "type": "public"
+  },
+  "areas_of_interest": {
+    "business": {
+      "prestige": 4,
+      "school": "Foster School of Business",
+      "degree_length": 4,
+      "approx_program_size": 1500
+    },
+    "computer_and_information_sciences": {
+      "prestige": 5,
+      "school": "Paul G. Allen School of Computer Science & Engineering",
+      "degree_length": 4,
+      "approx_program_size": 800
+    },
+    "engineering": {
+      "prestige": 4,
+      "school": "College of Engineering",
+      "degree_length": 4,
+      "approx_program_size": 3000
+    },
+    "healthcare": {
+      "prestige": 5,
+      "school": "School of Public Health",
+      "degree_length": 4,
+      "approx_program_size": 1200
+    },
+    "biological_and_biomedical_science": {
+      "prestige": 4,
+      "school": "Department of Biology",
+      "degree_length": 4,
+      "approx_program_size": 2000
+    },
+    "psychology": {
+      "prestige": 4,
+      "school": "Department of Psychology",
+      "degree_length": 4,
+      "approx_program_size": 1500
+    },
+    "social_sciences": {
+      "prestige": 4,
+      "school": "College of Arts & Sciences",
+      "degree_length": 4,
+      "approx_program_size": 3500
+    }
+  }
+}

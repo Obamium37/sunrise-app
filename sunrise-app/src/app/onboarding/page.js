@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth, db } from "../../lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
-import { encryptData } from "../../lib/crypto";
 
 export default function Onboarding() {
   const router = useRouter();
@@ -40,20 +39,20 @@ export default function Onboarding() {
     }
 
     try {
-      const encryptedFields = {
-        encryptedName: await encryptData(user.uid, name),
-        encryptedCity: await encryptData(user.uid, city),
-        encryptedGPA: await encryptData(user.uid, gpa),
-        encryptedGpaScale: await encryptData(user.uid, gpaScale),
-        encryptedWeighted: await encryptData(user.uid, isWeighted),
-        encryptedTestType: await encryptData(user.uid, testType),
-        encryptedTestScore: await encryptData(user.uid, testScore),
-        encryptedLocation: await encryptData(user.uid, location),
-        encryptedCostPref: await encryptData(user.uid, costPref),
-        encryptedMajorPrestige: await encryptData(user.uid, majorPrestige),
+      const userData = {
+        name: name,
+        city: city,
+        gpa: gpa,
+        gpaScale: gpaScale,
+        weighted: isWeighted.toString(),
+        testType: testType,
+        testScore: testScore,
+        location: location,
+        costPref: costPref,
+        majorPrestige: majorPrestige,
       };
 
-      await setDoc(doc(db, "users", user.uid), encryptedFields);
+      await setDoc(doc(db, "users", user.uid), userData);
 
       setSuccessMsg("Onboarding complete!");
       router.push("/home");
@@ -65,7 +64,7 @@ export default function Onboarding() {
 
   return (
     <div style={{ transform: 'scale(1.5)', maxWidth: "600px", margin: "auto", paddingTop: "4rem" }}>
-      <h2>Welcome! Let’s get to know you 👋</h2>
+      <h2>Welcome! Let's get to know you 👋</h2>
       {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
       {successMsg && <p style={{ color: "green" }}>{successMsg}</p>}
 

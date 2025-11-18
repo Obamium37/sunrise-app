@@ -1,0 +1,74 @@
+{
+  "id": "mit",
+  "university": "Massachusetts Institute of Technology",
+  "application_info": {
+    "app_type": "mit",
+    "deadlines": {
+      "earlyAction": "2024-11-01",
+      "regularDecision": "2025-01-01"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 3.9,
+      "high": 4.0
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1520,
+        "high": 1580,
+        "notes": "Test required."
+      },
+      "ACT": {
+        "low": 35,
+        "high": 36,
+        "notes": "Test required."
+      }
+    }
+  },
+  "location": "Cambridge, Massachusetts",
+  "region": "East",
+  "total_cost": {
+    "in_state": 79850,
+    "out_of_state": 79850,
+    "type": "private"
+  },
+  "areas_of_interest": {
+    "computer_and_information_sciences": {
+      "prestige": 5,
+      "school": "Department of Electrical Engineering and Computer Science",
+      "degree_length": 4,
+      "approx_program_size": 1500
+    },
+    "engineering": {
+      "prestige": 5,
+      "school": "School of Engineering",
+      "degree_length": 4,
+      "approx_program_size": 3500
+    },
+    "business": {
+      "prestige": 5,
+      "school": "MIT Sloan School of Management",
+      "degree_length": 4,
+      "approx_program_size": 800
+    },
+    "biological_and_biomedical_science": {
+      "prestige": 5,
+      "school": "Department of Biology",
+      "degree_length": 4,
+      "approx_program_size": 600
+    },
+    "social_sciences": {
+      "prestige": 5,
+      "school": "School of Humanities, Arts, and Social Sciences",
+      "degree_length": 4,
+      "approx_program_size": 1200
+    },
+    "psychology": {
+      "prestige": 5,
+      "school": "Department of Brain and Cognitive Sciences",
+      "degree_length": 4,
+      "approx_program_size": 400
+    }
+  }
+}

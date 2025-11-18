@@ -1,0 +1,79 @@
+{
+  "id": "uc-los-angeles",
+  "university": "University of California, Los Angeles",
+  "application_info": {
+    "app_type": "uc",
+    "deadlines": {
+      "regularDecision": "2024-11-30"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 3.9,
+      "high": 4.0
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1290,
+        "high": 1510,
+        "notes": "Test-blind (not considered)."
+      },
+      "ACT": {
+        "low": 29,
+        "high": 34,
+        "notes": "Test-blind (not considered)."
+      }
+    }
+  },
+  "location": "Los Angeles, California",
+  "region": "West",
+  "total_cost": {
+    "in_state": 36436,
+    "out_of_state": 67630,
+    "type": "public"
+  },
+  "areas_of_interest": {
+    "business": {
+      "prestige": 4,
+      "school": "Anderson School of Management",
+      "degree_length": 4,
+      "approx_program_size": 1200
+    },
+    "computer_and_information_sciences": {
+      "prestige": 5,
+      "school": "Samueli School of Engineering",
+      "degree_length": 4,
+      "approx_program_size": 1800
+    },
+    "engineering": {
+      "prestige": 5,
+      "school": "Samueli School of Engineering",
+      "degree_length": 4,
+      "approx_program_size": 4000
+    },
+    "communications": {
+      "prestige": 5,
+      "school": "Department of Communication",
+      "degree_length": 4,
+      "approx_program_size": 800
+    },
+    "biological_and_biomedical_science": {
+      "prestige": 5,
+      "school": "College of Life Sciences",
+      "degree_length": 4,
+      "approx_program_size": 3000
+    },
+    "psychology": {
+      "prestige": 5,
+      "school": "Department of Psychology",
+      "degree_length": 4,
+      "approx_program_size": 2000
+    },
+    "social_sciences": {
+      "prestige": 5,
+      "school": "College of Letters and Science",
+      "degree_length": 4,
+      "approx_program_size": 4500
+    }
+  }
+}

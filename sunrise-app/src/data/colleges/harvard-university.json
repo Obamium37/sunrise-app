@@ -1,0 +1,80 @@
+{
+  "id": "harvard-university",
+  "university": "Harvard University",
+  "application_info": {
+    "app_type": "commonApp",
+    "deadlines": {
+      "restrictiveEarlyAction": "2024-11-01",
+      "regularDecision": "2025-01-01"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 3.9,
+      "high": 4.0
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1460,
+        "high": 1580,
+        "notes": "Test-optional through 2026."
+      },
+      "ACT": {
+        "low": 33,
+        "high": 35,
+        "notes": "Test-optional through 2026."
+      }
+    }
+  },
+  "location": "Cambridge, Massachusetts",
+  "region": "East",
+  "total_cost": {
+    "in_state": 79450,
+    "out_of_state": 79450,
+    "type": "private"
+  },
+  "areas_of_interest": {
+    "business": {
+      "prestige": 5,
+      "school": "Harvard Business School",
+      "degree_length": 4,
+      "approx_program_size": 1800
+    },
+    "computer_and_information_sciences": {
+      "prestige": 5,
+      "school": "John A. Paulson School of Engineering and Applied Sciences",
+      "degree_length": 4,
+      "approx_program_size": 600
+    },
+    "engineering": {
+      "prestige": 4,
+      "school": "John A. Paulson School of Engineering and Applied Sciences",
+      "degree_length": 4,
+      "approx_program_size": 800
+    },
+    "social_sciences": {
+      "prestige": 5,
+      "school": "Faculty of Arts and Sciences",
+      "degree_length": 4,
+      "approx_program_size": 2500
+    },
+    "biological_and_biomedical_science": {
+      "prestige": 5,
+      "school": "Department of Molecular and Cellular Biology",
+      "degree_length": 4,
+      "approx_program_size": 800
+    },
+    "psychology": {
+      "prestige": 5,
+      "school": "Department of Psychology",
+      "degree_length": 4,
+      "approx_program_size": 900
+    },
+    "liberal_arts_and_humanities": {
+      "prestige": 5,
+      "school": "Faculty of Arts and Sciences",
+      "degree_length": 4,
+      "approx_program_size": 3000
+    }
+  }
+}

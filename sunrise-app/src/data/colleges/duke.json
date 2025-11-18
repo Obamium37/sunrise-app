@@ -1,0 +1,74 @@
+{
+  "id": "duke-university",
+  "university": "Duke University",
+  "application_info": {
+    "app_type": "commonApp",
+    "deadlines": {
+      "earlyDecision": "2024-11-01",
+      "regularDecision": "2025-01-02"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 3.9,
+      "high": 4.0
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1480,
+        "high": 1570,
+        "notes": "Test-optional."
+      },
+      "ACT": {
+        "low": 33,
+        "high": 35,
+        "notes": "Test-optional."
+      }
+    }
+  },
+  "location": "Durham, North Carolina",
+  "region": "South",
+  "total_cost": {
+    "in_state": 82749,
+    "out_of_state": 82749,
+    "type": "private"
+  },
+  "areas_of_interest": {
+    "business": {
+      "prestige": 5,
+      "school": "Fuqua School of Business",
+      "degree_length": 4,
+      "approx_program_size": 900
+    },
+    "engineering": {
+      "prestige": 5,
+      "school": "Pratt School of Engineering",
+      "degree_length": 4,
+      "approx_program_size": 1600
+    },
+    "computer_and_information_sciences": {
+      "prestige": 5,
+      "school": "Department of Computer Science",
+      "degree_length": 4,
+      "approx_program_size": 800
+    },
+    "biological_and_biomedical_science": {
+      "prestige": 5,
+      "school": "Trinity College of Arts & Sciences",
+      "degree_length": 4,
+      "approx_program_size": 1200
+    },
+    "social_sciences": {
+      "prestige": 5,
+      "school": "Trinity College of Arts & Sciences",
+      "degree_length": 4,
+      "approx_program_size": 2500
+    },
+    "psychology": {
+      "prestige": 5,
+      "school": "Department of Psychology & Neuroscience",
+      "degree_length": 4,
+      "approx_program_size": 800
+    }
+  }
+}

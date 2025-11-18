@@ -1,0 +1,74 @@
+{
+  "id": "university-of-michigan",
+  "university": "University of Michigan",
+  "application_info": {
+    "app_type": "commonApp",
+    "deadlines": {
+      "earlyAction": "2024-11-01",
+      "regularDecision": "2025-02-01"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 3.8,
+      "high": 4.0
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1350,
+        "high": 1530,
+        "notes": "Test-optional."
+      },
+      "ACT": {
+        "low": 31,
+        "high": 34,
+        "notes": "Test-optional."
+      }
+    }
+  },
+  "location": "Ann Arbor, Michigan",
+  "region": "Midwest",
+  "total_cost": {
+    "in_state": 33555,
+    "out_of_state": 69326,
+    "type": "public"
+  },
+  "areas_of_interest": {
+    "business": {
+      "prestige": 5,
+      "school": "Ross School of Business",
+      "degree_length": 4,
+      "approx_program_size": 1800
+    },
+    "engineering": {
+      "prestige": 5,
+      "school": "College of Engineering",
+      "degree_length": 4,
+      "approx_program_size": 5000
+    },
+    "computer_and_information_sciences": {
+      "prestige": 5,
+      "school": "Department of Computer Science and Engineering",
+      "degree_length": 4,
+      "approx_program_size": 2000
+    },
+    "social_sciences": {
+      "prestige": 5,
+      "school": "College of Literature, Science, and the Arts",
+      "degree_length": 4,
+      "approx_program_size": 4000
+    },
+    "psychology": {
+      "prestige": 5,
+      "school": "Department of Psychology",
+      "degree_length": 4,
+      "approx_program_size": 1500
+    },
+    "healthcare": {
+      "prestige": 5,
+      "school": "School of Public Health",
+      "degree_length": 4,
+      "approx_program_size": 1200
+    }
+  }
+}

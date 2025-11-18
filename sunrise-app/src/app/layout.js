@@ -1,50 +1,44 @@
+"use client";
+
 import "./styles/globals.css";
-import { AuthProvider } from "../context/AuthContext";
-import { AppSidebar } from "@/components/app-sidebar"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
+import { AuthProvider, useAuth } from "../context/AuthContext";
+import { AppSidebar } from "@/components/app-sidebar";
 import {
   SidebarInset,
   SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+import { usePathname } from "next/navigation";
+
+function LayoutContent({ children }) {
+  const pathname = usePathname();
+  const { user } = useAuth();
+  
+  // Pages where sidebar should NOT appear
+  const noSidebarRoutes = ["/", "/signup", "/onboarding"];
+  const showSidebar = !noSidebarRoutes.includes(pathname) && user;
+
+  if (!showSidebar) {
+    return <>{children}</>;
+  }
+
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        {children}
+      </SidebarInset>
+    </SidebarProvider>
+  );
+}
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <SidebarProvider>
-        <AppSidebar />
-        <SidebarInset>
-          <body>
-            <SidebarTrigger />
-            
-            <AuthProvider>{children}</AuthProvider>
-            <Separator orientation="vertical" className="mr-2 h-4" />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-            
-          </body>
-        </SidebarInset>
-      </SidebarProvider>
+      <body>
+        <AuthProvider>
+          <LayoutContent>{children}</LayoutContent>
+        </AuthProvider>
+      </body>
     </html>
   );
 }
-

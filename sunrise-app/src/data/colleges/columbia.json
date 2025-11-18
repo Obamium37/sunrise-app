@@ -1,0 +1,74 @@
+{
+  "id": "columbia-university",
+  "university": "Columbia University",
+  "application_info": {
+    "app_type": "commonApp",
+    "deadlines": {
+      "earlyDecision": "2024-11-01",
+      "regularDecision": "2025-01-01"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 3.9,
+      "high": 4.0
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1470,
+        "high": 1570,
+        "notes": "Test-optional."
+      },
+      "ACT": {
+        "low": 33,
+        "high": 35,
+        "notes": "Test-optional."
+      }
+    }
+  },
+  "location": "New York, New York",
+  "region": "East",
+  "total_cost": {
+    "in_state": 85967,
+    "out_of_state": 85967,
+    "type": "private"
+  },
+  "areas_of_interest": {
+    "business": {
+      "prestige": 5,
+      "school": "Columbia Business School",
+      "degree_length": 4,
+      "approx_program_size": 1300
+    },
+    "engineering": {
+      "prestige": 5,
+      "school": "Fu Foundation School of Engineering and Applied Science",
+      "degree_length": 4,
+      "approx_program_size": 1800
+    },
+    "computer_and_information_sciences": {
+      "prestige": 5,
+      "school": "Department of Computer Science",
+      "degree_length": 4,
+      "approx_program_size": 900
+    },
+    "social_sciences": {
+      "prestige": 5,
+      "school": "Columbia College",
+      "degree_length": 4,
+      "approx_program_size": 3000
+    },
+    "liberal_arts_and_humanities": {
+      "prestige": 5,
+      "school": "Columbia College",
+      "degree_length": 4,
+      "approx_program_size": 2500
+    },
+    "psychology": {
+      "prestige": 5,
+      "school": "Department of Psychology",
+      "degree_length": 4,
+      "approx_program_size": 700
+    }
+  }
+}

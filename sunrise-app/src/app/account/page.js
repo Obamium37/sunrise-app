@@ -12,7 +12,6 @@ import {
   EmailAuthProvider,
   deleteUser,
 } from "firebase/auth";
-import { decryptData, encryptData } from "../../lib/crypto";
 import styles from './account.module.css';
 import SidebarLayout from "@/components/SidebarLayout";
 
@@ -52,28 +51,16 @@ export default function Account() {
         }
         const data = snap.data();
 
-        // Decrypt all fields
-        const decName = await decryptData(user.uid, data.encryptedName);
-        const decCity = await decryptData(user.uid, data.encryptedCity);
-        const decGpa = await decryptData(user.uid, data.encryptedGPA);
-        const decGpaScale = await decryptData(user.uid, data.encryptedGpaScale);
-        const decWeighted = await decryptData(user.uid, data.encryptedWeighted);
-        const decTestType = await decryptData(user.uid, data.encryptedTestType);
-        const decTestScore = await decryptData(user.uid, data.encryptedTestScore);
-        const decLocation = await decryptData(user.uid, data.encryptedLocation);
-        const decCostPref = await decryptData(user.uid, data.encryptedCostPref);
-        const decMajorPrestige = await decryptData(user.uid, data.encryptedMajorPrestige);
-
-        setName(decName || "");
-        setCity(decCity || "");
-        setGpa(decGpa || "");
-        setGpaScale(decGpaScale || "4");
-        setWeighted(decWeighted === "true" || decWeighted === true);
-        setTestType(decTestType || "SAT");
-        setTestScore(decTestScore || "");
-        setLocation(decLocation || "PNW");
-        setCostPref(decCostPref || "public");
-        setMajorPrestige(decMajorPrestige || "3");
+        setName(data.name || "");
+        setCity(data.city || "");
+        setGpa(data.gpa || "");
+        setGpaScale(data.gpaScale || "4");
+        setWeighted(data.weighted === "true" || data.weighted === true);
+        setTestType(data.testType || "SAT");
+        setTestScore(data.testScore || "");
+        setLocation(data.location || "PNW");
+        setCostPref(data.costPref || "public");
+        setMajorPrestige(data.majorPrestige || "3");
       } catch (err) {
         console.error(err);
         setErrorMsg("Failed to load account data: " + err.message);
@@ -91,16 +78,16 @@ export default function Account() {
     try {
       const userRef = doc(db, "users", user.uid);
       const updates = {
-        encryptedName: await encryptData(user.uid, name),
-        encryptedCity: await encryptData(user.uid, city),
-        encryptedGPA: await encryptData(user.uid, gpa),
-        encryptedGpaScale: await encryptData(user.uid, gpaScale),
-        encryptedWeighted: await encryptData(user.uid, weighted.toString()),
-        encryptedTestType: await encryptData(user.uid, testType),
-        encryptedTestScore: await encryptData(user.uid, testScore),
-        encryptedLocation: await encryptData(user.uid, location),
-        encryptedCostPref: await encryptData(user.uid, costPref),
-        encryptedMajorPrestige: await encryptData(user.uid, majorPrestige),
+        name: name,
+        city: city,
+        gpa: gpa,
+        gpaScale: gpaScale,
+        weighted: weighted.toString(),
+        testType: testType,
+        testScore: testScore,
+        location: location,
+        costPref: costPref,
+        majorPrestige: majorPrestige,
       };
       await updateDoc(userRef, updates);
       setSuccessMsg("Account info updated successfully.");

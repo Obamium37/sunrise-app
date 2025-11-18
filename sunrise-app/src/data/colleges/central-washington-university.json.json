@@ -1,0 +1,99 @@
+{
+  "id": "central-washington-university",
+  "university": "Central Washington University",
+  "application_info": {
+    "app_type": "other",
+    "deadlines": {
+      "earlyAction": null,
+      "regularDecision": null,
+      "rollingAdmission": true
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 3.0,
+      "high": 3.6
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 950,
+        "high": 1170,
+        "notes": "Test-optional policy in effect."
+      },
+      "ACT": {
+        "low": 18,
+        "high": 24,
+        "notes": "Test-optional policy in effect."
+      }
+    }
+  },
+  "location": "West Coast (Pacific Northwest), Ellensburg, Washington",
+  "region": "PNW",
+  "total_cost": {
+    "in_state": 22500,
+    "out_of_state": 35000,
+    "type": "public"
+  },
+  "areas_of_interest": {
+    "business": {
+      "prestige": 3,
+      "school": "College of Business",
+      "degree_length": 4,
+      "approx_program_size": 1500
+    },
+    "healthcare": {
+      "prestige": 3,
+      "school": "Department of Health Sciences",
+      "degree_length": 4,
+      "approx_program_size": 400
+    },
+    "computer_and_information_sciences": {
+      "prestige": 3,
+      "school": "Department of Computer Science",
+      "degree_length": 4,
+      "approx_program_size": 300
+    },
+    "engineering": {
+      "prestige": 2,
+      "school": "CWU has limited engineering programs (Applied Science/Technology)",
+      "degree_length": 4,
+      "approx_program_size": 150
+    },
+    "social_sciences": {
+      "prestige": 3,
+      "school": "College of the Sciences – Social Sciences Division",
+      "degree_length": 4,
+      "approx_program_size": 2000
+    },
+    "communications": {
+      "prestige": 3,
+      "school": "Department of Communication",
+      "degree_length": 4,
+      "approx_program_size": 400
+    },
+    "biological_and_biomedical_science": {
+      "prestige": 3,
+      "school": "Department of Biology",
+      "degree_length": 4,
+      "approx_program_size": 600
+    },
+    "psychology": {
+      "prestige": 3,
+      "school": "Department of Psychology",
+      "degree_length": 4,
+      "approx_program_size": 700
+    },
+    "education": {
+      "prestige": 3,
+      "school": "College of Education & Professional Studies",
+      "degree_length": 4,
+      "approx_program_size": 800
+    },
+    "liberal_arts_and_humanities": {
+      "prestige": 3,
+      "school": "College of the Arts & Humanities",
+      "degree_length": 4,
+      "approx_program_size": 1200
+    }
+  }
+}

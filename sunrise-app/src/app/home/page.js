@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth, db } from "../../lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { decryptData } from "../../lib/crypto";
 import { useAuth } from "../../context/AuthContext";
 import SidebarLayout from "../../components/SidebarLayout";
 import Link from "next/link";
@@ -39,26 +38,12 @@ export default function Home() {
 
         const data = snap.data();
 
-        // 🔐 Decrypt each field individually
-        const decrypted = {
-          name: await decryptData(user.uid, data.encryptedName),
-          city: await decryptData(user.uid, data.encryptedCity),
-          gpa: await decryptData(user.uid, data.encryptedGPA),
-          gpaScale: await decryptData(user.uid, data.encryptedGpaScale),
-          weighted: await decryptData(user.uid, data.encryptedWeighted),
-          testType: await decryptData(user.uid, data.encryptedTestType),
-          testScore: await decryptData(user.uid, data.encryptedTestScore),
-          location: await decryptData(user.uid, data.encryptedLocation),
-          costPref: await decryptData(user.uid, data.encryptedCostPref),
-          majorPrestige: await decryptData(user.uid, data.encryptedMajorPrestige),
-        };
-
-        if (!decrypted.name || !decrypted.city) {
-          setErrorMsg("Missing or corrupted encrypted user data.");
+        if (!data.name || !data.city) {
+          setErrorMsg("Missing user data.");
           return;
         }
 
-        setStats(decrypted);
+        setStats(data);
       } catch (err) {
         console.error("Fetch error:", err);
         setErrorMsg("Failed to load data: " + err.message);
