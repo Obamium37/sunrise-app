@@ -135,7 +135,6 @@ export default function Account() {
 
   return (
     <div className={styles['container']}>
-      <SidebarLayout></SidebarLayout>
       <div className={styles['content']}>
         <h2>Edit Account Details</h2>
         {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}

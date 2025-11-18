@@ -81,13 +81,6 @@ export default function Home() {
         <p>Selected date: {value.toDateString()}</p>
         </div>
 
-        <div style={{ marginTop: "2rem" }}>
-          <Link href="/account">⚙️ Account Details</Link>
-        </div>
-
-        <button onClick={handleLogout} style={{ marginTop: "2rem" }}>
-          Logout
-        </button>
       </div>
     </div>
   );
