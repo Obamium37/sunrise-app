@@ -1,0 +1,67 @@
+{
+  "id": "california-institute-of-technology",
+  "university": "California Institute of Technology",
+  "application_info": {
+    "app_type": "common_app",
+    "deadlines": {
+      "regularDecision": "2025-01-03"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 3.9,
+      "high": 4.0
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1530,
+        "high": 1570,
+        "notes": "Based on past reported data."
+      },
+      "ACT": {
+        "low": 35,
+        "high": 36,
+        "notes": "Reported composite range."
+      }
+    }
+  },
+  "location": "Pasadena, California",
+  "region": "West",
+  "total_cost": {
+    "in_state": 86310,
+    "out_of_state": 86310,
+    "type": "private"
+  },
+  "areas_of_interest": {
+    "engineering": {
+      "prestige": 5,
+      "school": "Division of Engineering and Applied Science",
+      "degree_length": 4,
+      "approx_program_size": 350
+    },
+    "computer_and_information_sciences": {
+      "prestige": 5,
+      "school": "Division of Engineering and Applied Science / Computing & Mathematical Sciences",
+      "degree_length": 4,
+      "approx_program_size": 300
+    },
+    "physical_sciences": {
+      "prestige": 5,
+      "school": "Division of Physics, Mathematics and Astronomy",
+      "degree_length": 4,
+      "approx_program_size": 275
+    },
+    "biological_and_biomedical_science": {
+      "prestige": 5,
+      "school": "Division of Biology and Biological Engineering",
+      "degree_length": 4,
+      "approx_program_size": 375
+    },
+    "mathematics_and_statistics": {
+      "prestige": 5,
+      "school": "Division of Physics, Mathematics and Astronomy",
+      "degree_length": 4,
+      "approx_program_size": 150
+    }
+  }
+}
