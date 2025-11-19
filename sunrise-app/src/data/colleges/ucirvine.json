@@ -2,7 +2,7 @@
   "id": "university-of-california-irvine",
   "university": "University of California, Irvine",
   "application_info": {
-    "app_type": "common_app",
+    "app_type": "uc",
     "deadlines": {
       "regularDecision": "2024-11-30"
     }
@@ -65,3 +65,4 @@
     }
   }
 }
+
