@@ -1,0 +1,67 @@
+{
+  "id": "university-of-california-irvine",
+  "university": "University of California, Irvine",
+  "application_info": {
+    "app_type": "common_app",
+    "deadlines": {
+      "regularDecision": "2024-11-30"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 4.0,
+      "high": 4.23
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1290,
+        "high": 1480,
+        "notes": "Test-optional; ranges based on prior admitted students"
+      },
+      "ACT": {
+        "low": 28,
+        "high": 33,
+        "notes": "Test-optional; ranges based on prior admitted students"
+      }
+    }
+  },
+  "location": "Irvine, California",
+  "region": "West",
+  "total_cost": {
+    "in_state": 41878,
+    "out_of_state": 76078,
+    "type": "public"
+  },
+  "areas_of_interest": {
+    "engineering": {
+      "prestige": 5,
+      "school": "Henry Samueli School of Engineering",
+      "degree_length": 4,
+      "approx_program_size": 2000
+    },
+    "computer_and_information_sciences": {
+      "prestige": 5,
+      "school": "Donald Bren School of ICS",
+      "degree_length": 4,
+      "approx_program_size": 1500
+    },
+    "business": {
+      "prestige": 4,
+      "school": "Paul Merage School of Business",
+      "degree_length": 4,
+      "approx_program_size": 800
+    },
+    "social_sciences": {
+      "prestige": 4,
+      "school": "School of Social Sciences",
+      "degree_length": 4,
+      "approx_program_size": 2500
+    },
+    "biological_and_biomedical_science": {
+      "prestige": 5,
+      "school": "School of Biological Sciences",
+      "degree_length": 4,
+      "approx_program_size": 1200
+    }
+  }
+}
