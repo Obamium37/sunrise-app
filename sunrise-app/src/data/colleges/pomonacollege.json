@@ -1,0 +1,55 @@
+{
+  "id": "pomona-college",
+  "university": "Pomona College",
+  "application_info": {
+    "app_type": "common_app",
+    "deadlines": {
+      "regularDecision": "2025-01-03"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 3.8,
+      "high": 4.0
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1400,
+        "high": 1550,
+        "notes": "Test-optional; ranges based on prior admitted students"
+      },
+      "ACT": {
+        "low": 32,
+        "high": 35,
+        "notes": "Test-optional; ranges based on prior admitted students"
+      }
+    }
+  },
+  "location": "Claremont, California",
+  "region": "West",
+  "total_cost": {
+    "in_state": 82818,
+    "out_of_state": 82818,
+    "type": "private"
+  },
+  "areas_of_interest": {
+    "social_sciences": {
+      "prestige": 5,
+      "school": "Division of Social Sciences",
+      "degree_length": 4,
+      "approx_program_size": 700
+    },
+    "humanities": {
+      "prestige": 5,
+      "school": "Division of Humanities",
+      "degree_length": 4,
+      "approx_program_size": 600
+    },
+    "natural_sciences": {
+      "prestige": 5,
+      "school": "Division of Natural Sciences",
+      "degree_length": 4,
+      "approx_program_size": 500
+    }
+  }
+}
