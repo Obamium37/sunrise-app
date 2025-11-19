@@ -8,6 +8,8 @@ import Link from "next/link";
 //import "./styles/globals.css";
 import styles from "./login.module.css";
 import { parseFirebaseError } from "../../lib/firebaseErrors";
+import { Button } from "@/components/retroui/Button";
+
 
 export default function Login() {
   const router = useRouter();
@@ -76,9 +78,9 @@ export default function Login() {
           </div>
         </div>
         <div className={styles["submit-button-container"]}>
-          <button className={styles["submit-button"]} type="submit">
+          <Button className={styles["submit-button"]} type="submit">
             Login
-          </button>
+          </Button>
         </div>
       </form>
     </div>

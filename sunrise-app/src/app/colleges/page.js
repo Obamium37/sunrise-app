@@ -8,6 +8,7 @@ import { collection, query, onSnapshot, addDoc } from "firebase/firestore";
 import Link from "next/link";
 import styles from "./colleges.module.css";
 import NewCollegeModal from "@/components/NewCollegeModal";
+import { Button } from "@/components/retroui/Button";
 
 export default function CollegesPage() {
   const { user } = useAuth();
@@ -62,15 +63,15 @@ export default function CollegesPage() {
   return (
     <div className={styles["container"]}>
       <div className={styles["content"]}>
-        <h2>Your Colleges</h2>
+        <h1 className={styles['header']}>Your Colleges</h1>
         {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
         <div className={styles["add-college-button-container"]}>
-          <button
+          <Button
             className={styles["add-college-button"]}
             onClick={() => setAddCollegeFormVisible(true)}
           >
             Add a college
-          </button>
+          </Button>
         </div>
         {addCollegeFormVisible && (
           <NewCollegeModal
@@ -110,6 +111,10 @@ export default function CollegesPage() {
                           {c.data.deadlineType}
                         </div>
                       )}
+                    </div>
+                  </td>
+                  <td>
+                    <div className={styles["table-text"]}>
                       {c.data.deadline}
                     </div>
                   </td>

@@ -13,7 +13,7 @@
 .add-college-button-container {
     text-align: right;
     margin-right: 1.5rem;
-    margin-top: -3.2rem;
+    margin-top: -2.5rem;
 }
 
 .add-college-button {
@@ -73,7 +73,7 @@
 }
 
 .table-column-deadline {
-    padding-right: 1.5rem;
+    padding-right: 1rem;
     padding-top: 0.6rem;
     padding-bottom: 0.4rem;
     text-align: right;

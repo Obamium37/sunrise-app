@@ -7,6 +7,7 @@ import { auth } from "../../lib/firebase";
 import Link from "next/link";
 import styles from "./signup.module.css";
 import { parseFirebaseError } from "../../lib/firebaseErrors";
+import { Button } from "@/components/retroui/Button";
 
 export default function Signup() {
   const router = useRouter();
@@ -61,7 +62,7 @@ export default function Signup() {
         </div>
 
         <div className={styles['submit-button-container']}>
-          <button className={styles['submit-button']} type="submit">Sign Up</button>
+          <Button className={styles['submit-button']} type="submit">Sign Up</Button>
         </div>
       </form>
 

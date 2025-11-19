@@ -14,6 +14,7 @@ import {
 } from "firebase/auth";
 import styles from './account.module.css';
 import SidebarLayout from "@/components/SidebarLayout";
+import { Button } from "@/components/retroui/Button";
 
 export default function Account() {
   const { user } = useAuth();
@@ -136,7 +137,7 @@ export default function Account() {
   return (
     <div className={styles['container']}>
       <div className={styles['content']}>
-        <h2>Edit Account Details</h2>
+        <h1>Edit Account Details</h1>
         {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
         {successMsg && <p style={{ color: "green" }}>{successMsg}</p>}
 
@@ -236,9 +237,9 @@ export default function Account() {
             </div>
           </div>
 
-          <button className={styles['submit-button']} type="submit" style={{ marginTop: "1rem" }}>
+          <Button className={styles['submit-button']} type="submit" style={{ marginTop: "1rem" }}>
               Update
-          </button>
+          </Button>
         </form>
 
         <hr />

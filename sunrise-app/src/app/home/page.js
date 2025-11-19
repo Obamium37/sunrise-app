@@ -65,16 +65,19 @@ export default function Home() {
     <div className={styles['container']}>
 
       <div className={styles['content']}>
-        <h1>Welcome, {stats.name} 👋</h1>
-        <p>📍 City: {stats.city}</p>
-        <p>
-          🎓 GPA: {stats.gpa} ({stats.weighted === "true" ? "Weighted" : "Unweighted"})
-        </p>
-        <p>🧮 {stats.testType}: {stats.testScore}</p>
-        <p>🌎 Preferred Region: {stats.location}</p>
-        <p>🏫 Cost Preference: {stats.costPref}</p>
-        <p>⭐ Major Prestige Importance: {stats.majorPrestige}/5</p>
-
+        <h1 className={styles['header']}>Welcome, {stats.name} 👋</h1>
+        <div className={styles['profile-container']}>
+          <h3 className={styles['profile-header']}>Your Profile</h3>
+          <p className={styles['profile-details']}>📍 City: {stats.city}</p>
+          <p className={styles['profile-details']}>
+            🎓 GPA: {stats.gpa} ({stats.weighted === "true" ? "Weighted" : "Unweighted"})
+          </p>
+          <p className={styles['profile-details']}>🧮 {stats.testType}: {stats.testScore}</p>
+          <p className={styles['profile-details']}>🌎 Preferred Region: {stats.location}</p>
+          <p className={styles['profile-details']}>🏫 Cost Preference: {stats.costPref}</p>
+          <p className={styles['profile-details']}>⭐ Major Prestige Importance: {stats.majorPrestige}/5</p>
+        </div>
+        
         <div style={{ padding: '2rem' }}>
         <h1></h1>
         <Calendar onChange={setValue} value={value} />
