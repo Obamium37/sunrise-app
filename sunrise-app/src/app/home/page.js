@@ -9,8 +9,7 @@ import { useAuth } from "../../context/AuthContext";
 import SidebarLayout from "../../components/SidebarLayout";
 import Link from "next/link";
 import styles from "./home.module.css";
-import 'react-calendar/dist/Calendar.css';
-import Calendar from 'react-calendar';
+import Calendar from "./Calendar";
 
 
 export default function Home() {
@@ -89,11 +88,13 @@ export default function Home() {
         <p>🌎 Preferred Region: {stats.location}</p>
         <p>🏫 Cost Preference: {stats.costPref}</p>
         <p>⭐ Major Prestige Importance: {stats.majorPrestige}/5</p>
+        <div className={styles.container}>
+        <h1></h1>
+        <Calendar />
+        </div>
 
         <div style={{ padding: '2rem' }}>
         <h1></h1>
-        <Calendar onChange={setValue} value={value} />
-        <p>Selected date: {value.toDateString()}</p>
         </div>
       </div>
     </div>
