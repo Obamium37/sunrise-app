@@ -1,0 +1,55 @@
+{
+  "id": "uc-davis",
+  "university": "University of California, Davis",
+  "application_info": {
+    "app_type": "uc",
+    "deadlines": {
+      "regularDecision": "2024-11-30"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 4.0,
+      "high": 4.26
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1290,
+        "high": 1490,
+        "notes": "Test-optional; ranges based on prior admitted students"
+      },
+      "ACT": {
+        "low": 27,
+        "high": 33,
+        "notes": "Test-optional; ranges based on prior admitted students"
+      }
+    }
+  },
+  "location": "Davis, California",
+  "region": "West",
+  "total_cost": {
+    "in_state": 46764,
+    "out_of_state": 84366,
+    "type": "public"
+  },
+  "areas_of_interest": {
+    "engineering": {
+      "prestige": 4,
+      "school": "College of Engineering",
+      "degree_length": 4,
+      "approx_program_size": 2000
+    },
+    "biological_and_biomedical_science": {
+      "prestige": 5,
+      "school": "College of Biological Sciences",
+      "degree_length": 4,
+      "approx_program_size": 2500
+    },
+    "social_sciences": {
+      "prestige": 4,
+      "school": "College of Letters and Science",
+      "degree_length": 4,
+      "approx_program_size": 5000
+    }
+  }
+}
