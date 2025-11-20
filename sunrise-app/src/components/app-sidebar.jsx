@@ -3,8 +3,6 @@ import * as React from "react"
 import { ChevronRight, ChevronUp } from "lucide-react"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { SearchForm } from "@/components/search-form"
-import { VersionSwitcher } from "@/components/version-switcher"
 import { useAuth } from "@/context/AuthContext";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
@@ -27,9 +25,9 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
-// This is sample data.
+
+// Navigation data structure
 const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
     {
       title: "Home",
@@ -39,30 +37,12 @@ const data = {
     {
       title: "Colleges",
       url: "/colleges",
-      items: [
-        {
-          title: "1",
-          url: "#",
-        },
-        {
-          title: "2",
-          url: "#",
-        },
-      ],
+      items: [],
     },
     {
       title: "Activity Lists",
-      url: "#",
-      items: [
-        {
-          title: "1",
-          url: "#",
-        },
-        {
-          title: "2",
-          url: "#",
-        },
-      ],
+      url: "/activitylists",
+      items: [],
     },
     {
       title: "Scholarships",
@@ -71,16 +51,19 @@ const data = {
     }
   ],
 }
+
 export function AppSidebar({
   ...props
 }) {
   const pathname = usePathname();
   const { user } = useAuth();
   const router = useRouter();
+  
   const handleLogout = async () => {
     await auth.signOut();
     router.push("/login");
   };
+  
   return (
     <Sidebar {...props}>
       <SidebarHeader>
