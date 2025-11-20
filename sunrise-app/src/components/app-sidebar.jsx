@@ -1,170 +1,119 @@
 'use client'
 import * as React from "react"
-import { ChevronRight, ChevronUp } from "lucide-react"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarFooter,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarRail,
-} from "@/components/ui/sidebar"
 
-// Navigation data structure
-const data = {
-  navMain: [
-    {
-      title: "Home",
-      url: "/home",
-      items: [],
-    },
-    {
-      title: "Colleges",
-      url: "/colleges",
-      items: [],
-    },
-    {
-      title: "Activity Lists",
-      url: "/activitylists",
-      items: [],
-    },
-    {
-      title: "Scholarships",
-      url: "#",
-      items: [],
-    }
-  ],
-}
-
-export function AppSidebar({
-  ...props
-}) {
+export function AppSidebar() {
   const pathname = usePathname();
   const { user } = useAuth();
   const router = useRouter();
+  const [showAccountMenu, setShowAccountMenu] = React.useState(false);
   
   const handleLogout = async () => {
     await auth.signOut();
     router.push("/login");
   };
-  
+
+  const navItems = [
+    { title: "🏠 Home", url: "/home", emoji: "🏠" },
+    { title: "🎓 Colleges", url: "/colleges", emoji: "🎓" },
+    { title: "📋 Activity Lists", url: "/activitylists", emoji: "📋" },
+    { title: "💰 Scholarships", url: "#", emoji: "💰" },
+  ];
+
+  const isActive = (url) => {
+    if (url === "#") return false;
+    return pathname === url || pathname.startsWith(url);
+  };
+
   return (
-    <Sidebar {...props}>
-      <SidebarHeader>
-      </SidebarHeader>
-      <SidebarContent className="gap-0">
-        
-        {/* We create a collapsible SidebarGroup for each parent. */}
-        {data.navMain.map((item) => {
-          const hasChildren = item.items.length > 0;
-          const isParentActive = item.url !== "#" && pathname.startsWith(item.url);
-          return hasChildren ? (
-            // --- COLLAPSIBLE ITEM ---
-            <Collapsible
+    <div className="w-64 h-screen bg-gradient-to-b from-yellow-200 to-pink-200 border-r-4 border-black flex flex-col">
+      {/* Header */}
+      <div className="p-6 border-b-4 border-black bg-white">
+        <h1 className="text-3xl font-black uppercase text-center">
+          SUNRISE
+        </h1>
+        <p className="text-center text-sm font-bold mt-1">College Planner</p>
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+        {navItems.map((item) => {
+          const active = isActive(item.url);
+          return (
+            <Link
               key={item.title}
-              title={item.title}
-              defaultOpen={false}
-              className="group/collapsible"
+              href={item.url}
+              className={`
+                block w-full text-left px-4 py-3 font-bold text-lg
+                border-4 border-black
+                transition-all
+                ${active 
+                  ? 'bg-yellow-300 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] translate-x-[-2px] translate-y-[-2px]' 
+                  : 'bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]'
+                }
+              `}
             >
-              <SidebarGroup>
-                <SidebarGroupLabel
-                  asChild
-                  className="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm"
-                >
-                  <SidebarGroupLabel
-                    asChild
-                    className={`group/label text-sm flex items-center ${isParentActive ? "bg-sidebar-accent text-sidebar-accent-foreground" : ""}`}
-                  >
-                    <div className="flex items-center w-full">
-                      {/* Main tab is clickable */}
-                      <Link href={item.url} className="flex-1">{item.title}</Link>
-                      {/* Chevron toggles only the collapse */}
-                      <CollapsibleTrigger className="p-1">
-                        <ChevronRight className="transition-transform group-data-[state=open]/collapsible:rotate-90" />
-                      </CollapsibleTrigger>
-                    </div>
-                  </SidebarGroupLabel>
-                </SidebarGroupLabel>
-                <CollapsibleContent>
-                  <SidebarGroupContent>
-                    <SidebarMenu>
-                      {item.items.map((sub) => {
-                        const isSubActive = pathname === sub.url;
-                        return (
-                          <SidebarMenuItem key={sub.title}>
-                            <SidebarMenuButton asChild isActive={sub.isActive}>
-                              <Link href={sub.url}>&nbsp;&nbsp;{sub.title}</Link>
-                            </SidebarMenuButton>
-                          </SidebarMenuItem>
-                        );
-                      })}
-                    </SidebarMenu>
-                  </SidebarGroupContent>
-                </CollapsibleContent>
-              </SidebarGroup>
-            </Collapsible>
-          ) : (
-            // --- NON-COLLAPSIBLE ITEM ---
-            <SidebarGroup key={item.title}>
-              <SidebarGroupLabel
-                asChild
-                className={`text-sm ${pathname === item.url ? "bg-sidebar-accent text-sidebar-accent-foreground" : ""}`}
-              >
-                <SidebarMenuButton asChild>
-                  <Link href={item.url} className="flex-1">{item.title}</Link>
-                </SidebarMenuButton>
-              </SidebarGroupLabel>
-            </SidebarGroup>
+              <span className="flex items-center gap-3">
+                <span className="text-2xl">{item.emoji}</span>
+                <span>{item.title.split(' ').slice(1).join(' ')}</span>
+              </span>
+            </Link>
           );
         })}
-      </SidebarContent>
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton>
-                  {user?.email ?? "Account"}
-                  <ChevronUp className="ml-auto" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="top"
-                className="w-[--radix-popper-anchor-width] bg-white shadow-md border rounded-md"
+      </nav>
+
+      {/* Footer / Account */}
+      <div className="p-4 border-t-4 border-black bg-white">
+        <div className="relative">
+          <button
+            onClick={() => setShowAccountMenu(!showAccountMenu)}
+            className="w-full px-4 py-3 font-bold text-left border-4 border-black bg-blue-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">👤</span>
+                <span className="text-sm truncate">
+                  {user?.email?.split('@')[0] || "Account"}
+                </span>
+              </div>
+              <span className="text-xl">{showAccountMenu ? '▼' : '▲'}</span>
+            </div>
+          </button>
+
+          {/* Dropdown Menu */}
+          {showAccountMenu && (
+            <div className="absolute bottom-full left-0 right-0 mb-2 bg-white border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+              <Link
+                href="/account"
+                className="block px-4 py-3 font-bold hover:bg-yellow-300 border-b-4 border-black"
+                onClick={() => setShowAccountMenu(false)}
               >
-                <DropdownMenuItem asChild>
-                  <Link href="/account" className="block px-3 py-2 cursor-pointer">
-                    Account Details
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  className="px-3 py-2 cursor-pointer"
-                  onClick={handleLogout}
-                >
-                  Log Out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
-      <SidebarRail />
-    </Sidebar>
+                ⚙️ Account Details
+              </Link>
+              <button
+                onClick={() => {
+                  setShowAccountMenu(false);
+                  handleLogout();
+                }}
+                className="w-full text-left px-4 py-3 font-bold hover:bg-pink-300"
+              >
+                🚪 Log Out
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* User Info */}
+        {user?.email && (
+          <div className="mt-3 p-2 bg-gradient-to-r from-purple-200 to-pink-200 border-2 border-black text-xs font-bold text-center">
+            {user.email}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

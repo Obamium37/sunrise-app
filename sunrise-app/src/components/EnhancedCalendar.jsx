@@ -137,9 +137,9 @@ export default function EnhancedCalendarRetro({ user }) {
     const weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
     // Week day headers
-    weekDays.forEach(day => {
+    weekDays.forEach((day, index) => {
       days.push(
-        <div key={`header-${day}`} className="text-center font-black text-lg p-2 border-2 border-black bg-yellow-200">
+        <div key={`header-${index}`} className="text-center font-black text-lg p-2 border-2 border-black bg-yellow-200">
           {day}
         </div>
       );
@@ -210,9 +210,9 @@ export default function EnhancedCalendarRetro({ user }) {
   ];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       {/* Calendar Section */}
-      <div className="lg:col-span-2 bg-white border-4 border-black p-4 md:p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+      <div className="lg:col-span-2 bg-white border-4 border-black p-6 md:p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <button
@@ -295,7 +295,7 @@ export default function EnhancedCalendarRetro({ user }) {
       </div>
 
       {/* Upcoming Deadlines Section */}
-      <div className="bg-white border-4 border-black p-4 md:p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-h-[800px] overflow-y-auto">
+      <div className="bg-white border-4 border-black p-6 md:p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-h-[800px] overflow-y-auto">
         <h3 className="text-2xl md:text-3xl font-black mb-6 uppercase border-b-4 border-black pb-2">
           ⏰ Upcoming
         </h3>
@@ -307,7 +307,7 @@ export default function EnhancedCalendarRetro({ user }) {
             <p className="text-sm text-gray-600 mt-2">Add colleges to see deadlines</p>
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {upcomingDeadlines.slice(0, 10).map((deadline, idx) => (
               <div
                 key={idx}
