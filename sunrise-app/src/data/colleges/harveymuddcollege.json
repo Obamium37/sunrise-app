@@ -1,0 +1,55 @@
+{
+  "id": "harvey-mudd-college",
+  "university": "Harvey Mudd College",
+  "application_info": {
+    "app_type": "common_app",
+    "deadlines": {
+      "regularDecision": "2026-01-05"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 3.8,
+      "high": 4.0
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1480,
+        "high": 1560,
+        "notes": "Super-scored; ranges based on prior admitted students"
+      },
+      "ACT": {
+        "low": 34,
+        "high": 36,
+        "notes": "Super-scored; ranges based on prior admitted students"
+      }
+    }
+  },
+  "location": "Claremont, California",
+  "region": "West",
+  "total_cost": {
+    "in_state": 84096,
+    "out_of_state": 84096,
+    "type": "private"
+  },
+  "areas_of_interest": {
+    "engineering": {
+      "prestige": 5,
+      "school": "School of Engineering",
+      "degree_length": 4,
+      "approx_program_size": 350
+    },
+    "computer_and_information_sciences": {
+      "prestige": 5,
+      "school": "CS Department",
+      "degree_length": 4,
+      "approx_program_size": 200
+    },
+    "physical_sciences": {
+      "prestige": 5,
+      "school": "Division of Physical Sciences",
+      "degree_length": 4,
+      "approx_program_size": 150
+    }
+  }
+}

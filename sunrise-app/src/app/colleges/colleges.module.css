@@ -10,6 +10,38 @@
     text-align: justify;
 }
 
+/* Message styling */
+.error {
+    color: #d32f2f;
+    background-color: #ffebee;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.success {
+    color: #388e3c;
+    background-color: #e8f5e9;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+/* Empty state */
+.emptyState {
+    text-align: center;
+    padding: 3rem;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+
+.emptyState p {
+    margin: 0.5rem 0;
+    color: #666;
+}
+
+/* Add college button */
 .add-college-button-container {
     text-align: right;
     margin-right: 1.5rem;
@@ -23,14 +55,16 @@
     border: none;
     padding: 8px 12px 8px 12px;
     font-size: 1.15rem;
+    transition: all 0.3s;
+    cursor: pointer;
 }
 
 .add-college-button:hover {
     background-color: rgb(229, 108, 110);
     color: white;
-    cursor: pointer;
 }
 
+/* Table styling */
 .table {
     border-collapse: collapse;
     border: 2px solid rgb(122, 156, 149);
@@ -57,13 +91,20 @@
     border-bottom: 2px solid rgba(122, 156, 149, 0.5);
 }
 
+.table-actions {
+    padding: 0.5rem 1.5rem;
+    text-align: center;
+    border-bottom: 2px solid rgba(122, 156, 149, 0.5);
+    width: 120px;
+}
+
 .table-text, .table-text a {
     color: rgb(60, 52, 55);
     text-decoration: none;
 }
 
 .table-text a:hover {
-    color:rgb(229, 108, 110);
+    color: rgb(229, 108, 110);
 }
 
 .table-column-name {
@@ -77,4 +118,63 @@
     padding-top: 0.6rem;
     padding-bottom: 0.4rem;
     text-align: right;
+}
+
+.table-column-actions {
+    padding: 0.6rem 1.5rem;
+    text-align: center;
+    width: 120px;
+}
+
+/* Delete button */
+.delete-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.delete-button:hover:not(:disabled) {
+    background-color: #d32f2f;
+}
+
+.delete-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .content {
+        padding: 1rem;
+    }
+    
+    .add-college-button-container {
+        text-align: center;
+        margin-top: 1rem;
+        margin-right: 0;
+    }
+    
+    .add-college-button {
+        width: 100%;
+    }
+    
+    .table {
+        font-size: 0.9rem;
+    }
+    
+    .table-column-actions,
+    .table-actions {
+        width: 80px;
+        padding: 0.5rem;
+    }
+    
+    .delete-button {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.8rem;
+    }
 }
