@@ -257,7 +257,7 @@ export default function OnboardingPage() {
         <div className="mt-6 text-center">
           <div className="bg-yellow-200 border-4 border-black px-6 py-3 inline-block shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <p className="font-bold">
-              💡 <strong>Pro Tip:</strong> You can always update this information later in settings!
+              💡 <strong>Info:</strong> You can always update this information later in settings!
             </p>
           </div>
         </div>

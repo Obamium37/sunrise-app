@@ -25,7 +25,9 @@ const space = Space_Grotesk({
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
-  const hideSidebarRoutes = ["/login", "/signup"];
+  
+  // Add /onboarding to the list of routes where sidebar should be hidden
+  const hideSidebarRoutes = ["/login", "/signup", "/onboarding"];
   const isAuthRoute = hideSidebarRoutes.includes(pathname);
   
   return (
@@ -33,6 +35,7 @@ export default function RootLayout({ children }) {
       <body className={`${archivoBlack.variable} ${space.variable}`}>
         <AuthProvider>
           {isAuthRoute ? (
+            // Auth routes (no sidebar)
             <>{children}</>
           ) : (
             // Normal layout with sidebar
