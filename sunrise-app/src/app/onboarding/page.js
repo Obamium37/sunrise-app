@@ -27,7 +27,15 @@ export default function OnboardingPage() {
     setError("");
   };
 
-  const handleNext = () => {
+  const handleNext = (e) => {
+    // Prevent any form submission
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    console.log('Next clicked, current step:', step);
+    
     // Validate current step
     if (step === 1 && !formData.name.trim()) {
       setError("Please enter your name");
@@ -40,9 +48,14 @@ export default function OnboardingPage() {
     
     setError("");
     setStep(step + 1);
+    console.log('Moving to step:', step + 1);
   };
 
-  const handleBack = () => {
+  const handleBack = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     setError("");
     setStep(step - 1);
   };
@@ -123,65 +136,10 @@ export default function OnboardingPage() {
 
         {/* Form Card */}
         <div className="bg-white border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-          <form onSubmit={handleSubmit}>
-            {/* Step 1: Name */}
-            {step === 1 && (
-              <div className="space-y-6">
-                <div className="text-center mb-6">
-                  <div className="text-6xl mb-4">👋</div>
-                  <h2 className="text-3xl font-black mb-2">What's your name?</h2>
-                  <p className="text-gray-600 font-bold">We'd love to know what to call you!</p>
-                </div>
-
-                <div>
-                  <label className="block text-xl font-black mb-3 uppercase">
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={handleChange("name")}
-                    required
-                    autoFocus
-                    className="w-full px-6 py-4 border-4 border-black font-bold text-xl focus:outline-none focus:ring-4 focus:ring-yellow-300"
-                    placeholder="Enter your full name"
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Step 2: Graduation Year */}
-            {step === 2 && (
-              <div className="space-y-6">
-                <div className="text-center mb-6">
-                  <div className="text-6xl mb-4">🎓</div>
-                  <h2 className="text-3xl font-black mb-2">When do you graduate?</h2>
-                  <p className="text-gray-600 font-bold">This helps us tailor deadlines for you!</p>
-                </div>
-
-                <div>
-                  <label className="block text-xl font-black mb-3 uppercase">
-                    Expected Graduation Year *
-                  </label>
-                  <select
-                    value={formData.graduationYear}
-                    onChange={handleChange("graduationYear")}
-                    required
-                    className="w-full px-6 py-4 border-4 border-black font-bold text-xl focus:outline-none focus:ring-4 focus:ring-yellow-300"
-                  >
-                    <option value="">-- Select Year --</option>
-                    {graduationYears.map((year) => (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            )}
-
-            {/* Step 3: Optional Info */}
-            {step === 3 && (
+          {/* Only use form for final submission */}
+          {step === 3 ? (
+            <form onSubmit={handleSubmit}>
+              {/* Step 3: Optional Info */}
               <div className="space-y-6">
                 <div className="text-center mb-6">
                   <div className="text-6xl mb-4">📊</div>
@@ -218,11 +176,9 @@ export default function OnboardingPage() {
                   />
                 </div>
               </div>
-            )}
 
-            {/* Navigation Buttons */}
-            <div className="flex gap-4 mt-8 pt-6 border-t-4 border-black">
-              {step > 1 && (
+              {/* Navigation Buttons for Step 3 */}
+              <div className="flex gap-4 mt-8 pt-6 border-t-4 border-black">
                 <button
                   type="button"
                   onClick={handleBack}
@@ -230,17 +186,7 @@ export default function OnboardingPage() {
                 >
                   ← Back
                 </button>
-              )}
 
-              {step < totalSteps ? (
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  className="flex-1 bg-blue-400 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
-                >
-                  Next →
-                </button>
-              ) : (
                 <button
                   type="submit"
                   disabled={loading}
@@ -248,9 +194,93 @@ export default function OnboardingPage() {
                 >
                   {loading ? "Saving..." : "Complete Setup! 🚀"}
                 </button>
+              </div>
+            </form>
+          ) : (
+            /* Steps 1 and 2: No form, just divs */
+            <div>
+              {/* Step 1: Name */}
+              {step === 1 && (
+                <div className="space-y-6">
+                  <div className="text-center mb-6">
+                    <div className="text-6xl mb-4">👋</div>
+                    <h2 className="text-3xl font-black mb-2">What's your name?</h2>
+                    <p className="text-gray-600 font-bold">We'd love to know what to call you!</p>
+                  </div>
+
+                  <div>
+                    <label className="block text-xl font-black mb-3 uppercase">
+                      Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.name}
+                      onChange={handleChange("name")}
+                      autoFocus
+                      className="w-full px-6 py-4 border-4 border-black font-bold text-xl focus:outline-none focus:ring-4 focus:ring-yellow-300"
+                      placeholder="Enter your full name"
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          handleNext();
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
               )}
+
+              {/* Step 2: Graduation Year */}
+              {step === 2 && (
+                <div className="space-y-6">
+                  <div className="text-center mb-6">
+                    <div className="text-6xl mb-4">🎓</div>
+                    <h2 className="text-3xl font-black mb-2">When do you graduate?</h2>
+                    <p className="text-gray-600 font-bold">This helps us tailor deadlines for you!</p>
+                  </div>
+
+                  <div>
+                    <label className="block text-xl font-black mb-3 uppercase">
+                      Expected Graduation Year *
+                    </label>
+                    <select
+                      value={formData.graduationYear}
+                      onChange={handleChange("graduationYear")}
+                      className="w-full px-6 py-4 border-4 border-black font-bold text-xl focus:outline-none focus:ring-4 focus:ring-yellow-300"
+                    >
+                      <option value="">-- Select Year --</option>
+                      {graduationYears.map((year) => (
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              )}
+
+              {/* Navigation Buttons for Steps 1 and 2 */}
+              <div className="flex gap-4 mt-8 pt-6 border-t-4 border-black">
+                {step > 1 && (
+                  <button
+                    type="button"
+                    onClick={handleBack}
+                    className="flex-1 bg-gray-300 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
+                  >
+                    ← Back
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="flex-1 bg-blue-400 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
+                >
+                  Next →
+                </button>
+              </div>
             </div>
-          </form>
+          )}
         </div>
 
         {/* Fun fact at bottom */}
