@@ -13,7 +13,6 @@ import {
   setDoc,
   deleteDoc,
 } from "firebase/firestore";
-import styles from "./activitylists.module.css";
 import { 
   getTemplateByAppType, 
   initializeFormState, 
@@ -31,7 +30,7 @@ export default function ActivityListsPage() {
   // Track which application types the user has colleges for
   const [activeAppTypes, setActiveAppTypes] = useState([]);
   const [selectedAppType, setSelectedAppType] = useState(null);
-  const [selectedSection, setSelectedSection] = useState(null); // For Common App: 'activities' or 'awards'
+  const [selectedSection, setSelectedSection] = useState(null);
   
   // Activities by app type
   const [activitiesByType, setActivitiesByType] = useState({});
@@ -45,9 +44,7 @@ export default function ActivityListsPage() {
 
   // Load colleges to determine active app types
   useEffect(() => {
-    if (!user) {
-      return;
-    }
+    if (!user) return;
 
     const collegesRef = collection(db, "users", user.uid, "colleges");
     const unsubColleges = onSnapshot(collegesRef, (snapshot) => {
@@ -62,12 +59,11 @@ export default function ActivityListsPage() {
       const types = Array.from(appTypesSet);
       setActiveAppTypes(types);
       
-      // Set initial selected type
       if (types.length > 0 && !selectedAppType) {
         setSelectedAppType(types[0]);
         const template = getTemplateByAppType(types[0]);
         if (templateHasSections(template)) {
-          setSelectedSection('activities'); // Default to activities for Common App
+          setSelectedSection('activities');
         }
       }
     });
@@ -112,12 +108,10 @@ export default function ActivityListsPage() {
   const currentTemplate = selectedAppType ? getTemplateByAppType(selectedAppType) : null;
   const hasSections = currentTemplate ? templateHasSections(currentTemplate) : false;
   
-  // Get current activities based on section (for Common App) or all (for others)
   const getCurrentActivities = () => {
     const allActivities = activitiesByType[selectedAppType] || [];
     
     if (hasSections && selectedSection) {
-      // Filter by section for Common App
       return allActivities.filter(activity => activity.section === selectedSection);
     }
     
@@ -170,7 +164,6 @@ export default function ActivityListsPage() {
   };
 
   const validateForm = () => {
-    // Check character limits
     for (const field of currentFields) {
       if (field.maxLength) {
         const value = formState[field.key] || '';
@@ -180,7 +173,6 @@ export default function ActivityListsPage() {
         }
       }
       
-      // Check required fields
       if (field.required && field.type !== 'hidden') {
         const value = formState[field.key];
         if (!value || (Array.isArray(value) && value.length === 0)) {
@@ -190,7 +182,6 @@ export default function ActivityListsPage() {
       }
     }
     
-    // Check activity limit
     const maxItems = hasSections && selectedSection
       ? getMaxItemsForSection(currentTemplate, selectedSection)
       : (currentTemplate?.maxActivities || 10);
@@ -270,30 +261,43 @@ export default function ActivityListsPage() {
     return field.showIf(formState);
   };
 
-  // Handle tab selection (app type change)
   const handleTabChange = (appType) => {
     setSelectedAppType(appType);
     const template = getTemplateByAppType(appType);
     if (templateHasSections(template)) {
-      setSelectedSection('activities'); // Reset to activities when changing app type
+      setSelectedSection('activities');
     } else {
       setSelectedSection(null);
     }
   };
 
   if (!user) {
-    return <div className={styles.container}>Loading...</div>;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 flex items-center justify-center">
+        <div className="text-4xl font-black">Loading...</div>
+      </div>
+    );
   }
 
   if (activeAppTypes.length === 0) {
     return (
-      <div className={styles.container}>
-        <div className={styles.content}>
-          <h2>Activity Lists</h2>
-          <div className={styles.emptyState}>
-            <p>You haven't added any colleges yet.</p>
-            <p>Add colleges to your list to start building your activity lists for each application type.</p>
-            <Link href="/colleges" className={styles.linkButton}>Go to Colleges</Link>
+      <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 p-6">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-5xl md:text-6xl font-black uppercase border-4 border-black bg-yellow-300 px-6 py-4 inline-block shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-8">
+            📋 Activity Lists
+          </h1>
+          
+          <div className="bg-white border-4 border-black p-12 text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+            <div className="text-8xl mb-6">📝</div>
+            <h2 className="text-3xl font-black mb-4 uppercase">No Colleges Yet!</h2>
+            <p className="text-xl font-bold mb-6">
+              Add colleges to your list to start building your activity lists for each application type.
+            </p>
+            <Link href="/colleges">
+              <button className="bg-yellow-300 border-4 border-black px-8 py-4 font-black text-xl shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase">
+                ➕ Add Colleges
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -301,19 +305,28 @@ export default function ActivityListsPage() {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.content}>
-        <h2>Activity Lists & Awards</h2>
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <h1 className="text-5xl md:text-6xl font-black uppercase border-4 border-black bg-yellow-300 px-6 py-4 inline-block shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-8">
+          📋 Activity Lists & Awards
+        </h1>
         
-        {(error || success) && (
-          <div className={styles.messageContainer}>
-            {error && <p className={styles.error}>{error}</p>}
-            {success && <p className={styles.success}>{success}</p>}
+        {/* Messages */}
+        {error && (
+          <div className="mb-6 bg-red-400 border-4 border-black p-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+            <p className="font-bold text-lg">❌ {error}</p>
+          </div>
+        )}
+        
+        {success && (
+          <div className="mb-6 bg-green-400 border-4 border-black p-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+            <p className="font-bold text-lg">✅ {success}</p>
           </div>
         )}
 
         {/* Application Type Tabs */}
-        <div className={styles.tabs}>
+        <div className="flex flex-wrap gap-4 mb-6">
           {activeAppTypes.map((appType) => {
             const template = getTemplateByAppType(appType);
             const allActivitiesForType = activitiesByType[appType] || [];
@@ -323,13 +336,19 @@ export default function ActivityListsPage() {
             return (
               <button
                 key={appType}
-                className={`${styles.tab} ${selectedAppType === appType ? styles.activeTab : ''}`}
                 onClick={() => handleTabChange(appType)}
+                className={`px-6 py-4 font-black text-xl border-4 border-black transition-all ${
+                  selectedAppType === appType
+                    ? 'bg-pink-400 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] translate-x-[-2px] translate-y-[-2px]'
+                    : 'bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]'
+                }`}
               >
-                {template.name}
-                <span className={styles.tabCount}>
-                  {count}/{maxTotal}
-                </span>
+                <div className="flex items-center gap-3">
+                  <span>{template.name}</span>
+                  <span className="bg-black text-white px-3 py-1 text-sm rounded-full">
+                    {count}/{maxTotal}
+                  </span>
+                </div>
               </button>
             );
           })}
@@ -337,7 +356,7 @@ export default function ActivityListsPage() {
 
         {/* Section Sub-Tabs (for Common App) */}
         {hasSections && currentTemplate.sections && (
-          <div className={styles.subTabs}>
+          <div className="flex flex-wrap gap-3 mb-6 bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             {Object.entries(currentTemplate.sections).map(([sectionKey, sectionData]) => {
               const sectionActivities = (activitiesByType[selectedAppType] || [])
                 .filter(a => a.section === sectionKey);
@@ -346,12 +365,16 @@ export default function ActivityListsPage() {
               return (
                 <button
                   key={sectionKey}
-                  className={`${styles.subTab} ${selectedSection === sectionKey ? styles.activeSubTab : ''}`}
                   onClick={() => setSelectedSection(sectionKey)}
+                  className={`px-4 py-2 font-bold text-lg border-2 border-black transition-all ${
+                    selectedSection === sectionKey
+                      ? 'bg-purple-400 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                      : 'bg-gray-100 hover:bg-gray-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                  }`}
                 >
                   {sectionData.label}
-                  <span className={styles.subTabCount}>
-                    {sectionCount}/{sectionData.max}
+                  <span className="ml-2 text-sm">
+                    ({sectionCount}/{sectionData.max})
                   </span>
                 </button>
               );
@@ -361,14 +384,14 @@ export default function ActivityListsPage() {
 
         {/* Current Template Content */}
         {currentTemplate && (
-          <div className={styles.templateContent}>
-            <div className={styles.templateHeader}>
+          <div className="bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6 pb-6 border-b-4 border-black">
               <div>
-                <h3>
+                <h2 className="text-3xl font-black uppercase mb-2">
                   {currentTemplate.name}
                   {hasSections && selectedSection && ` - ${currentTemplate.sections[selectedSection].label}`}
-                </h3>
-                <p className={styles.templateInfo}>
+                </h2>
+                <p className="text-lg font-semibold text-gray-700">
                   {hasSections && selectedSection
                     ? `${currentTemplate.sections[selectedSection].description}. You can add up to ${currentTemplate.sections[selectedSection].max} items. Currently added: ${currentActivities.length}`
                     : `You can add up to ${currentTemplate.maxActivities} activities/awards. Currently added: ${currentActivities.length}`
@@ -376,238 +399,304 @@ export default function ActivityListsPage() {
                 </p>
               </div>
               <button
-                className={styles.addButton}
                 onClick={() => handleOpenForm()}
                 disabled={currentActivities.length >= (hasSections && selectedSection
                   ? getMaxItemsForSection(currentTemplate, selectedSection)
                   : currentTemplate.maxActivities)}
+                className="bg-green-400 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase whitespace-nowrap"
               >
-                + Add {hasSections && selectedSection
-                  ? currentTemplate.sections[selectedSection].label.slice(0, -1) // Remove 's' from 'Activities' or 'Awards'
+                ➕ Add {hasSections && selectedSection
+                  ? currentTemplate.sections[selectedSection].label.slice(0, -1)
                   : 'Item'}
               </button>
             </div>
 
             {/* Activities List */}
-            <div className={styles.activitiesList}>
-              {currentActivities.length === 0 ? (
-                <div className={styles.emptyActivities}>
-                  <p>
-                    No {hasSections && selectedSection
-                      ? currentTemplate.sections[selectedSection].label.toLowerCase()
-                      : 'activities'} added yet for {currentTemplate.name}.
-                  </p>
-                </div>
-              ) : (
-                currentActivities.map((activity, index) => (
-                  <div key={activity.id} className={styles.activityCard}>
-                    <div className={styles.activityHeader}>
-                      <span className={styles.activityNumber}>#{index + 1}</span>
-                      <div className={styles.activityActions}>
+            {currentActivities.length === 0 ? (
+              <div className="text-center py-12 bg-gray-100 border-2 border-black">
+                <div className="text-6xl mb-4">📝</div>
+                <p className="text-xl font-bold mb-4">
+                  No {hasSections && selectedSection
+                    ? currentTemplate.sections[selectedSection].label.toLowerCase()
+                    : 'activities'} added yet for {currentTemplate.name}.
+                </p>
+                <p className="text-gray-600">Click "Add" to get started!</p>
+              </div>
+            ) : (
+              <div className="grid gap-4">
+                {currentActivities.map((activity, index) => (
+                  <div
+                    key={activity.id}
+                    className="bg-gradient-to-r from-yellow-100 to-pink-100 border-4 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="bg-black text-white px-4 py-2 font-black text-xl rounded">
+                        #{index + 1}
+                      </div>
+                      <div className="flex gap-2">
                         <button
-                          className={styles.editButton}
                           onClick={() => handleOpenForm(activity)}
+                          className="bg-blue-400 border-2 border-black px-4 py-2 font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
                         >
-                          Edit
+                          ✏️ Edit
                         </button>
                         <button
-                          className={styles.deleteButton}
                           onClick={() => handleDelete(activity.id)}
+                          className="bg-red-400 border-2 border-black px-4 py-2 font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
                         >
-                          Delete
+                          🗑️
                         </button>
                       </div>
                     </div>
-                    <div className={styles.activityContent}>
-                      <h4>{activity.activityName || activity.awardName}</h4>
-                      {activity.role && <p className={styles.activityRole}>{activity.role}</p>}
-                      {activity.activityCategory && (
-                        <p className={styles.activityCategory}>{activity.activityCategory}</p>
-                      )}
-                      {activity.awardCategory && (
-                        <p className={styles.activityCategory}>{activity.awardCategory}</p>
-                      )}
-                      {activity.category && (
-                        <p className={styles.activityCategory}>{activity.category}</p>
-                      )}
-                      <p className={styles.activityDescription}>{activity.description}</p>
-                      <div className={styles.activityMeta}>
-                        {activity.gradesParticipated && (
-                          <span>Grades: {Array.isArray(activity.gradesParticipated) ? activity.gradesParticipated.join(', ') : activity.gradesParticipated}</span>
-                        )}
-                        {activity.gradeReceived && (
-                          <span>Grade: {Array.isArray(activity.gradeReceived) ? activity.gradeReceived.join(', ') : activity.gradeReceived}</span>
-                        )}
-                        {activity.recognitionLevel && (
-                          <span>Level: {activity.recognitionLevel}</span>
-                        )}
-                        {activity.hoursPerWeek && activity.weeksPerYear && (
-                          <span>{activity.hoursPerWeek} hrs/week • {activity.weeksPerYear} weeks/year</span>
-                        )}
+                    
+                    <h3 className="text-2xl font-black mb-2">{activity.activityName || activity.awardName}</h3>
+                    
+                    {activity.role && (
+                      <p className="text-lg font-bold text-purple-700 italic mb-2">{activity.role}</p>
+                    )}
+                    
+                    {(activity.activityCategory || activity.awardCategory || activity.category) && (
+                      <div className="inline-block bg-yellow-300 border-2 border-black px-3 py-1 font-bold text-sm mb-3">
+                        {activity.activityCategory || activity.awardCategory || activity.category}
                       </div>
+                    )}
+                    
+                    <p className="text-base leading-relaxed mb-4 font-mono bg-white border-2 border-black p-3">
+                      {activity.description}
+                    </p>
+                    
+                    <div className="flex flex-wrap gap-4 text-sm font-bold">
+                      {activity.gradesParticipated && (
+                        <div className="bg-white border-2 border-black px-3 py-1">
+                          📚 Grades: {Array.isArray(activity.gradesParticipated) ? activity.gradesParticipated.join(', ') : activity.gradesParticipated}
+                        </div>
+                      )}
+                      {activity.gradeReceived && (
+                        <div className="bg-white border-2 border-black px-3 py-1">
+                          🏆 Grade: {Array.isArray(activity.gradeReceived) ? activity.gradeReceived.join(', ') : activity.gradeReceived}
+                        </div>
+                      )}
+                      {activity.recognitionLevel && (
+                        <div className="bg-white border-2 border-black px-3 py-1">
+                          🌟 Level: {activity.recognitionLevel}
+                        </div>
+                      )}
+                      {activity.hoursPerWeek && activity.weeksPerYear && (
+                        <div className="bg-white border-2 border-black px-3 py-1">
+                          ⏰ {activity.hoursPerWeek} hrs/week • {activity.weeksPerYear} weeks/year
+                        </div>
+                      )}
                     </div>
                   </div>
-                ))
-              )}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
         {/* Form Modal */}
         {isFormOpen && (
-          <div className={styles.modal}>
-            <div className={styles.modalOverlay} onClick={handleCloseForm} />
-            <div className={styles.modalContent}>
-              <div className={styles.modalHeader}>
-                <h3>
-                  {editingId ? 'Edit' : 'Add'}{' '}
-                  {hasSections && selectedSection
-                    ? currentTemplate.sections[selectedSection].label.slice(0, -1)
-                    : 'Item'}{' '}
-                  - {currentTemplate.name}
-                </h3>
-                <button className={styles.closeButton} onClick={handleCloseForm}>
-                  ✕
-                </button>
-              </div>
-              
-              <form onSubmit={handleSave} className={styles.form}>
-                {currentFields.map((field) => {
-                  if (!shouldShowField(field)) return null;
-
-                  return (
-                    <div key={field.key} className={styles.formField}>
-                      <label className={styles.fieldLabel}>
-                        {field.label}
-                        {field.required && <span className={styles.required}>*</span>}
-                      </label>
-                      
-                      {field.helpText && (
-                        <p className={styles.helpText}>{field.helpText}</p>
-                      )}
-
-                      {/* Text Input */}
-                      {field.type === 'text' && (
-                        <div>
-                          <input
-                            type="text"
-                            className={styles.textInput}
-                            value={formState[field.key] || ''}
-                            onChange={handleChange(field.key, field.type)}
-                            maxLength={field.maxLength}
-                            required={field.required}
-                          />
-                          {field.maxLength && (
-                            <span className={styles.charCount}>
-                              {getCharacterCount(formState[field.key], field.maxLength)}
-                            </span>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Textarea */}
-                      {field.type === 'textarea' && (
-                        <div>
-                          <textarea
-                            className={styles.textarea}
-                            value={formState[field.key] || ''}
-                            onChange={handleChange(field.key, field.type)}
-                            maxLength={field.maxLength}
-                            required={field.required}
-                            rows={4}
-                          />
-                          {field.maxLength && (
-                            <span className={styles.charCount}>
-                              {getCharacterCount(formState[field.key], field.maxLength)}
-                            </span>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Number Input */}
-                      {field.type === 'number' && (
-                        <input
-                          type="number"
-                          className={styles.numberInput}
-                          value={formState[field.key] || ''}
-                          onChange={handleChange(field.key, field.type)}
-                          min={field.min}
-                          max={field.max}
-                          required={field.required}
-                        />
-                      )}
-
-                      {/* Dropdown */}
-                      {field.type === 'dropdown' && (
-                        <select
-                          className={styles.dropdown}
-                          value={formState[field.key] || ''}
-                          onChange={handleChange(field.key, field.type)}
-                          required={field.required}
-                        >
-                          <option value="">-- Select --</option>
-                          {(field.options || getCategoriesForSection(currentTemplate, selectedSection)).map((option) => (
-                            <option key={option} value={option}>
-                              {option}
-                            </option>
-                          ))}
-                        </select>
-                      )}
-
-                      {/* Checkboxes */}
-                      {field.type === 'checkboxes' && (
-                        <div className={styles.checkboxGroup}>
-                          {field.options.map((option) => (
-                            <label key={option} className={styles.checkboxLabel}>
-                              <input
-                                type="checkbox"
-                                value={option}
-                                checked={(formState[field.key] || []).includes(option)}
-                                onChange={handleChange(field.key, field.type)}
-                              />
-                              {option}
-                            </label>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Radio */}
-                      {field.type === 'radio' && (
-                        <div className={styles.radioGroup}>
-                          {field.options.map((option) => (
-                            <label key={option} className={styles.radioLabel}>
-                              <input
-                                type="radio"
-                                name={field.key}
-                                value={option}
-                                checked={formState[field.key] === option}
-                                onChange={handleChange(field.key, field.type)}
-                                required={field.required}
-                              />
-                              {option}
-                            </label>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-
-                <div className={styles.formActions}>
-                  <button type="button" className={styles.cancelButton} onClick={handleCloseForm}>
-                    Cancel
-                  </button>
-                  <button type="submit" className={styles.saveButton}>
-                    {editingId ? 'Update' : 'Add'}{' '}
-                    {hasSections && selectedSection
-                      ? currentTemplate.sections[selectedSection].label.slice(0, -1)
-                      : 'Item'}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+          <ActivityModal
+            formState={formState}
+            currentFields={currentFields}
+            currentTemplate={currentTemplate}
+            selectedSection={selectedSection}
+            editingId={editingId}
+            onClose={handleCloseForm}
+            onSave={handleSave}
+            onChange={handleChange}
+            shouldShowField={shouldShowField}
+            getCharacterCount={getCharacterCount}
+            getCategoriesForSection={getCategoriesForSection}
+          />
         )}
+      </div>
+    </div>
+  );
+}
+
+// Activity Modal Component
+function ActivityModal({
+  formState,
+  currentFields,
+  currentTemplate,
+  selectedSection,
+  editingId,
+  onClose,
+  onSave,
+  onChange,
+  shouldShowField,
+  getCharacterCount,
+  getCategoriesForSection
+}) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+      
+      <div className="relative bg-white border-4 border-black w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
+        <div className="sticky top-0 bg-yellow-300 border-b-4 border-black p-6 z-10">
+          <div className="flex items-center justify-between">
+            <h2 className="text-3xl font-black uppercase">
+              {editingId ? '✏️ Edit' : '➕ Add'}{' '}
+              {selectedSection && currentTemplate.sections
+                ? currentTemplate.sections[selectedSection].label.slice(0, -1)
+                : 'Item'}{' '}
+              - {currentTemplate.name}
+            </h2>
+            <button
+              onClick={onClose}
+              className="bg-red-400 border-2 border-black px-4 py-2 font-bold text-2xl shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <form onSubmit={onSave} className="p-6 space-y-6">
+          {currentFields.map((field) => {
+            if (!shouldShowField(field)) return null;
+
+            return (
+              <div key={field.key} className="bg-gray-50 border-2 border-black p-4">
+                <label className="block text-xl font-black mb-2 uppercase">
+                  {field.label}
+                  {field.required && <span className="text-red-600 ml-1">*</span>}
+                </label>
+                
+                {field.helpText && (
+                  <p className="text-sm font-semibold text-gray-600 mb-3 italic">
+                    💡 {field.helpText}
+                  </p>
+                )}
+
+                {/* Text Input */}
+                {field.type === 'text' && (
+                  <div>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-3 border-4 border-black font-bold text-lg focus:outline-none focus:ring-4 focus:ring-yellow-300"
+                      value={formState[field.key] || ''}
+                      onChange={onChange(field.key, field.type)}
+                      maxLength={field.maxLength}
+                      required={field.required}
+                    />
+                    {field.maxLength && (
+                      <div className="text-right text-sm font-bold mt-1">
+                        {getCharacterCount(formState[field.key], field.maxLength)}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Textarea */}
+                {field.type === 'textarea' && (
+                  <div>
+                    <textarea
+                      className="w-full px-4 py-3 border-4 border-black font-mono text-base focus:outline-none focus:ring-4 focus:ring-yellow-300 min-h-[120px]"
+                      value={formState[field.key] || ''}
+                      onChange={onChange(field.key, field.type)}
+                      maxLength={field.maxLength}
+                      required={field.required}
+                      rows={4}
+                    />
+                    {field.maxLength && (
+                      <div className="text-right text-sm font-bold mt-1">
+                        {getCharacterCount(formState[field.key], field.maxLength)}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Number Input */}
+                {field.type === 'number' && (
+                  <input
+                    type="number"
+                    className="w-full px-4 py-3 border-4 border-black font-bold text-lg focus:outline-none focus:ring-4 focus:ring-yellow-300"
+                    value={formState[field.key] || ''}
+                    onChange={onChange(field.key, field.type)}
+                    min={field.min}
+                    max={field.max}
+                    required={field.required}
+                  />
+                )}
+
+                {/* Dropdown */}
+                {field.type === 'dropdown' && (
+                  <select
+                    className="w-full px-4 py-3 border-4 border-black font-bold text-lg focus:outline-none focus:ring-4 focus:ring-yellow-300"
+                    value={formState[field.key] || ''}
+                    onChange={onChange(field.key, field.type)}
+                    required={field.required}
+                  >
+                    <option value="">-- Select --</option>
+                    {(field.options || getCategoriesForSection(currentTemplate, selectedSection)).map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                )}
+
+                {/* Checkboxes */}
+                {field.type === 'checkboxes' && (
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {field.options.map((option) => (
+                      <label key={option} className="flex items-center gap-2 bg-white border-2 border-black p-3 cursor-pointer hover:bg-yellow-100 transition-colors">
+                        <input
+                          type="checkbox"
+                          value={option}
+                          checked={(formState[field.key] || []).includes(option)}
+                          onChange={onChange(field.key, field.type)}
+                          className="w-5 h-5"
+                        />
+                        <span className="font-bold">{option}</span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+
+                {/* Radio */}
+                {field.type === 'radio' && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {field.options.map((option) => (
+                      <label key={option} className="flex items-center gap-2 bg-white border-2 border-black p-3 cursor-pointer hover:bg-yellow-100 transition-colors">
+                        <input
+                          type="radio"
+                          name={field.key}
+                          value={option}
+                          checked={formState[field.key] === option}
+                          onChange={onChange(field.key, field.type)}
+                          required={field.required}
+                          className="w-5 h-5"
+                        />
+                        <span className="font-bold">{option}</span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+
+          <div className="flex gap-4 pt-6 border-t-4 border-black">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 bg-gray-300 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="flex-1 bg-green-400 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
+            >
+              💾 {editingId ? 'Update' : 'Add'}{' '}
+              {selectedSection && currentTemplate.sections
+                ? currentTemplate.sections[selectedSection].label.slice(0, -1)
+                : 'Item'}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

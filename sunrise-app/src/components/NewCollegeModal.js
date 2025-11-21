@@ -1,5 +1,4 @@
 import { useState, useMemo, useRef, useEffect } from "react";
-import styles from "./NewCollegeModal.module.css";
 import { searchColleges } from "../lib/collegeLoader";
 
 const NewCollegeModal = ({ setIsOpen, onSubmit }) => {
@@ -33,7 +32,7 @@ const NewCollegeModal = ({ setIsOpen, onSubmit }) => {
     return Object.entries(deadlines)
       .filter(([key, value]) => {
         if (value === null || value === false) return false;
-        if (value === true) return true; // Rolling admissions
+        if (value === true) return true; // Rolling admissions - always include
         
         // Check if deadline is in the future
         const deadlineDate = new Date(value);
@@ -47,7 +46,11 @@ const NewCollegeModal = ({ setIsOpen, onSubmit }) => {
 
   // Validate deadline date
   const validateDeadline = (dateString) => {
-    if (!dateString || dateString === "Rolling") return true;
+    // Rolling admissions is always valid
+    if (!dateString || dateString === "Rolling" || dateString === true) {
+      setDateError("");
+      return true;
+    }
     
     const selectedDate = new Date(dateString);
     const todayDate = new Date();
@@ -120,7 +123,7 @@ const NewCollegeModal = ({ setIsOpen, onSubmit }) => {
 
     const deadline = selectedCollege.application_info.deadlines[deadlineType];
 
-    // Final validation before submitting
+    // Final validation before submitting (handles rolling admissions)
     if (!validateDeadline(deadline)) {
       setIsSubmitting(false);
       return;
@@ -144,6 +147,7 @@ const NewCollegeModal = ({ setIsOpen, onSubmit }) => {
 
   // Show warning for deadlines
   const getDeadlineWarning = (deadline) => {
+    // Rolling admissions has no warning
     if (!deadline || deadline === true) return null;
     
     const deadlineDate = new Date(deadline);
@@ -163,53 +167,74 @@ const NewCollegeModal = ({ setIsOpen, onSubmit }) => {
     return null;
   };
 
+  const formatAppType = (appType) => {
+    const appTypeMap = {
+      'commonApp': 'Common App',
+      'uc': 'UC Application',
+      'mit': 'MIT',
+      'coalitionApp': 'Coalition App',
+    };
+    return appTypeMap[appType] || appType;
+  };
+
   return (
-    <div>
-      <div className={styles.darkBG} onClick={() => setIsOpen(false)} />
-      <div className={styles.centered}>
-        <div className={styles["close-button-container"]}>
-          <button
-            className={styles["close-button"]}
-            onClick={() => setIsOpen(false)}
-          >
-            &#10005;
-          </button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* Backdrop */}
+      <div 
+        className="absolute inset-0 bg-black/60" 
+        onClick={() => setIsOpen(false)} 
+      />
+      
+      {/* Modal */}
+      <div className="relative bg-white border-4 border-black w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
+        {/* Header */}
+        <div className="sticky top-0 bg-gradient-to-r from-yellow-300 to-pink-300 border-b-4 border-black p-6 z-10">
+          <div className="flex items-center justify-between">
+            <h2 className="text-3xl md:text-4xl font-black uppercase">
+              🎓 Add a College
+            </h2>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="bg-red-400 border-2 border-black px-4 py-2 font-bold text-2xl shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
+            >
+              ✕
+            </button>
+          </div>
         </div>
-        <h2 className={styles["header"]}>Add a College</h2>
-        <form className={styles["form"]} onSubmit={handleSubmit}>
-          <div>
-            {/* Searchable College Input with Dropdown */}
-            <h4 className={styles["form-input-header"]}>Search College</h4>
-            <div className={styles["autocomplete-container"]} ref={dropdownRef}>
+
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          {/* Search College Section */}
+          <div className="bg-blue-100 border-4 border-black p-4">
+            <label className="block text-xl font-black mb-3 uppercase">
+              🔍 Search College
+            </label>
+            
+            <div className="relative" ref={dropdownRef}>
               <input
-                className={styles["form-input"]}
                 type="text"
                 placeholder="Type to search for a college..."
                 value={searchTerm}
                 onChange={handleSearchChange}
                 onFocus={() => setShowDropdown(true)}
                 autoComplete="off"
+                className="w-full px-4 py-3 border-4 border-black font-bold text-lg focus:outline-none focus:ring-4 focus:ring-yellow-300"
               />
               
               {/* Dropdown Results */}
               {showDropdown && searchTerm && filteredColleges.length > 0 && (
-                <ul className={styles["dropdown-list"]}>
+                <ul className="absolute z-20 w-full mt-2 bg-white border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] max-h-96 overflow-y-auto">
                   {filteredColleges.slice(0, 10).map((college) => (
                     <li
                       key={college.id}
-                      className={styles["dropdown-item"]}
                       onClick={() => handleCollegeSelect(college)}
+                      className="p-4 cursor-pointer border-b-2 border-black last:border-b-0 hover:bg-yellow-100 transition-colors"
                     >
-                      <div className={styles["college-name"]}>
-                        {college.university}
-                      </div>
-                      <div className={styles["college-location"]}>
-                        {college.location}
-                      </div>
+                      <div className="font-black text-lg">{college.university}</div>
+                      <div className="font-bold text-sm text-gray-600">{college.location}</div>
                     </li>
                   ))}
                   {filteredColleges.length > 10 && (
-                    <li className={styles["dropdown-item-info"]}>
+                    <li className="p-4 text-center font-bold text-gray-500 bg-gray-100">
                       + {filteredColleges.length - 10} more results...
                     </li>
                   )}
@@ -218,130 +243,148 @@ const NewCollegeModal = ({ setIsOpen, onSubmit }) => {
 
               {/* No Results Message */}
               {showDropdown && searchTerm && filteredColleges.length === 0 && (
-                <div className={styles["no-results"]}>
-                  No colleges found. Try a different search term.
+                <div className="absolute z-20 w-full mt-2 bg-red-100 border-4 border-black p-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+                  <p className="font-bold text-center">
+                    ❌ No colleges found. Try a different search term.
+                  </p>
                 </div>
               )}
             </div>
-
-            {/* Show college info if selected */}
-            {selectedCollege && (
-              <div className={styles["college-info"]}>
-                <p>
-                  <strong>Location:</strong> {selectedCollege.location}
-                </p>
-                <p>
-                  <strong>Application Type:</strong>{" "}
-                  {selectedCollege.application_info.app_type === "commonApp"
-                    ? "Common App"
-                    : selectedCollege.application_info.app_type === "uc"
-                    ? "UC Application"
-                    : selectedCollege.application_info.app_type === "coalitionApp"
-                    ? "Coalition App"
-                    : "College-Specific Application"}
-                </p>
-                <p>
-                  <strong>Cost Type:</strong>{" "}
-                  {selectedCollege.total_cost.type === "public" ? "Public" : "Private"}
-                </p>
-                <p>
-                  <strong>Average GPA:</strong>{" "}
-                  {selectedCollege.middle_50_percent.GPA_unweighted.low} -{" "}
-                  {selectedCollege.middle_50_percent.GPA_unweighted.high}
-                </p>
-              </div>
-            )}
-
-            {/* Deadline Type Dropdown */}
-            {selectedCollege && availableDeadlines.length > 0 && (
-              <>
-                <h4 className={styles["form-input-header"]}>
-                  Application Deadline Type
-                </h4>
-                <select
-                  className={styles["form-input"]}
-                  value={deadlineType}
-                  onChange={handleDeadlineTypeChange}
-                  required
-                >
-                  <option value="">-- Select Deadline Type --</option>
-                  {availableDeadlines.map(({ type, date }) => {
-                    const warning = getDeadlineWarning(date);
-                    const formattedType = type
-                      .replace(/([A-Z])/g, " $1")
-                      .replace(/^./, (str) => str.toUpperCase())
-                      .trim();
-                    
-                    return (
-                      <option key={type} value={type}>
-                        {formattedType}{" "}
-                        {date === true ? "(Rolling)" : `- ${date}`}
-                        {warning ? ` ${warning.text}` : ""}
-                      </option>
-                    );
-                  })}
-                </select>
-
-                {/* Show deadline warning */}
-                {deadlineType && selectedCollege && (
-                  (() => {
-                    const deadline = selectedCollege.application_info.deadlines[deadlineType];
-                    const warning = getDeadlineWarning(deadline);
-                    
-                    if (warning) {
-                      return (
-                        <div 
-                          style={{ 
-                            marginTop: "0.5rem",
-                            padding: "0.5rem",
-                            backgroundColor: warning.color === "red" ? "#ffebee" : warning.color === "orange" ? "#fff3e0" : "#e3f2fd",
-                            border: `2px solid ${warning.color === "red" ? "#f44336" : warning.color === "orange" ? "#ff9800" : "#2196f3"}`,
-                            borderRadius: "4px",
-                            color: warning.color === "red" ? "#c62828" : warning.color === "orange" ? "#e65100" : "#1565c0",
-                            fontWeight: "bold",
-                            fontSize: "0.9rem"
-                          }}
-                        >
-                          {warning.text}
-                        </div>
-                      );
-                    }
-                    return null;
-                  })()
-                )}
-              </>
-            )}
-
-            {selectedCollege && availableDeadlines.length === 0 && (
-              <p style={{ color: "red", fontSize: "0.9rem", marginTop: "1rem" }}>
-                ⚠️ No future deadlines available for this college. All deadlines have passed.
-              </p>
-            )}
-
-            {/* Date Error Display */}
-            {dateError && (
-              <p style={{ 
-                color: "red", 
-                fontSize: "0.9rem", 
-                marginTop: "1rem",
-                padding: "0.5rem",
-                backgroundColor: "#ffebee",
-                border: "2px solid #f44336",
-                borderRadius: "4px",
-                fontWeight: "bold"
-              }}>
-                {dateError}
-              </p>
-            )}
           </div>
 
-          <div className={styles["submit-button-container"]}>
+          {/* College Info (shown after selection) */}
+          {selectedCollege && (
+            <div className="bg-gradient-to-br from-purple-200 to-pink-200 border-4 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+              <h3 className="text-2xl font-black mb-4 uppercase">📋 College Information</h3>
+              
+              <div className="space-y-3">
+                <div className="bg-white border-2 border-black p-3">
+                  <span className="font-black">🏫 Name: </span>
+                  <span className="font-bold">{selectedCollege.university}</span>
+                </div>
+                
+                <div className="bg-white border-2 border-black p-3">
+                  <span className="font-black">📍 Location: </span>
+                  <span className="font-bold">{selectedCollege.location}</span>
+                </div>
+                
+                <div className="bg-white border-2 border-black p-3">
+                  <span className="font-black">📝 Application Type: </span>
+                  <span className="font-bold">{formatAppType(selectedCollege.application_info.app_type)}</span>
+                </div>
+                
+                <div className="bg-white border-2 border-black p-3">
+                  <span className="font-black">💰 Cost Type: </span>
+                  <span className="font-bold capitalize">{selectedCollege.total_cost.type}</span>
+                </div>
+                
+                <div className="bg-white border-2 border-black p-3">
+                  <span className="font-black">📊 Average GPA: </span>
+                  <span className="font-bold">
+                    {selectedCollege.middle_50_percent.GPA_unweighted.low} - {selectedCollege.middle_50_percent.GPA_unweighted.high}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Deadline Selection */}
+          {selectedCollege && availableDeadlines.length > 0 && (
+            <div className="bg-green-100 border-4 border-black p-4">
+              <label className="block text-xl font-black mb-3 uppercase">
+                📅 Application Deadline Type
+              </label>
+              
+              <select
+                value={deadlineType}
+                onChange={handleDeadlineTypeChange}
+                required
+                className="w-full px-4 py-3 border-4 border-black font-bold text-lg focus:outline-none focus:ring-4 focus:ring-yellow-300"
+              >
+                <option value="">-- Select Deadline Type --</option>
+                {availableDeadlines.map(({ type, date }) => {
+                  const warning = getDeadlineWarning(date);
+                  const formattedType = type
+                    .replace(/([A-Z])/g, " $1")
+                    .replace(/^./, (str) => str.toUpperCase())
+                    .trim();
+                  
+                  return (
+                    <option key={type} value={type}>
+                      {formattedType}{" "}
+                      {date === true ? "(Rolling)" : `- ${date}`}
+                      {warning ? ` ${warning.text}` : ""}
+                    </option>
+                  );
+                })}
+              </select>
+
+              {/* Deadline Warning Display */}
+              {deadlineType && selectedCollege && (
+                (() => {
+                  const deadline = selectedCollege.application_info.deadlines[deadlineType];
+                  const warning = getDeadlineWarning(deadline);
+                  
+                  if (warning) {
+                    return (
+                      <div 
+                        className={`mt-4 p-4 border-4 border-black font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${
+                          warning.color === "red" ? "bg-red-300" :
+                          warning.color === "orange" ? "bg-orange-300" :
+                          "bg-blue-300"
+                        }`}
+                      >
+                        {warning.text}
+                      </div>
+                    );
+                  }
+                  
+                  // Show "Rolling Admission" message
+                  if (deadline === true) {
+                    return (
+                      <div className="mt-4 p-4 border-4 border-black font-bold bg-green-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                        ✅ Rolling Admission - No deadline!
+                      </div>
+                    );
+                  }
+                  
+                  return null;
+                })()
+              )}
+            </div>
+          )}
+
+          {/* No Future Deadlines Warning */}
+          {selectedCollege && availableDeadlines.length === 0 && (
+            <div className="bg-red-300 border-4 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+              <p className="font-black text-lg text-center">
+                ⚠️ No future deadlines available for this college. All deadlines have passed.
+              </p>
+            </div>
+          )}
+
+          {/* Error Message */}
+          {dateError && (
+            <div className="bg-red-400 border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+              <p className="font-bold text-lg">{dateError}</p>
+            </div>
+          )}
+
+          {/* Submit Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t-4 border-black">
             <button
-              className={styles["submit-button"]}
+              type="button"
+              onClick={() => setIsOpen(false)}
+              className="flex-1 bg-gray-300 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
+            >
+              Cancel
+            </button>
+            <button
               type="submit"
               disabled={isSubmitting || !selectedCollege || !deadlineType || availableDeadlines.length === 0}
+              className="flex-1 bg-green-400 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase"
             >
-              {isSubmitting ? "Adding..." : "Add College"}
+              {isSubmitting ? "Adding..." : "➕ Add College"}
             </button>
           </div>
         </form>

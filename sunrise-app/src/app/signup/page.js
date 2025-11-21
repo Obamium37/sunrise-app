@@ -18,27 +18,19 @@ export default function SignupPage() {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    setError("");
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters");
-      return;
-    }
-
-    setLoading(true);
-
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      router.push("/home");
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth, 
+        email, 
+        password
+      );
+      
+      // ❌ OLD: router.push('/home');
+      // ✅ NEW:
+      router.push('/onboarding');
+      
+    } catch (error) {
+      setError(error.message);
     }
   };
 

@@ -8,6 +8,7 @@ import { collection, query, onSnapshot, addDoc, deleteDoc, doc } from "firebase/
 import Link from "next/link";
 import NewCollegeModal from "@/components/NewCollegeModal";
 import { Button } from "@/components/retroui/Button";
+import { formatAppType } from "@/lib/formatters";
 
 export default function CollegesPageRetro() {
   const { user } = useAuth();
@@ -193,11 +194,8 @@ export default function CollegesPageRetro() {
 
                 {/* App Type */}
                 {college.data.appType && (
-                  <div className="mb-4">
-                    <div className="text-xs font-bold uppercase text-gray-700 mb-1">Application Type</div>
-                    <div className="bg-blue-200 border-2 border-black px-3 py-2 font-bold text-sm">
-                      {college.data.appType}
-                    </div>
+                  <div className="bg-blue-200 border-2 border-black px-3 py-2 font-bold text-sm">
+                    {formatAppType(college.data.appType)}  {/* ✅ NEW */}
                   </div>
                 )}
 
