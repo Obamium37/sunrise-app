@@ -30,9 +30,9 @@ export function AppSidebar() {
   };
 
   return (
-    <div className="w-64 h-screen bg-gradient-to-b from-yellow-200 to-pink-200 border-r-4 border-black flex flex-col">
+    <div className="w-64 h-screen bg-amber-50 border-r-4 border-purple-900 flex flex-col">
       {/* Header */}
-      <div className="p-6 border-b-4 border-black bg-white">
+      <div className="p-6 border-b-4 border-purple-900">
         <h1 className="text-3xl font-black uppercase text-center">
           SUNRISE
         </h1>
@@ -40,7 +40,7 @@ export function AppSidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+      <nav className="flex-1 p-3 mt-3 space-y-2 overflow-y-auto">
         {navItems.map((item) => {
           const active = isActive(item.url);
           return (
@@ -52,8 +52,8 @@ export function AppSidebar() {
                 border-4 border-black
                 transition-all
                 ${active 
-                  ? 'bg-yellow-300 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] translate-x-[-2px] translate-y-[-2px]' 
-                  : 'bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]'
+                  ? 'bg-amber-300 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] translate-x-[-2px] translate-y-[-2px]' 
+                  : 'bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-amber-100 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]'
                 }
               `}
             >
@@ -67,11 +67,11 @@ export function AppSidebar() {
       </nav>
 
       {/* Footer / Account */}
-      <div className="p-4 border-t-4 border-black bg-white">
+      <div className="p-4">
         <div className="relative">
           <button
             onClick={() => setShowAccountMenu(!showAccountMenu)}
-            className="w-full px-4 py-3 font-bold text-left border-4 border-black bg-blue-300 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
+            className="w-full px-4 py-3 font-bold text-left border-4 border-black bg-purple-400 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -89,7 +89,7 @@ export function AppSidebar() {
             <div className="absolute bottom-full left-0 right-0 mb-2 bg-white border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
               <Link
                 href="/account"
-                className="block px-4 py-3 font-bold hover:bg-yellow-300 border-b-4 border-black"
+                className="block px-4 py-3 font-bold hover:bg-amber-100 border-b-4 border-black"
                 onClick={() => setShowAccountMenu(false)}
               >
                 ⚙️ Account Details
@@ -99,7 +99,7 @@ export function AppSidebar() {
                   setShowAccountMenu(false);
                   handleLogout();
                 }}
-                className="w-full text-left px-4 py-3 font-bold hover:bg-pink-300"
+                className="w-full text-left px-4 py-3 font-bold hover:bg-amber-100"
               >
                 🚪 Log Out
               </button>
@@ -107,12 +107,12 @@ export function AppSidebar() {
           )}
         </div>
 
-        {/* User Info */}
+        {/* User Info
         {user?.email && (
           <div className="mt-3 p-2 bg-gradient-to-r from-purple-200 to-pink-200 border-2 border-black text-xs font-bold text-center">
             {user.email}
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

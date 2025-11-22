@@ -139,7 +139,7 @@ export default function EnhancedCalendarRetro({ user }) {
     // Week day headers
     weekDays.forEach((day, index) => {
       days.push(
-        <div key={`header-${index}`} className="text-center font-black text-lg p-2 border-2 border-black bg-yellow-200">
+        <div key={`header-${index}`} className="text-center font-black text-lg p-2 border-2 border-black bg-amber-300">
           {day}
         </div>
       );
@@ -147,7 +147,7 @@ export default function EnhancedCalendarRetro({ user }) {
 
     // Empty cells
     for (let i = 0; i < firstDay; i++) {
-      days.push(<div key={`empty-${i}`} className="border-2 border-black bg-gray-100" />);
+      days.push(<div key={`empty-${i}`} className="border-2 border-black" />);
     }
 
     // Days of the month
@@ -159,9 +159,9 @@ export default function EnhancedCalendarRetro({ user }) {
       const isPast = new Date(year, month, day) < new Date().setHours(0, 0, 0, 0);
       
       let bgColor = 'bg-white';
-      if (isCurrentDay) bgColor = 'bg-yellow-300';
-      if (hasDeadlines) bgColor = 'bg-pink-300';
-      if (isSelectedDay) bgColor = 'bg-blue-300';
+      if (isCurrentDay) bgColor = 'bg-amber-300';
+      if (hasDeadlines) bgColor = 'bg-pink-400';
+      if (isSelectedDay) bgColor = 'bg-purple-500';
       
       days.push(
         <div
@@ -169,8 +169,8 @@ export default function EnhancedCalendarRetro({ user }) {
           className={`
             border-2 border-black p-2 cursor-pointer relative min-h-[60px]
             ${bgColor}
-            ${isPast ? 'opacity-50' : ''}
-            hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px)]
+            ${isPast ? 'opacity-60' : ''}
+            hover:bg-amber-100
             transition-all
           `}
           onClick={() => handleDateClick(year, month, day)}
@@ -199,9 +199,9 @@ export default function EnhancedCalendarRetro({ user }) {
   };
 
   const getUrgencyColor = (daysUntil) => {
-    if (daysUntil <= 7) return 'from-red-400 to-red-500';
-    if (daysUntil <= 30) return 'from-orange-400 to-orange-500';
-    return 'from-green-400 to-green-500';
+    if (daysUntil <= 7) return 'bg-rose-500';
+    if (daysUntil <= 30) return 'bg-pink-400';
+    return 'bg-amber-400';
   };
 
   const monthNames = [
@@ -217,7 +217,7 @@ export default function EnhancedCalendarRetro({ user }) {
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={previousMonth}
-            className="bg-yellow-300 border-2 border-black px-4 py-2 font-bold text-2xl hover:bg-yellow-400 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]"
+            className="bg-amber-300 border-2 border-black px-4 py-2 font-bold text-2xl hover:bg-yellow-400 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]"
           >
             ◀
           </button>
@@ -228,18 +228,11 @@ export default function EnhancedCalendarRetro({ user }) {
           
           <button
             onClick={nextMonth}
-            className="bg-yellow-300 border-2 border-black px-4 py-2 font-bold text-2xl hover:bg-yellow-400 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]"
+            className="bg-amber-300 border-2 border-black px-4 py-2 font-bold text-2xl hover:bg-yellow-400 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]"
           >
             ▶
           </button>
         </div>
-
-        <button
-          onClick={goToToday}
-          className="mb-4 bg-blue-300 border-2 border-black px-4 py-2 font-bold hover:bg-blue-400 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]"
-        >
-          📍 TODAY
-        </button>
 
         {/* Calendar Grid */}
         <div className="grid grid-cols-7 gap-0">
@@ -249,15 +242,15 @@ export default function EnhancedCalendarRetro({ user }) {
         {/* Legend */}
         <div className="flex flex-wrap gap-4 mt-4 text-sm font-bold">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-yellow-300 border-2 border-black"></div>
+            <div className="w-6 h-6 bg-amber-300 border-2 border-black"></div>
             <span>Today</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-pink-300 border-2 border-black"></div>
+            <div className="w-6 h-6 bg-pink-400 border-2 border-black"></div>
             <span>Deadline</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-blue-300 border-2 border-black"></div>
+            <div className="w-6 h-6 bg-purple-500 border-2 border-black"></div>
             <span>Selected</span>
           </div>
         </div>
@@ -342,7 +335,7 @@ export default function EnhancedCalendarRetro({ user }) {
                           DUE TODAY!
                         </span>
                       ) : deadline.daysUntil === 1 ? (
-                        <span className="bg-orange-500 text-white px-2 py-1 border-2 border-black">
+                        <span className="bg-amber-300 text-white px-2 py-1 border-2 border-black">
                           Due tomorrow
                         </span>
                       ) : (

@@ -283,7 +283,7 @@ export default function ActivityListsPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 p-6">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-black uppercase border-4 border-black bg-yellow-300 px-6 py-4 inline-block shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-8">
+          <h1 className="text-5xl md:text-6xl font-black uppercase mb-8">
             📋 Activity Lists
           </h1>
           
@@ -308,7 +308,7 @@ export default function ActivityListsPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <h1 className="text-5xl md:text-6xl font-black uppercase border-4 border-black bg-yellow-300 px-6 py-4 inline-block shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-8">
+        <h1 className="text-5xl md:text-6xl font-black uppercase mb-8">
           📋 Activity Lists & Awards
         </h1>
         
@@ -403,7 +403,7 @@ export default function ActivityListsPage() {
                 disabled={currentActivities.length >= (hasSections && selectedSection
                   ? getMaxItemsForSection(currentTemplate, selectedSection)
                   : currentTemplate.maxActivities)}
-                className="bg-green-400 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase whitespace-nowrap"
+                className="bg-amber-300 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase whitespace-nowrap"
               >
                 ➕ Add {hasSections && selectedSection
                   ? currentTemplate.sections[selectedSection].label.slice(0, -1)
@@ -534,7 +534,7 @@ function ActivityModal({
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
       
       <div className="relative bg-white border-4 border-black w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
-        <div className="sticky top-0 bg-yellow-300 border-b-4 border-black p-6 z-10">
+        <div className="sticky top-0 bg-amber-300 border-b-4 border-black p-6 z-10">
           <div className="flex items-center justify-between">
             <h2 className="text-3xl font-black uppercase">
               {editingId ? '✏️ Edit' : '➕ Add'}{' '}
@@ -545,7 +545,7 @@ function ActivityModal({
             </h2>
             <button
               onClick={onClose}
-              className="bg-red-400 border-2 border-black px-4 py-2 font-bold text-2xl shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
+              className="bg-rose-400 border-2 border-black px-4 py-2 font-bold text-2xl shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
             >
               ✕
             </button>
@@ -557,7 +557,7 @@ function ActivityModal({
             if (!shouldShowField(field)) return null;
 
             return (
-              <div key={field.key} className="bg-gray-50 border-2 border-black p-4">
+              <div key={field.key}>
                 <label className="block text-xl font-black mb-2 uppercase">
                   {field.label}
                   {field.required && <span className="text-red-600 ml-1">*</span>}
@@ -574,7 +574,7 @@ function ActivityModal({
                   <div>
                     <input
                       type="text"
-                      className="w-full px-4 py-3 border-4 border-black font-bold text-lg focus:outline-none focus:ring-4 focus:ring-yellow-300"
+                      className="w-full px-4 py-3 border-4 border-black font-bold text-lg focus:outline-none focus:ring-4 focus:ring-amber-300"
                       value={formState[field.key] || ''}
                       onChange={onChange(field.key, field.type)}
                       maxLength={field.maxLength}
@@ -592,7 +592,7 @@ function ActivityModal({
                 {field.type === 'textarea' && (
                   <div>
                     <textarea
-                      className="w-full px-4 py-3 border-4 border-black font-mono text-base focus:outline-none focus:ring-4 focus:ring-yellow-300 min-h-[120px]"
+                      className="w-full px-4 py-3 border-4 border-black font-mono text-base focus:outline-none focus:ring-4 focus:ring-amber-300 min-h-[120px]"
                       value={formState[field.key] || ''}
                       onChange={onChange(field.key, field.type)}
                       maxLength={field.maxLength}
@@ -611,7 +611,7 @@ function ActivityModal({
                 {field.type === 'number' && (
                   <input
                     type="number"
-                    className="w-full px-4 py-3 border-4 border-black font-bold text-lg focus:outline-none focus:ring-4 focus:ring-yellow-300"
+                    className="w-full px-4 py-3 border-4 border-black font-bold text-lg focus:outline-none focus:ring-4 focus:ring-amber-300"
                     value={formState[field.key] || ''}
                     onChange={onChange(field.key, field.type)}
                     min={field.min}
@@ -623,7 +623,7 @@ function ActivityModal({
                 {/* Dropdown */}
                 {field.type === 'dropdown' && (
                   <select
-                    className="w-full px-4 py-3 border-4 border-black font-bold text-lg focus:outline-none focus:ring-4 focus:ring-yellow-300"
+                    className="w-full px-4 py-3 border-4 border-black font-bold text-lg focus:outline-none focus:ring-4 focus:ring-amber-300"
                     value={formState[field.key] || ''}
                     onChange={onChange(field.key, field.type)}
                     required={field.required}
@@ -641,7 +641,7 @@ function ActivityModal({
                 {field.type === 'checkboxes' && (
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                     {field.options.map((option) => (
-                      <label key={option} className="flex items-center gap-2 bg-white border-2 border-black p-3 cursor-pointer hover:bg-yellow-100 transition-colors">
+                      <label key={option} className="flex items-center gap-2 bg-white border-2 border-black p-3 cursor-pointer hover:bg-amber-100 transition-colors">
                         <input
                           type="checkbox"
                           value={option}
@@ -682,13 +682,13 @@ function ActivityModal({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 bg-gray-300 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
+              className="flex-1 bg-rose-400 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="flex-1 bg-green-400 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
+              className="flex-1 bg-amber-300 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
             >
               💾 {editingId ? 'Update' : 'Add'}{' '}
               {selectedSection && currentTemplate.sections
