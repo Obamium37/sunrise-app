@@ -30,7 +30,7 @@ export function AppSidebar() {
   };
 
   return (
-    <div className="w-64 h-screen bg-amber-50 border-r-4 border-purple-900 flex flex-col">
+    <div className="sticky top-0 h-screen bg-amber-50 border-r-4 border-purple-900 flex flex-col">
       {/* Header */}
       <div className="p-6 border-b-4 border-purple-900">
         <h1 className="text-3xl font-black uppercase text-center">

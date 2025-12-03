@@ -95,7 +95,7 @@ export default function CollegesPageRetro() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 p-6 md:p-12">
+    <div className="min-h-screen bg-amber-50 p-6 md:p-12">
       <div className="max-w-[1600px] mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -122,7 +122,7 @@ export default function CollegesPageRetro() {
         
         {successMsg && (
           <div className="mb-6 bg-green-400 border-4 border-black p-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-            <p className="font-bold text-lg">✅ {successMsg}</p>
+            <p className="font-bold text-lg">{successMsg}</p>
           </div>
         )}
 

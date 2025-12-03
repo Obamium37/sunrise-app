@@ -40,10 +40,14 @@ export default function RootLayout({ children }) {
           ) : (
             // Normal layout with sidebar
             <SidebarProvider>
-              <AppSidebar />
-              <SidebarInset>
-                {children}
-              </SidebarInset>
+              <div className="flex w-screen">
+                <AppSidebar />
+                <div className="flex-1 overflow-y-auto">
+                  <SidebarInset>
+                    {children}
+                  </SidebarInset>
+                </div>
+              </div>
             </SidebarProvider>
           )}
         </AuthProvider>
