@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import ClockIcon from './icons/ClockIcon';
 
 export default function EnhancedCalendarRetro({ user }) {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -289,8 +290,8 @@ export default function EnhancedCalendarRetro({ user }) {
 
       {/* Upcoming Deadlines Section */}
       <div className="bg-white border-4 border-black p-6 md:p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-h-[800px] overflow-y-auto">
-        <h3 className="text-2xl md:text-3xl font-black mb-6 uppercase border-b-4 border-black pb-2">
-          ⏰ Upcoming
+        <h3 className="text-2xl md:text-3xl font-black mb-6 uppercase border-b-4 border-black pb-2 flex">
+          <ClockIcon size="30"></ClockIcon> <span className='pl-4'>Upcoming</span>
         </h3>
         
         {upcomingDeadlines.length === 0 ? (

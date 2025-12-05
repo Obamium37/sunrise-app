@@ -219,14 +219,15 @@ export default function SignupPage() {
               />
             </div>
 
-            <Button
-              type="submit"
-              className="w-full"
-              size="lg"
-              disabled={loading}
-            >
-              {loading ? "Creating account..." : "Sign Up"}
-            </Button>
+            <div className="flex justify-center">
+              <Button
+                type="submit"
+                className="w-1/3 flex justify-center bg-amber-400"
+                disabled={loading}
+              >
+                {loading ? "Creating account..." : "Sign Up"}
+              </Button>
+            </div>
           </form>
 
           {/* Login Link */}

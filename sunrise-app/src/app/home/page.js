@@ -195,6 +195,10 @@ import { db } from "../../lib/firebase";
 import Link from "next/link";
 import EnhancedCalendar from "@/components/EnhancedCalendar";
 
+import HomeIcon from "@/components/icons/HomeIcon";
+import ClockIcon from "@/components/icons/ClockIcon";
+import PencilIcon from "@/components/icons/PencilIcon";
+
 export default function HomePage() {
   const { user } = useAuth();
   const [stats, setStats] = useState({
@@ -206,6 +210,7 @@ export default function HomePage() {
   // Load statistics
   useEffect(() => {
     if (!user) return;
+
 
     // Load colleges count
     const collegesRef = collection(db, "users", user.uid, "colleges");
@@ -256,6 +261,9 @@ export default function HomePage() {
     );
   }
 
+  //icon size
+  const iconSize = 50;
+
   return (
     <div className="min-h-screen bg-amber-50 p-6 md:p-12">
       <div className="max-w-[1600px] mx-auto">
@@ -275,7 +283,7 @@ export default function HomePage() {
           <Link href="/colleges" className="group">
             <div className="bg-pink-400 border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-4px] hover:translate-y-[-4px] transition-all cursor-pointer">
               <div className="flex items-center justify-between mb-4">
-                <div className="text-6xl">🎓</div>
+                <HomeIcon size={iconSize}></HomeIcon>
                 <div className="bg-white border-2 border-black px-3 py-1 font-mono text-sm font-bold">
                   CLICK →
                 </div>
@@ -293,7 +301,7 @@ export default function HomePage() {
           <Link href="/activitylists" className="group">
             <div className="bg-amber-300 border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-4px] hover:translate-y-[-4px] transition-all cursor-pointer">
               <div className="flex items-center justify-between mb-4">
-                <div className="text-6xl">📋</div>
+                <PencilIcon size={iconSize}></PencilIcon>
                 <div className="bg-white border-2 border-black px-3 py-1 font-mono text-sm font-bold">
                   CLICK →
                 </div>
@@ -310,10 +318,7 @@ export default function HomePage() {
           {/* Deadlines Card */}
           <div className="bg-purple-500 border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <div className="flex items-center justify-between mb-4">
-              <div className="text-6xl">⏰</div>
-              <div className="bg-yellow-300 border-2 border-black px-3 py-1 font-mono text-sm font-bold animate-pulse">
-                URGENT!
-              </div>
+              <ClockIcon size={iconSize}></ClockIcon>
             </div>
             <div className="text-6xl font-black text-white mb-2 font-mono">
               {stats.upcomingDeadlines}
@@ -351,7 +356,7 @@ export default function HomePage() {
             <Link href="/activitylists">
               <button className="w-full bg-amber-300 border-4 border-black px-6 py-4 font-bold text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all flex items-center justify-between group">
                 <span className="flex items-center gap-3">
-                  <span className="text-3xl">✏️</span>
+                  <PencilIcon size={iconSize-15}></PencilIcon>
                   <span>Activities</span>
                 </span>
                 <span className="text-2xl group-hover:translate-x-1 transition-transform">→</span>
@@ -362,7 +367,7 @@ export default function HomePage() {
             <Link href="/colleges">
               <button className="w-full bg-purple-500 border-4 border-black px-6 py-4 font-bold text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all flex items-center justify-between group">
                 <span className="flex items-center gap-3">
-                  <span className="text-3xl">📅</span>
+                  <ClockIcon size={iconSize-15}></ClockIcon>
                   <span>Deadlines</span>
                 </span>
                 <span className="text-2xl group-hover:translate-x-1 transition-transform">→</span>

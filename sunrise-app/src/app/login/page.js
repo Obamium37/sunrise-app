@@ -176,14 +176,15 @@ export default function LoginPage() {
               />
             </div>
 
-            <Button
-              type="submit"
-              className="w-full"
-              size="lg"
-              disabled={loading}
-            >
-              {loading ? "Logging in..." : "Log In"}
-            </Button>
+            <div className="flex justify-center">
+              <Button
+                type="submit"
+                className="w-1/3 flex justify-center bg-amber-400"
+                disabled={loading}
+              >
+                {loading ? "Logging in..." : "Log In"}
+              </Button>
+            </div>
           </form>
 
           {/* Sign Up Link */}

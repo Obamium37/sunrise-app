@@ -6,6 +6,8 @@ import { useAuth } from "@/context/AuthContext";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 
+import HomeIcon from "./icons/HomeIcon";
+
 export function AppSidebar() {
   const pathname = usePathname();
   const { user } = useAuth();
