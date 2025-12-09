@@ -9,6 +9,7 @@ import Link from "next/link";
 import NewCollegeModal from "@/components/NewCollegeModal";
 import { Button } from "@/components/retroui/Button";
 import { formatAppType } from "@/lib/formatters";
+import axios from "axios";
 
 export default function CollegesPageRetro() {
   const { user } = useAuth();
@@ -45,6 +46,30 @@ export default function CollegesPageRetro() {
     }
 
     try {
+        let lat = null;
+        let lng = null;
+
+        try {
+      const response = await axios.get(
+        "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+          encodeURIComponent(collegeData.name) +
+          ".json",
+        {
+          params: {
+            access_token: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
+            limit: 1,
+          },
+        }
+      );
+
+      if (response.data.features && response.data.features.length > 0) {
+        lng = response.data.features[0].center[0];
+        lat = response.data.features[0].center[1];
+      }
+    } catch (geoErr) {
+      console.error("Geocoding error:", geoErr);
+    }
+
       await addDoc(collection(db, "users", user.uid, "colleges"), {
         collegeName: collegeData.name,
         deadline: collegeData.deadline,
@@ -52,6 +77,8 @@ export default function CollegesPageRetro() {
         appType: collegeData.appType,
         activityTemplateType: collegeData.appType,
         collegeId: collegeData.collegeId,
+        lat,
+        lng,
         addedAt: new Date().toISOString(),
       });
 
