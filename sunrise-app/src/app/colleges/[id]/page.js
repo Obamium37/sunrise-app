@@ -4,14 +4,14 @@ import { use, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../../context/AuthContext";
 import { db } from "../../../lib/firebase";
-import { 
-  doc, 
-  getDoc, 
-  collection, 
-  query, 
+import {
+  doc,
+  getDoc,
+  collection,
+  query,
   onSnapshot,
   setDoc,
-  deleteDoc 
+  deleteDoc
 } from "firebase/firestore";
 import Link from "next/link";
 import { essayPrompts } from "../../../lib/essayPrompts";
@@ -20,11 +20,11 @@ import { formatAppType, formatDeadline } from "../../../lib/formatters";
 export default function CollegeDetailPage({ params }) {
   const { user } = useAuth();
   const router = useRouter();
-  
+
   // Unwrap params using React.use() for Next.js 15+
   const unwrappedParams = use(params);
   const collegeId = unwrappedParams.id;
-  
+
   const [college, setCollege] = useState(null);
   const [collegeDetails, setCollegeDetails] = useState(null); // Full college data from JSON
   const [essays, setEssays] = useState([]);
@@ -44,11 +44,11 @@ export default function CollegeDetailPage({ params }) {
       try {
         const collegeRef = doc(db, "users", user.uid, "colleges", collegeId);
         const collegeSnap = await getDoc(collegeRef);
-        
+
         if (collegeSnap.exists()) {
           const collegeData = { id: collegeSnap.id, ...collegeSnap.data() };
           setCollege(collegeData);
-          
+
           // Load full college details from collegeLoader if we have collegeId
           if (collegeData.collegeId) {
             try {
@@ -93,7 +93,7 @@ export default function CollegeDetailPage({ params }) {
     try {
       const essayId = editingEssay?.id || `essay_${Date.now()}`;
       const essayRef = doc(db, "users", user.uid, "colleges", collegeId, "essays", essayId);
-      
+
       await setDoc(essayRef, {
         ...essayData,
         updatedAt: new Date().toISOString()
@@ -103,7 +103,7 @@ export default function CollegeDetailPage({ params }) {
       setShowEssayModal(false);
       setEditingEssay(null);
       setSelectedPrompts([]);
-      
+
       setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
       console.error("Error saving essay:", err);
@@ -175,10 +175,6 @@ export default function CollegeDetailPage({ params }) {
               ← Back to Colleges
             </button>
           </Link>
-          
-          <h1 className="text-4xl md:text-6xl font-black uppercase border-4 border-black bg-gradient-to-r from-yellow-300 to-pink-300 px-6 py-4 inline-block shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-            🎓 {college.name}
-          </h1>
         </div>
 
         {/* Messages */}
@@ -200,21 +196,21 @@ export default function CollegeDetailPage({ params }) {
             <div className="text-sm font-bold mb-1 uppercase">Application Type</div>
             <div className="text-xl font-black">📝 {formatAppType(college.appType)}</div>
           </div>
-          
+
           <div className="bg-pink-300 border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <div className="text-sm font-bold mb-1 uppercase">Deadline</div>
             <div className="text-xl font-black">
               {college.deadline === "Rolling" ? "🔄" : "⏰"} {formatDeadline(college.deadline)}
             </div>
           </div>
-          
+
           <div className="bg-purple-300 border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <div className="text-sm font-bold mb-1 uppercase">Deadline Type</div>
             <div className="text-xl font-black">📅 {college.deadlineType}</div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div>
           {/* Left Column - College Info */}
           <div className="lg:col-span-2 space-y-6">
             {/* College Information Section */}
@@ -230,11 +226,10 @@ export default function CollegeDetailPage({ params }) {
                     <button
                       key={tab}
                       onClick={() => setActiveInfoTab(tab)}
-                      className={`px-4 py-2 font-bold border-2 border-black transition-all ${
-                        activeInfoTab === tab
+                      className={`px-4 py-2 font-bold border-2 border-black transition-all ${activeInfoTab === tab
                           ? 'bg-yellow-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
                           : 'bg-gray-100 hover:bg-gray-200'
-                      }`}
+                        }`}
                     >
                       {tab.charAt(0).toUpperCase() + tab.slice(1)}
                     </button>
@@ -247,49 +242,49 @@ export default function CollegeDetailPage({ params }) {
                   {activeInfoTab === "overview" && (
                     <div className="space-y-4">
                       {collegeDetails.location && (
-                        <InfoCard 
-                          icon="📍" 
-                          label="Location" 
+                        <InfoCard
+                          icon=""
+                          label="Location"
                           value={collegeDetails.location}
                         />
                       )}
                       {collegeDetails.total_cost?.type && (
-                        <InfoCard 
-                          icon="🏛️" 
-                          label="Type" 
+                        <InfoCard
+                          icon=""
+                          label="Type"
                           value={collegeDetails.total_cost.type === "public" ? "Public University" : "Private University"}
                         />
                       )}
                       {collegeDetails.setting && (
-                        <InfoCard 
-                          icon="🌆" 
-                          label="Setting" 
+                        <InfoCard
+                          icon="🌆"
+                          label="Setting"
                           value={collegeDetails.setting}
                         />
                       )}
                       {collegeDetails.student_body?.total && (
-                        <InfoCard 
-                          icon="👥" 
-                          label="Total Enrollment" 
+                        <InfoCard
+                          icon="👥"
+                          label="Total Enrollment"
                           value={collegeDetails.student_body.total.toLocaleString() + " students"}
                         />
                       )}
                       {collegeDetails.student_body?.undergraduate && (
-                        <InfoCard 
-                          icon="🎓" 
-                          label="Undergraduate" 
+                        <InfoCard
+                          icon="🎓"
+                          label="Undergraduate"
                           value={collegeDetails.student_body.undergraduate.toLocaleString() + " students"}
                         />
                       )}
                       {collegeDetails.acceptance_rate && (
-                        <InfoCard 
-                          icon="📊" 
-                          label="Acceptance Rate" 
+                        <InfoCard
+                          icon="📊"
+                          label="Acceptance Rate"
                           value={(collegeDetails.acceptance_rate * 100).toFixed(1) + "%"}
                           highlight={collegeDetails.acceptance_rate < 0.1 ? "red" : collegeDetails.acceptance_rate < 0.3 ? "orange" : "green"}
                         />
                       )}
-                      
+
                       {!collegeDetails.location && !collegeDetails.student_body && !collegeDetails.acceptance_rate && (
                         <div className="bg-gray-100 border-2 border-black p-8 text-center">
                           <div className="text-6xl mb-4">📚</div>
@@ -304,40 +299,40 @@ export default function CollegeDetailPage({ params }) {
                     <div className="space-y-4">
                       {collegeDetails.middle_50_percent && (
                         <>
-                          <div className="bg-gradient-to-r from-blue-100 to-purple-100 border-2 border-black p-4">
-                            <h3 className="font-black text-lg mb-3 uppercase">📊 Middle 50% Statistics</h3>
-                            
-                            {collegeDetails.middle_50_percent.SAT_composite?.low && collegeDetails.middle_50_percent.SAT_composite?.high && (
-                              <InfoCard 
-                                icon="📝" 
-                                label="SAT Composite" 
-                                value={`${collegeDetails.middle_50_percent.SAT_composite.low} - ${collegeDetails.middle_50_percent.SAT_composite.high}`}
-                              />
-                            )}
-                            
-                            {collegeDetails.middle_50_percent.ACT_composite?.low && collegeDetails.middle_50_percent.ACT_composite?.high && (
-                              <InfoCard 
-                                icon="✏️" 
-                                label="ACT Composite" 
-                                value={`${collegeDetails.middle_50_percent.ACT_composite.low} - ${collegeDetails.middle_50_percent.ACT_composite.high}`}
-                              />
-                            )}
-                            
-                            {collegeDetails.middle_50_percent.GPA_unweighted?.low && collegeDetails.middle_50_percent.GPA_unweighted?.high && (
-                              <InfoCard 
-                                icon="📚" 
-                                label="GPA (Unweighted)" 
-                                value={`${collegeDetails.middle_50_percent.GPA_unweighted.low} - ${collegeDetails.middle_50_percent.GPA_unweighted.high}`}
-                              />
-                            )}
-                            
-                            {!collegeDetails.middle_50_percent.SAT_composite && !collegeDetails.middle_50_percent.ACT_composite && !collegeDetails.middle_50_percent.GPA_unweighted && (
-                              <p className="text-center font-bold text-gray-600">Test score data not available</p>
-                            )}
-                          </div>
+
+                          <h3 className="font-black text-2xl mb-3 uppercase">Middle 50% Statistics</h3>
+
+                          {collegeDetails.middle_50_percent.SAT_composite?.low && collegeDetails.middle_50_percent.SAT_composite?.high && (
+                            <InfoCard
+                              icon="📝"
+                              label="SAT Composite"
+                              value={`${collegeDetails.middle_50_percent.SAT_composite.low} - ${collegeDetails.middle_50_percent.SAT_composite.high}`}
+                            />
+                          )}
+
+                          {collegeDetails.middle_50_percent.ACT_composite?.low && collegeDetails.middle_50_percent.ACT_composite?.high && (
+                            <InfoCard
+                              icon="✏️"
+                              label="ACT Composite"
+                              value={`${collegeDetails.middle_50_percent.ACT_composite.low} - ${collegeDetails.middle_50_percent.ACT_composite.high}`}
+                            />
+                          )}
+
+                          {collegeDetails.middle_50_percent.GPA_unweighted?.low && collegeDetails.middle_50_percent.GPA_unweighted?.high && (
+                            <InfoCard
+                              icon="📚"
+                              label="GPA (Unweighted)"
+                              value={`${collegeDetails.middle_50_percent.GPA_unweighted.low} - ${collegeDetails.middle_50_percent.GPA_unweighted.high}`}
+                            />
+                          )}
+
+                          {!collegeDetails.middle_50_percent.SAT_composite && !collegeDetails.middle_50_percent.ACT_composite && !collegeDetails.middle_50_percent.GPA_unweighted && (
+                            <p className="text-center font-bold text-gray-600">Test score data not available</p>
+                          )}
+
                         </>
                       )}
-                      
+
                       {collegeDetails.popular_majors && collegeDetails.popular_majors.length > 0 && (
                         <div className="bg-yellow-100 border-2 border-black p-4">
                           <h3 className="font-black text-lg mb-3 uppercase">🎯 Popular Majors</h3>
@@ -350,7 +345,7 @@ export default function CollegeDetailPage({ params }) {
                           </div>
                         </div>
                       )}
-                      
+
                       {!collegeDetails.middle_50_percent && !collegeDetails.popular_majors && (
                         <div className="bg-gray-100 border-2 border-black p-8 text-center">
                           <div className="text-6xl mb-4">📊</div>
@@ -365,24 +360,24 @@ export default function CollegeDetailPage({ params }) {
                     <div className="space-y-4">
                       {collegeDetails.application_info && (
                         <>
-                          <InfoCard 
-                            icon="📝" 
-                            label="Application Platform" 
+                          <InfoCard
+                            icon="📝"
+                            label="Application Platform"
                             value={formatAppType(collegeDetails.application_info.app_type)}
                           />
-                          
+
                           {collegeDetails.application_info.deadlines && (
-                            <div className="bg-pink-100 border-2 border-black p-4">
-                              <h3 className="font-black text-lg mb-3 uppercase">📅 All Deadlines</h3>
+                            <div>
+                              <h3 className="font-black text-2xl mb-3 uppercase">All Deadlines</h3>
                               <div className="space-y-2">
                                 {Object.entries(collegeDetails.application_info.deadlines).map(([type, date]) => {
                                   if (date === null || date === false) return null;
-                                  
+
                                   const formattedType = type
                                     .replace(/([A-Z])/g, " $1")
                                     .replace(/^./, (str) => str.toUpperCase())
                                     .trim();
-                                  
+
                                   return (
                                     <div key={type} className="flex justify-between items-center bg-white border-2 border-black px-3 py-2">
                                       <span className="font-bold">{formattedType}</span>
@@ -395,7 +390,7 @@ export default function CollegeDetailPage({ params }) {
                               </div>
                             </div>
                           )}
-                          
+
                           {collegeDetails.application_info.requirements && (
                             <div className="bg-blue-100 border-2 border-black p-4">
                               <h3 className="font-black text-lg mb-3 uppercase">✅ Requirements</h3>
@@ -428,36 +423,35 @@ export default function CollegeDetailPage({ params }) {
                         <>
                           {/* Show in-state cost if available */}
                           {collegeDetails.total_cost.in_state != null && (
-                            <InfoCard 
-                              icon="💰" 
+                            <InfoCard
+                              icon="💰"
                               label={collegeDetails.total_cost.type === "public" ? "In-State Cost of Attendance" : "Total Cost of Attendance"}
                               value={"$" + Number(collegeDetails.total_cost.in_state).toLocaleString() + " per year"}
-                              highlight="blue"
                             />
                           )}
-                          
+
                           {/* Show out-of-state cost if different from in-state and it's a public school */}
-                          {collegeDetails.total_cost.out_of_state != null && 
-                           collegeDetails.total_cost.type === "public" && 
-                           collegeDetails.total_cost.out_of_state !== collegeDetails.total_cost.in_state && (
-                            <InfoCard 
-                              icon="💸" 
-                              label="Out-of-State Cost of Attendance"
-                              value={"$" + Number(collegeDetails.total_cost.out_of_state).toLocaleString() + " per year"}
-                              highlight="orange"
-                            />
-                          )}
-                          
+                          {collegeDetails.total_cost.out_of_state != null &&
+                            collegeDetails.total_cost.type === "public" &&
+                            collegeDetails.total_cost.out_of_state !== collegeDetails.total_cost.in_state && (
+                              <InfoCard
+                                icon="💸"
+                                label="Out-of-State Cost of Attendance"
+                                value={"$" + Number(collegeDetails.total_cost.out_of_state).toLocaleString() + " per year"}
+
+                              />
+                            )}
+
                           {/* Show general amount if available (fallback) */}
                           {!collegeDetails.total_cost.in_state && collegeDetails.total_cost.amount != null && (
-                            <InfoCard 
-                              icon="💰" 
-                              label="Total Cost of Attendance" 
+                            <InfoCard
+                              icon="💰"
+                              label="Total Cost of Attendance"
                               value={"$" + Number(collegeDetails.total_cost.amount).toLocaleString() + " per year"}
                               highlight="blue"
                             />
                           )}
-                          
+
                           {/* Cost breakdown if available */}
                           {collegeDetails.total_cost.breakdown && Object.keys(collegeDetails.total_cost.breakdown).length > 0 && (
                             <div className="bg-green-100 border-2 border-black p-4">
@@ -474,46 +468,46 @@ export default function CollegeDetailPage({ params }) {
                               </div>
                             </div>
                           )}
-                          
+
                           {/* School type info */}
                           {collegeDetails.total_cost.type && (
-                            <div className="bg-purple-100 border-2 border-black p-4">
-                              <InfoCard 
-                                icon="🏛️" 
-                                label="Institution Type" 
-                                value={collegeDetails.total_cost.type === "public" ? "Public University" : "Private University"}
-                              />
-                            </div>
+
+                            <InfoCard
+                              icon="🏛️"
+                              label="Institution Type"
+                              value={collegeDetails.total_cost.type === "public" ? "Public University" : "Private University"}
+                            />
+
                           )}
-                          
+
                           {/* Financial aid if available */}
                           {collegeDetails.financial_aid && (
                             <div className="bg-yellow-100 border-2 border-black p-4">
                               <h3 className="font-black text-lg mb-3 uppercase">🎁 Financial Aid</h3>
                               {collegeDetails.financial_aid.average_aid != null && (
-                                <InfoCard 
-                                  icon="💝" 
-                                  label="Average Aid Package" 
+                                <InfoCard
+                                  icon="💝"
+                                  label="Average Aid Package"
                                   value={"$" + Number(collegeDetails.financial_aid.average_aid).toLocaleString()}
                                 />
                               )}
                               {collegeDetails.financial_aid.percent_receiving != null && (
-                                <InfoCard 
-                                  icon="📊" 
-                                  label="Students Receiving Aid" 
+                                <InfoCard
+                                  icon="📊"
+                                  label="Students Receiving Aid"
                                   value={(Number(collegeDetails.financial_aid.percent_receiving) * 100).toFixed(0) + "%"}
                                 />
                               )}
                             </div>
                           )}
-                          
+
                           {/* Show note about cost estimates */}
-                          <div className="bg-blue-50 border-2 border-black p-4">
-                            <p className="text-sm font-bold text-gray-700">
-                              💡 <strong>Note:</strong> Cost estimates include tuition, fees, room, board, books, and other expenses. 
-                              Actual costs may vary. Check the college website for the most current information.
-                            </p>
-                          </div>
+
+                          <p className="text-sm font-bold text-gray-700">
+                            💡 <strong>Note:</strong> Cost estimates include tuition, fees, room, board, books, and other expenses.
+                            Actual costs may vary. Check the college website for the most current information.
+                          </p>
+
                         </>
                       ) : (
                         <div className="bg-gray-100 border-2 border-black p-8 text-center">
@@ -562,63 +556,31 @@ export default function CollegeDetailPage({ params }) {
             </div>
           </div>
 
-          {/* Right Column - Quick Actions */}
-          <div className="space-y-6">
-            <div className="bg-gradient-to-br from-yellow-200 to-orange-200 border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-              <h3 className="text-2xl font-black uppercase mb-4">⚡ Quick Stats</h3>
-              <div className="space-y-3">
-                <div className="bg-white border-2 border-black p-3">
-                  <div className="text-sm font-bold">Essays Written</div>
-                  <div className="text-3xl font-black">{essays.length}</div>
-                </div>
-                
-                {collegeDetails?.acceptance_rate && (
-                  <div className="bg-white border-2 border-black p-3">
-                    <div className="text-sm font-bold">Acceptance Rate</div>
-                    <div className="text-3xl font-black">
-                      {(collegeDetails.acceptance_rate * 100).toFixed(1)}%
-                    </div>
-                  </div>
-                )}
-                
-                <div className="bg-white border-2 border-black p-3">
-                  <div className="text-sm font-bold">Days Until Deadline</div>
-                  <div className="text-3xl font-black">
-                    {college.deadline === "Rolling" 
-                      ? "∞" 
-                      : Math.ceil((new Date(college.deadline) - new Date()) / (1000 * 60 * 60 * 24))
-                    }
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {collegeDetails?.website && (
-              <a 
-                href={collegeDetails.website} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="block bg-blue-400 border-4 border-black p-4 font-black text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
-              >
-                🌐 Visit College Website →
-              </a>
-            )}
-          </div>
+          {collegeDetails?.website && (
+            <a
+              href={collegeDetails.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block bg-blue-400 border-4 border-black p-4 font-black text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
+            >
+              🌐 Visit College Website →
+            </a>
+          )}
         </div>
-
-        {/* Essay Modal */}
-        {showEssayModal && (
-          <EssayModal
-            essay={editingEssay}
-            availablePrompts={availablePrompts}
-            onClose={() => {
-              setShowEssayModal(false);
-              setEditingEssay(null);
-            }}
-            onSave={handleSaveEssay}
-          />
-        )}
       </div>
+
+      {/* Essay Modal */}
+      {showEssayModal && (
+        <EssayModal
+          essay={editingEssay}
+          availablePrompts={availablePrompts}
+          onClose={() => {
+            setShowEssayModal(false);
+            setEditingEssay(null);
+          }}
+          onSave={handleSaveEssay}
+        />
+      )}
     </div>
   );
 }
@@ -626,16 +588,16 @@ export default function CollegeDetailPage({ params }) {
 // Info Card Component
 function InfoCard({ icon, label, value, highlight }) {
   const bgColor = highlight === "red" ? "bg-red-200" :
-                  highlight === "orange" ? "bg-orange-200" :
-                  highlight === "blue" ? "bg-blue-200" :
-                  highlight === "green" ? "bg-green-200" :
-                  "bg-white";
-  
+    highlight === "orange" ? "bg-orange-200" :
+      highlight === "blue" ? "bg-blue-200" :
+        highlight === "green" ? "bg-green-200" :
+          "bg-white";
+
   return (
-    <div className={`${bgColor} border-2 border-black p-3 flex items-center gap-3`}>
+    <div className={`${bgColor} flex items-center gap-3`}>
       <span className="text-2xl">{icon}</span>
       <div className="flex-1">
-        <div className="text-sm font-bold text-gray-600 uppercase">{label}</div>
+        <div className="text-md font-bold text-gray-600 uppercase">{label}</div>
         <div className="text-lg font-black">{value}</div>
       </div>
     </div>
@@ -669,23 +631,23 @@ function EssayCard({ essay, index, onEdit, onDelete }) {
           </button>
         </div>
       </div>
-      
+
       <h3 className="text-2xl font-black mb-2">{essay.title}</h3>
-      
+
       {essay.category && (
         <div className="inline-block bg-purple-300 border-2 border-black px-3 py-1 font-bold text-sm mb-3">
           {essay.category}
         </div>
       )}
-      
+
       <p className="text-sm font-bold text-gray-600 mb-3 italic line-clamp-2">
         {essay.promptText}
       </p>
-      
+
       <p className="text-base leading-relaxed mb-4 font-mono bg-white border-2 border-black p-3 line-clamp-4">
         {essay.content}
       </p>
-      
+
       <div className={`text-sm font-black ${isOverLimit ? 'text-red-600' : isNearLimit ? 'text-orange-600' : 'text-gray-600'}`}>
         Words: {wordCount} {essay.wordLimit ? `/ ${essay.wordLimit}` : ''}
         {isOverLimit && ' ⚠️ OVER LIMIT'}
@@ -725,7 +687,7 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-      
+
       <div className="relative bg-white border-4 border-black w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
         <div className="sticky top-0 bg-gradient-to-r from-yellow-300 to-pink-300 border-b-4 border-black p-6 z-10">
           <div className="flex items-center justify-between">
@@ -767,7 +729,7 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
             <input
               type="text"
               value={formData.title}
-              onChange={(e) => setFormData({...formData, title: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               required
               className="w-full px-4 py-3 border-4 border-black font-bold focus:outline-none focus:ring-4 focus:ring-yellow-300"
               placeholder="Enter essay title..."
@@ -779,7 +741,7 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
             <input
               type="text"
               value={formData.category}
-              onChange={(e) => setFormData({...formData, category: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
               className="w-full px-4 py-3 border-4 border-black font-bold focus:outline-none focus:ring-4 focus:ring-yellow-300"
               placeholder="e.g., Personal Statement"
             />
@@ -789,7 +751,7 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
             <label className="block font-black text-lg mb-2">❓ Prompt</label>
             <textarea
               value={formData.promptText}
-              onChange={(e) => setFormData({...formData, promptText: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, promptText: e.target.value })}
               rows={3}
               className="w-full px-4 py-3 border-4 border-black font-mono focus:outline-none focus:ring-4 focus:ring-yellow-300"
               placeholder="Enter the essay prompt..."
@@ -800,7 +762,7 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
             <label className="block font-black text-lg mb-2">📝 Essay Content *</label>
             <textarea
               value={formData.content}
-              onChange={(e) => setFormData({...formData, content: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, content: e.target.value })}
               required
               rows={12}
               className="w-full px-4 py-3 border-4 border-black font-mono focus:outline-none focus:ring-4 focus:ring-yellow-300"
@@ -817,7 +779,7 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
             <input
               type="number"
               value={formData.wordLimit}
-              onChange={(e) => setFormData({...formData, wordLimit: parseInt(e.target.value)})}
+              onChange={(e) => setFormData({ ...formData, wordLimit: parseInt(e.target.value) })}
               className="w-full px-4 py-3 border-4 border-black font-bold focus:outline-none focus:ring-4 focus:ring-yellow-300"
               min="1"
             />

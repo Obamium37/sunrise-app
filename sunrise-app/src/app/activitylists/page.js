@@ -309,7 +309,7 @@ export default function ActivityListsPage() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <h1 className="text-5xl md:text-6xl font-black uppercase mb-8">
-          📋 Activity Lists & Awards
+          Activity Lists & Awards
         </h1>
         
         {/* Messages */}
