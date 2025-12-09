@@ -1,0 +1,37 @@
+{
+  "id": "stanford",
+  "university": "Stanford University",
+  "application_info": {
+    "app_type": "common_app",
+    "deadlines": {
+      "earlyAction": "2025-11-01",
+      "regularDecision": "2026-01-05"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 3.9,
+      "high": 4.0
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1500,
+        "high": 1560,
+        "notes": ""
+      },
+      "ACT": {
+        "low": 34,
+        "high": 35,
+        "notes": ""
+      }
+    }
+  },
+  "location": "Stanford, California",
+  "region": "West",
+  "total_cost": {
+    "in_state": 86442,
+    "out_of_state": 86442,
+    "type": "private"
+  },
+  "areas_of_interest": {}
+}

@@ -1,0 +1,49 @@
+{
+  "id": "claremont-mckenna-college",
+  "university": "Claremont McKenna College",
+  "application_info": {
+    "app_type": "common_app",
+    "deadlines": {
+      "regularDecision": "2026-01-03"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 3.8,
+      "high": 4.0
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1450,
+        "high": 1560,
+        "notes": "Reported ranges; test-optional"
+      },
+      "ACT": {
+        "low": 33,
+        "high": 35,
+        "notes": "Reported ranges; test-optional"
+      }
+    }
+  },
+  "location": "Claremont, California",
+  "region": "West",
+  "total_cost": {
+    "in_state": 80927,
+    "out_of_state": 80927,
+    "type": "private"
+  },
+  "areas_of_interest": {
+    "business": {
+      "prestige": 5,
+      "school": "Kravis Leadership Institute / Economics Department",
+      "degree_length": 4,
+      "approx_program_size": 600
+    },
+    "social_sciences": {
+      "prestige": 4,
+      "school": "Social Sciences Division",
+      "degree_length": 4,
+      "approx_program_size": 1200
+    }
+  }
+}

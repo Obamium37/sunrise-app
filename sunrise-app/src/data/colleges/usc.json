@@ -1,0 +1,61 @@
+{
+  "id": "usc",
+  "university": "University of Southern California",
+  "application_info": {
+    "app_type": "common_app",
+    "deadlines": {
+      "regularDecision": "2026-01-15"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 3.59,
+      "high": 3.97
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1450,
+        "high": 1540,
+        "notes": "USC considers SAT super‑scores."
+      },
+      "ACT": {
+        "low": 32,
+        "high": 35,
+        "notes": "USC considers ACT super‑scores."
+      }
+    }
+  },
+  "location": "Los Angeles, California",
+  "region": "West",
+  "total_cost": {
+    "in_state": 83378,
+    "out_of_state": 83378,
+    "type": "private"
+  },
+  "areas_of_interest": {
+    "business": {
+      "prestige": 5,
+      "school": "Marshall School of Business",
+      "degree_length": 4,
+      "approx_program_size": 1600
+    },
+    "engineering": {
+      "prestige": 5,
+      "school": "Viterbi School of Engineering",
+      "degree_length": 4,
+      "approx_program_size": 2000
+    },
+    "social_sciences": {
+      "prestige": 5,
+      "school": "Dornsife College of Letters, Arts and Sciences",
+      "degree_length": 4,
+      "approx_program_size": 5000
+    },
+    "computer_and_information_sciences": {
+      "prestige": 5,
+      "school": "Viterbi School of Engineering / CS Department",
+      "degree_length": 4,
+      "approx_program_size": 1200
+    }
+  }
+}

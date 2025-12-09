@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../../context/AuthContext";
 import { db } from "../../../lib/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { encryptData, decryptData } from "../../../lib/crypto";
 
 const activityTemplates = {
   commonApp: [
@@ -24,7 +23,8 @@ const activityTemplates = {
 };
 
 export default function CollegeDetail({ params }) {
-  const { collegeId } = params;
+  const resolvedParams = use(params);
+  const { collegeId } = resolvedParams;
   const { user } = useAuth();
   const router = useRouter();
 
@@ -50,11 +50,8 @@ export default function CollegeDetail({ params }) {
       }
       const colData = colDoc.data();
 
-      const decName = await decryptData(user.uid, colData.encryptedCollegeName);
-      const decDeadline = await decryptData(user.uid, colData.encryptedDeadline);
-
-      setCollegeName(decName || "");
-      setDeadline(decDeadline || "");
+      setCollegeName(colData.collegeName || "");
+      setDeadline(colData.deadline || "");
 
       const tt = colData.activityTemplateType || colData.appType || "other";
       setTemplateType(tt);
@@ -97,12 +94,14 @@ export default function CollegeDetail({ params }) {
         "activityLists",
         "template"
       );
-      const encryptedFields = {};
+      
+      const activityFields = {};
       for (const f of activityTemplates[templateType]) {
         const val = formState[f.key];
-        encryptedFields[f.key] = await encryptData(user.uid, JSON.stringify(val));
+        activityFields[f.key] = JSON.stringify(val);
       }
-      await setDoc(activityRef, { encryptedFields });
+      
+      await setDoc(activityRef, activityFields);
     } catch (err) {
       console.error("Activity save error:", err);
       setErrorMsg("Could not save activity: " + err.message);

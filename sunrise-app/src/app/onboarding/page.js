@@ -2,204 +2,296 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { auth, db } from "../../lib/firebase";
+import { useAuth } from "../../context/AuthContext";
 import { doc, setDoc } from "firebase/firestore";
-import { encryptData } from "../../lib/crypto";
+import { db } from "../../lib/firebase";
 
-export default function Onboarding() {
+export default function OnboardingPage() {
+  const { user } = useAuth();
   const router = useRouter();
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    name: "",
+    graduationYear: "",
+    gpa: "",
+    targetMajor: "",
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const [name, setName] = useState("");
-  const [city, setCity] = useState("");
-  const [gpa, setGpa] = useState("");
-  const [gpaScale, setGpaScale] = useState("4");
-  const [isWeighted, setIsWeighted] = useState(false);
-  const [testType, setTestType] = useState("SAT");
-  const [testScore, setTestScore] = useState("");
-  const [location, setLocation] = useState("PNW");
-  const [costPref, setCostPref] = useState("public");
-  const [majorPrestige, setMajorPrestige] = useState("3");
+  const currentYear = new Date().getFullYear();
+  const graduationYears = Array.from({ length: 10 }, (_, i) => currentYear + i);
 
-  const [errorMsg, setErrorMsg] = useState("");
-  const [successMsg, setSuccessMsg] = useState("");
+  const handleChange = (field) => (e) => {
+    setFormData({ ...formData, [field]: e.target.value });
+    setError("");
+  };
+
+  const handleNext = (e) => {
+    // Prevent any form submission
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    console.log('Next clicked, current step:', step);
+    
+    // Validate current step
+    if (step === 1 && !formData.name.trim()) {
+      setError("Please enter your name");
+      return;
+    }
+    if (step === 2 && !formData.graduationYear) {
+      setError("Please select your graduation year");
+      return;
+    }
+    
+    setError("");
+    setStep(step + 1);
+    console.log('Moving to step:', step + 1);
+  };
+
+  const handleBack = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setError("");
+    setStep(step - 1);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMsg("");
-    setSuccessMsg("");
-
-    const user = auth.currentUser;
-    if (!user) {
-      setErrorMsg("User not logged in.");
-      return;
-    }
-
-    if (!name || !city || !gpa || !testScore) {
-      setErrorMsg("Please fill all required fields.");
-      return;
-    }
+    setLoading(true);
+    setError("");
 
     try {
-      const encryptedFields = {
-        encryptedName: await encryptData(user.uid, name),
-        encryptedCity: await encryptData(user.uid, city),
-        encryptedGPA: await encryptData(user.uid, gpa),
-        encryptedGpaScale: await encryptData(user.uid, gpaScale),
-        encryptedWeighted: await encryptData(user.uid, isWeighted),
-        encryptedTestType: await encryptData(user.uid, testType),
-        encryptedTestScore: await encryptData(user.uid, testScore),
-        encryptedLocation: await encryptData(user.uid, location),
-        encryptedCostPref: await encryptData(user.uid, costPref),
-        encryptedMajorPrestige: await encryptData(user.uid, majorPrestige),
-      };
+      if (!user) {
+        throw new Error("No user logged in");
+      }
 
-      await setDoc(doc(db, "users", user.uid), encryptedFields);
+      // Save user profile to Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        name: formData.name,
+        graduationYear: formData.graduationYear,
+        gpa: formData.gpa || null,
+        targetMajor: formData.targetMajor || null,
+        email: user.email,
+        onboardingCompleted: true,
+        createdAt: new Date().toISOString(),
+      }, { merge: true });
 
-      setSuccessMsg("Onboarding complete!");
+      // Redirect to home
       router.push("/home");
     } catch (err) {
-      console.error(err);
-      setErrorMsg("Error saving data: " + err.message);
+      console.error("Error saving profile:", err);
+      setError("Failed to save profile. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
+  const totalSteps = 3;
+  const progress = (step / totalSteps) * 100;
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 flex items-center justify-center">
+        <div className="text-4xl font-black">Loading...</div>
+      </div>
+    );
+  }
+
   return (
-    <div style={{ transform: 'scale(1.5)', maxWidth: "600px", margin: "auto", paddingTop: "4rem" }}>
-      <h2>Welcome! Let’s get to know you 👋</h2>
-      {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-      {successMsg && <p style={{ color: "green" }}>{successMsg}</p>}
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 p-6 flex items-center justify-center">
+      <div className="max-w-2xl w-full">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-5xl md:text-6xl font-black uppercase border-4 border-black bg-gradient-to-r from-yellow-300 to-pink-300 px-6 py-4 inline-block shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mb-4">
+            🎓 Welcome to Sunrise!
+          </h1>
+          <p className="text-xl font-bold mt-4">Let's get your profile set up!</p>
+        </div>
 
-      <form onSubmit={handleSubmit}>
+        {/* Progress Bar */}
+        <div className="bg-white border-4 border-black p-4 mb-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+          <div className="flex items-center justify-between mb-2">
+            <span className="font-black text-lg">Step {step} of {totalSteps}</span>
+            <span className="font-bold text-gray-600">{Math.round(progress)}%</span>
+          </div>
+          <div className="bg-gray-200 border-2 border-black h-6">
+            <div 
+              className="bg-green-400 h-full border-r-2 border-black transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </div>
 
-        <input
-          placeholder="Full Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-400 border-4 border-black p-4 mb-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <p className="font-bold text-lg">❌ {error}</p>
+          </div>
+        )}
 
-        <input
-          placeholder="City"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          required
-        />
+        {/* Form Card */}
+        <div className="bg-white border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          {/* Only use form for final submission */}
+          {step === 3 ? (
+            <form onSubmit={handleSubmit}>
+              {/* Step 3: Optional Info */}
+              <div className="space-y-6">
+                <div className="text-center mb-6">
+                  <div className="text-6xl mb-4">📊</div>
+                  <h2 className="text-3xl font-black mb-2">A few more details</h2>
+                  <p className="text-gray-600 font-bold">Optional, but helps us personalize your experience!</p>
+                </div>
 
-        <input
-          placeholder="GPA"
-          value={gpa}
-          onChange={(e) => setGpa(e.target.value)}
-          required
-        />
+                <div>
+                  <label className="block text-xl font-black mb-3 uppercase">
+                    Current GPA (Optional)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    max="5"
+                    value={formData.gpa}
+                    onChange={handleChange("gpa")}
+                    className="w-full px-6 py-4 border-4 border-black font-bold text-xl focus:outline-none focus:ring-4 focus:ring-yellow-300"
+                    placeholder="e.g., 3.85"
+                  />
+                </div>
 
-        <label>
-          <br />
-        </label>
+                <div>
+                  <label className="block text-xl font-black mb-3 uppercase">
+                    Intended Major (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.targetMajor}
+                    onChange={handleChange("targetMajor")}
+                    className="w-full px-6 py-4 border-4 border-black font-bold text-xl focus:outline-none focus:ring-4 focus:ring-yellow-300"
+                    placeholder="e.g., Computer Science"
+                  />
+                </div>
+              </div>
 
+              {/* Navigation Buttons for Step 3 */}
+              <div className="flex gap-4 mt-8 pt-6 border-t-4 border-black">
+                <button
+                  type="button"
+                  onClick={handleBack}
+                  className="flex-1 bg-gray-300 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
+                >
+                  ← Back
+                </button>
 
-        <label htmlFor="gpaScale"><br />GPA Scale:<br /></label>
-        <select id="gpaScale" value={gpaScale} onChange={(e) => setGpaScale(e.target.value)}>
-          <option value="4">4.0</option>
-          <option value="5">5.0</option>
-          <option value="6">6.0</option>
-          <option value="100">100</option>
-        </select>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="flex-1 bg-green-400 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase"
+                >
+                  {loading ? "Saving..." : "Complete Setup! 🚀"}
+                </button>
+              </div>
+            </form>
+          ) : (
+            /* Steps 1 and 2: No form, just divs */
+            <div>
+              {/* Step 1: Name */}
+              {step === 1 && (
+                <div className="space-y-6">
+                  <div className="text-center mb-6">
+                    <div className="text-6xl mb-4">👋</div>
+                    <h2 className="text-3xl font-black mb-2">What's your name?</h2>
+                    <p className="text-gray-600 font-bold">We'd love to know what to call you!</p>
+                  </div>
 
-        <label>
-          <br />Weighted GPA?<br />
-          <input
-            type="checkbox"
-            checked={isWeighted}
-            onChange={(e) => setIsWeighted(e.target.checked)}
-          />
-        </label>
+                  <div>
+                    <label className="block text-xl font-black mb-3 uppercase">
+                      Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.name}
+                      onChange={handleChange("name")}
+                      autoFocus
+                      className="w-full px-6 py-4 border-4 border-black font-bold text-xl focus:outline-none focus:ring-4 focus:ring-yellow-300"
+                      placeholder="Enter your full name"
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          handleNext();
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
 
-        <label><br />Test Type:<br /></label>
-        <label>
-          <input
-            type="radio"
-            name="testType"
-            value="SAT"
-            checked={testType === "SAT"}
-            onChange={(e) => setTestType(e.target.value)}
-          />
-          SAT
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="testType"
-            value="ACT"
-            checked={testType === "ACT"}
-            onChange={(e) => setTestType(e.target.value)}
-          />
-          ACT
-        </label>
+              {/* Step 2: Graduation Year */}
+              {step === 2 && (
+                <div className="space-y-6">
+                  <div className="text-center mb-6">
+                    <div className="text-6xl mb-4">🎓</div>
+                    <h2 className="text-3xl font-black mb-2">When do you graduate?</h2>
+                    <p className="text-gray-600 font-bold">This helps us tailor deadlines for you!</p>
+                  </div>
 
-        <input
-          placeholder="Score"
-          value={testScore}
-          onChange={(e) => setTestScore(e.target.value)}
-          required
-        />
+                  <div>
+                    <label className="block text-xl font-black mb-3 uppercase">
+                      Expected Graduation Year *
+                    </label>
+                    <select
+                      value={formData.graduationYear}
+                      onChange={handleChange("graduationYear")}
+                      className="w-full px-6 py-4 border-4 border-black font-bold text-xl focus:outline-none focus:ring-4 focus:ring-yellow-300"
+                    >
+                      <option value="">-- Select Year --</option>
+                      {graduationYears.map((year) => (
+                        <option key={year} value={year}>
+                          {year}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              )}
 
-        <label htmlFor="location"><br /><br />Location Preference:</label>
-        <select id="location" value={location} onChange={(e) => setLocation(e.target.value)}>
-          <option value="PNW">PNW</option>
-          <option value="West">West</option>
-          <option value="East">East</option>
-          <option value="Midwest">Midwest</option>
-          <option value="South">South</option>
-          <option value="None">None</option>
-        </select>
+              {/* Navigation Buttons for Steps 1 and 2 */}
+              <div className="flex gap-4 mt-8 pt-6 border-t-4 border-black">
+                {step > 1 && (
+                  <button
+                    type="button"
+                    onClick={handleBack}
+                    className="flex-1 bg-gray-300 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
+                  >
+                    ← Back
+                  </button>
+                )}
 
-        <label><br />Cost Preference:</label>
-        <label>
-          <input
-            type="radio"
-            name="costPref"
-            value="public"
-            checked={costPref === "public"}
-            onChange={(e) => setCostPref(e.target.value)}
-          />
-          Public
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="costPref"
-            value="private"
-            checked={costPref === "private"}
-            onChange={(e) => setCostPref(e.target.value)}
-          />
-          Private
-        </label>
-          <label>
-          <input
-            type="radio"
-            name="costPref"
-            value="none"
-            checked={costPref === "none"}
-            onChange={(e) => setCostPref(e.target.value)}
-          />
-          None
-        </label>
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="flex-1 bg-blue-400 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
+                >
+                  Next →
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
 
-        <label htmlFor="majorPrestige">
-          <br />Importance of Prestige for Major:
-        </label>
-        <input
-          type="range"
-          min="1"
-          max="5"
-          value={majorPrestige}
-          onChange={(e) => setMajorPrestige(e.target.value)}
-        />
-        <span>{majorPrestige}/5</span>
-
-        <br /><br />
-        <button type="submit">Finish</button>
-      </form>
+        {/* Fun fact at bottom */}
+        <div className="mt-6 text-center">
+          <div className="bg-yellow-200 border-4 border-black px-6 py-3 inline-block shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <p className="font-bold">
+              💡 <strong>Info:</strong> You can always update this information later in settings!
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

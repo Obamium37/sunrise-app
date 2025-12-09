@@ -1,0 +1,55 @@
+{
+  "id": "santa-clara-university",
+  "university": "Santa Clara University",
+  "application_info": {
+    "app_type": "common_app",
+    "deadlines": {
+      "regularDecision": "2026-01-15"
+    }
+  },
+  "middle_50_percent": {
+    "GPA_unweighted": {
+      "low": 3.56,
+      "high": 3.87
+    },
+    "SAT_ACT": {
+      "SAT": {
+        "low": 1320,
+        "high": 1470,
+        "notes": "Reported ranges; test-optional"
+      },
+      "ACT": {
+        "low": 29,
+        "high": 33,
+        "notes": "Reported ranges; test-optional"
+      }
+    }
+  },
+  "location": "Santa Clara, California",
+  "region": "West",
+  "total_cost": {
+    "in_state": 88650,
+    "out_of_state": 88650,
+    "type": "private"
+  },
+  "areas_of_interest": {
+    "business": {
+      "prestige": 4,
+      "school": "Leavey School of Business",
+      "degree_length": 4,
+      "approx_program_size": 1000
+    },
+    "engineering": {
+      "prestige": 4,
+      "school": "School of Engineering",
+      "degree_length": 4,
+      "approx_program_size": 700
+    },
+    "social_sciences": {
+      "prestige": 3,
+      "school": "College of Arts and Sciences",
+      "degree_length": 4,
+      "approx_program_size": 2000
+    }
+  }
+}

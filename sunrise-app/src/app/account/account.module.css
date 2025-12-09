@@ -7,7 +7,7 @@
     flex: 1;
     padding: 20px;
     box-sizing: border-box;
-    margin-left: 13rem;
+    margin-left: 1rem;
     text-align: justify;
 }
 
@@ -94,11 +94,14 @@
 }
 
 .column {
-    margin-right: 15rem;
+    margin-right: 9rem;
 }
 
 .column-container {
     display: flex;
+    background-color: rgb(238, 237, 235);
+    width: 63rem;
+    padding: 1rem;
 }
 
 .submit-button {

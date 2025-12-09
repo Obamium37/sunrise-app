@@ -1,77 +1,57 @@
-'use client';
-
+"use client";
 import "./styles/globals.css";
-import { AuthProvider } from "../context/AuthContext";
-import { AppSidebar } from "@/components/app-sidebar"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
+import { AuthProvider, useAuth } from "../context/AuthContext";
+import { AppSidebar } from "@/components/app-sidebar";
 import {
   SidebarInset,
   SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
+import { Archivo_Black, Space_Grotesk } from "next/font/google";
+
+const archivoBlack = Archivo_Black({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-head",
+  display: "swap",
+});
+ 
+const space = Space_Grotesk({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-sans",
+  display: "swap",
+});
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
-
-  const hideSidebarRoutes = ["/login", "/signup"];
+  
+  // Add /onboarding to the list of routes where sidebar should be hidden
+  const hideSidebarRoutes = ["/login", "/signup", "/onboarding"];
   const isAuthRoute = hideSidebarRoutes.includes(pathname);
-
+  
   return (
     <html lang="en">
-      <body>
+      <body className={`${archivoBlack.variable} ${space.variable}`}>
         <AuthProvider>
           {isAuthRoute ? (
+            // Auth routes (no sidebar)
             <>{children}</>
           ) : (
             // Normal layout with sidebar
             <SidebarProvider>
-              <AppSidebar />
-              <SidebarInset>
-                {children}
-              </SidebarInset>
+              <div className="flex w-screen">
+                <AppSidebar />
+                <div className="flex-1 overflow-y-auto">
+                  <SidebarInset>
+                    {children}
+                  </SidebarInset>
+                </div>
+              </div>
             </SidebarProvider>
           )}
         </AuthProvider>
       </body>
     </html>
   );
-
-
-    // <html lang="en">
-    //   <SidebarProvider>
-    //     <AppSidebar />
-    //     <SidebarInset>
-    //       <body>
-    //         <SidebarTrigger />
-            
-    //         <AuthProvider>{children}</AuthProvider>
-    //         <Separator orientation="vertical" className="mr-2 h-4" />
-    //         <Breadcrumb>
-    //           <BreadcrumbList>
-    //             <BreadcrumbItem className="hidden md:block">
-    //               <BreadcrumbLink href="#">
-    //                 Building Your Application
-    //               </BreadcrumbLink>
-    //             </BreadcrumbItem>
-    //             <BreadcrumbSeparator className="hidden md:block" />
-    //             <BreadcrumbItem>
-    //               <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-    //             </BreadcrumbItem>
-    //           </BreadcrumbList>
-    //         </Breadcrumb>
-            
-    //       </body>
-    //     </SidebarInset>
-    //   </SidebarProvider>
-    // </html>
 }
-

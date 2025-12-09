@@ -16,15 +16,17 @@
     position: fixed;
     inset: 0px;
     width: 25rem;
-    height: 24rem;
+    height: auto;
+    max-height: 85vh;
     max-width: 80vw;
-    max-height: 60dvh;
     margin: auto;
     padding-left: 3rem;
     padding-right: 3rem;
     padding-top: 1.5rem;
     padding-bottom: 3rem;
     box-shadow: 0 5px 20px 0 rgba(33, 5, 5, 0.04);
+    overflow-y: auto;
+    z-index: 1000;
 }
 
 .close-button-container {
@@ -39,10 +41,11 @@
     background-color: white;
     color: rgba(33, 5, 5, 0.50);
     font-size: 1.3rem;
+    cursor: pointer;
 }
 
 .close-button:hover {
-    cursor: pointer;
+    color: rgba(33, 5, 5, 0.80);
 }
 
 .header {
@@ -52,14 +55,14 @@
 
 .form {
     margin-top: 1.5rem;
-    width: 250px;
-    height: 170px;
+    width: 100%;
     z-index: 10;
     border-radius: 16px;
 }
 
 .form-input-header {
     margin-bottom: 0.6em;
+    margin-top: 1rem;
     font-size: 1.2rem;
 }
 
@@ -67,11 +70,12 @@
     display: block;
     border: none;
     margin-top: 7px;
+    margin-bottom: 1rem;
     font-size: 1.3rem;
     padding-left: 10px;
     padding-top: 4px;
     padding-bottom: 4px;
-    width: 23.5rem;
+    width: 100%;
     max-width: 30rem;
     height: 1.8rem;
     outline: solid;
@@ -79,6 +83,97 @@
     outline-width: 2px;
     border-radius: 4px;
     color: rgba(60, 52, 55, 90%);
+}
+
+.form select {
+    height: 2.5rem;
+    cursor: pointer;
+}
+
+/* Autocomplete Dropdown Styles */
+.autocomplete-container {
+    position: relative;
+    width: 100%;
+}
+
+.dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: white;
+    border: 2px solid rgb(122, 156, 149);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(122, 156, 149, 0.2);
+}
+
+.dropdown-item:hover {
+    background-color: rgb(251, 181, 95);
+    color: white;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.college-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+}
+
+.college-location {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.dropdown-item-info {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    color: #666;
+    text-align: center;
+    font-style: italic;
+}
+
+.no-results {
+    padding: 12px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    background-color: white;
+    border: 2px solid rgb(122, 156, 149);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+}
+
+/* College Info Display */
+.college-info {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: rgba(122, 156, 149, 0.1);
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.college-info p {
+    margin: 0.5rem 0;
+}
+
+.college-info strong {
+    color: rgb(60, 52, 55);
 }
 
 .submit-button-container {
@@ -94,10 +189,16 @@
     border: none;
     padding: 8px 12px 8px 12px;
     font-size: 1.15rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-.submit-button:hover {
+.submit-button:hover:not(:disabled) {
     background-color: rgb(229, 108, 110);
     color: white;
-    cursor: pointer;
+}
+
+.submit-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
