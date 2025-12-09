@@ -9,7 +9,7 @@ import Link from "next/link";
 import NewCollegeModal from "@/components/NewCollegeModal";
 import { Button } from "@/components/retroui/Button";
 import { formatAppType } from "@/lib/formatters";
-import axios from "axios";
+//import axios from "axios";
 
 export default function CollegesPageRetro() {
   const { user } = useAuth();

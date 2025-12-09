@@ -227,8 +227,8 @@ export default function CollegeDetailPage({ params }) {
                       key={tab}
                       onClick={() => setActiveInfoTab(tab)}
                       className={`px-4 py-2 font-bold border-2 border-black transition-all ${activeInfoTab === tab
-                          ? 'bg-yellow-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
-                          : 'bg-gray-100 hover:bg-gray-200'
+                        ? 'bg-yellow-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                        : 'bg-gray-100 hover:bg-gray-200'
                         }`}
                     >
                       {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -611,7 +611,7 @@ function EssayCard({ essay, index, onEdit, onDelete }) {
   const isNearLimit = essay.wordLimit && wordCount > essay.wordLimit * 0.9;
 
   return (
-    <div className="bg-gradient-to-r from-yellow-100 to-pink-100 border-4 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+    <div className="bg-pink-100 border-4 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
       <div className="flex items-start justify-between mb-4">
         <div className="bg-black text-white px-4 py-2 font-black text-xl rounded">
           #{index + 1}
@@ -619,7 +619,7 @@ function EssayCard({ essay, index, onEdit, onDelete }) {
         <div className="flex gap-2">
           <button
             onClick={onEdit}
-            className="bg-blue-400 border-2 border-black px-4 py-2 font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
+            className="bg-amber-400 border-2 border-black px-4 py-2 font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all"
           >
             ✏️ Edit
           </button>
@@ -632,15 +632,15 @@ function EssayCard({ essay, index, onEdit, onDelete }) {
         </div>
       </div>
 
-      <h3 className="text-2xl font-black mb-2">{essay.title}</h3>
+      <h3 className="text-3xl font-black mb-2">{essay.title}</h3>
 
       {essay.category && (
-        <div className="inline-block bg-purple-300 border-2 border-black px-3 py-1 font-bold text-sm mb-3">
+        <div className="py-1 font-bold text-lg mb-2">
           {essay.category}
         </div>
       )}
 
-      <p className="text-sm font-bold text-gray-600 mb-3 italic line-clamp-2">
+      <p className="text-md font-bold text-gray-600 mb-3 italic line-clamp-2">
         {essay.promptText}
       </p>
 
@@ -704,26 +704,6 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {!essay && availablePrompts.length > 0 && (
-            <div className="bg-blue-100 border-2 border-black p-4">
-              <label className="block font-black text-lg mb-3">📝 Select a Prompt (Optional)</label>
-              <div className="space-y-2 max-h-60 overflow-y-auto">
-                {availablePrompts.map((prompt, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => handlePromptSelect(prompt)}
-                    className="w-full text-left bg-white border-2 border-black p-3 font-bold hover:bg-yellow-100 transition-colors"
-                  >
-                    <div className="text-sm text-purple-700 mb-1">{prompt.category}</div>
-                    <div className="text-sm line-clamp-2">{prompt.prompt}</div>
-                    <div className="text-xs text-gray-600 mt-1">Limit: {prompt.wordLimit} words</div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
           <div>
             <label className="block font-black text-lg mb-2">✏️ Essay Title *</label>
             <input
@@ -737,17 +717,6 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
           </div>
 
           <div>
-            <label className="block font-black text-lg mb-2">📋 Category</label>
-            <input
-              type="text"
-              value={formData.category}
-              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              className="w-full px-4 py-3 border-4 border-black font-bold focus:outline-none focus:ring-4 focus:ring-yellow-300"
-              placeholder="e.g., Personal Statement"
-            />
-          </div>
-
-          <div>
             <label className="block font-black text-lg mb-2">❓ Prompt</label>
             <textarea
               value={formData.promptText}
@@ -757,6 +726,43 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
               placeholder="Enter the essay prompt..."
             />
           </div>
+
+          {!essay && availablePrompts.length > 0 && (
+            <div>
+              <label className="block font-black text-lg mb-3">📝 Available Prompts</label>              
+              <div className="bg-purple-100 border-2 border-black p-4">
+
+                <div className="space-y-2 max-h-60 overflow-y-auto">
+                  {availablePrompts.map((prompt, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => handlePromptSelect(prompt)}
+                      className="w-full text-left bg-white border-2 border-black p-3 font-bold hover:bg-amber-100 transition-colors"
+                    >
+                      {/*<div className="text-sm text-purple-700 mb-1">{prompt.category}</div>*/}
+                      <div className="text-sm line-clamp-2">{prompt.prompt}</div>
+                      <div className="text-xs text-gray-600 mt-1">Limit: {prompt.wordLimit} words</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+
+          {/* <div>
+            <label className="block font-black text-lg mb-2">📋 Category</label>
+            <input
+              type="text"
+              value={formData.category}
+              onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              className="w-full px-4 py-3 border-4 border-black font-bold focus:outline-none focus:ring-4 focus:ring-yellow-300"
+              placeholder="e.g., Personal Statement"
+            />
+          </div> */}
+
+
 
           <div>
             <label className="block font-black text-lg mb-2">📝 Essay Content *</label>
@@ -775,7 +781,7 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
           </div>
 
           <div>
-            <label className="block font-black text-lg mb-2">🔢 Word Limit</label>
+            <label className="block font-black text-lg mb-2">Word Limit</label>
             <input
               type="number"
               value={formData.wordLimit}
