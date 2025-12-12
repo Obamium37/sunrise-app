@@ -162,7 +162,7 @@ export default function EnhancedCalendarRetro({ user }) {
       let bgColor = 'bg-white';
       if (isCurrentDay) bgColor = 'bg-amber-300';
       if (hasDeadlines) bgColor = 'bg-pink-400';
-      if (isSelectedDay) bgColor = 'bg-purple-500';
+      if (isSelectedDay) bgColor = 'bg-purple-400';
       
       days.push(
         <div
@@ -251,7 +251,7 @@ export default function EnhancedCalendarRetro({ user }) {
             <span>Deadline</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-purple-500 border-2 border-black"></div>
+            <div className="w-6 h-6 bg-purple-400 border-2 border-black"></div>
             <span>Selected</span>
           </div>
         </div>

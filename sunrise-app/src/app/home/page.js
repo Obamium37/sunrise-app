@@ -316,7 +316,7 @@ export default function HomePage() {
           </Link>
 
           {/* Deadlines Card */}
-          <div className="bg-purple-500 border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          <div className="bg-purple-400 border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <div className="flex items-center justify-between mb-4">
               <ClockIcon size={iconSize}></ClockIcon>
             </div>
@@ -343,7 +343,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Add College Button */}
             <Link href="/colleges">
-              <button className="w-full bg-pink-400 border-4 border-black px-6 py-4 font-bold text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all flex items-center justify-between group">
+              <button className="w-full bg-pink-400 border-4 border-black px-6 py-4 font-bold text-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all flex items-center justify-between group">
                 <span className="flex items-center gap-3">
                   <span className="text-3xl">➕</span>
                   <span>Add College</span>
@@ -354,7 +354,7 @@ export default function HomePage() {
 
             {/* Manage Activities Button */}
             <Link href="/activitylists">
-              <button className="w-full bg-amber-300 border-4 border-black px-6 py-4 font-bold text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all flex items-center justify-between group">
+              <button className="w-full bg-amber-300 border-4 border-black px-6 py-4 font-bold text-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all flex items-center justify-between group">
                 <span className="flex items-center gap-3">
                   <PencilIcon size={iconSize-15}></PencilIcon>
                   <span>Activities</span>
@@ -365,7 +365,7 @@ export default function HomePage() {
 
             {/* View Deadlines Button */}
             <Link href="/colleges">
-              <button className="w-full bg-purple-500 border-4 border-black px-6 py-4 font-bold text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all flex items-center justify-between group">
+              <button className="w-full bg-purple-400 border-4 border-black px-6 py-4 font-bold text-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all flex items-center justify-between group">
                 <span className="flex items-center gap-3">
                   <ClockIcon size={iconSize-15}></ClockIcon>
                   <span>Deadlines</span>
@@ -377,7 +377,7 @@ export default function HomePage() {
         </div>
 
         {/* Fun Motivational Box */}
-        <div className="mt-10 bg-gradient-to-r from-purple-500 to-pink-400 border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+        <div className="mt-10 bg-gradient-to-r from-purple-400 to-pink-400 border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <div className="flex items-center gap-4">
             <div className="text-5xl">💪</div>
             <div>
