@@ -356,7 +356,7 @@ export default function ActivityListsPage() {
 
         {/* Section Sub-Tabs (for Common App) */}
         {hasSections && currentTemplate.sections && (
-          <div className="flex flex-wrap gap-3 mb-6 bg-white border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <div className="flex flex-wrap gap-0">
             {Object.entries(currentTemplate.sections).map(([sectionKey, sectionData]) => {
               const sectionActivities = (activitiesByType[selectedAppType] || [])
                 .filter(a => a.section === sectionKey);
@@ -366,10 +366,10 @@ export default function ActivityListsPage() {
                 <button
                   key={sectionKey}
                   onClick={() => setSelectedSection(sectionKey)}
-                  className={`px-4 py-2 font-bold text-lg border-2 border-black transition-all ${
+                  className={`px-4 py-2 font-bold text-lg border-3 border-b-0 border-black transition-all ${
                     selectedSection === sectionKey
-                      ? 'bg-purple-400 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
-                      : 'bg-gray-100 hover:bg-gray-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                      ? 'bg-purple-400 text-white'
+                      : 'bg-gray-100 hover:bg-amber-100'
                   }`}
                 >
                   {sectionData.label}
@@ -405,9 +405,7 @@ export default function ActivityListsPage() {
                   : currentTemplate.maxActivities)}
                 className="bg-amber-300 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase whitespace-nowrap"
               >
-                ➕ Add {hasSections && selectedSection
-                  ? currentTemplate.sections[selectedSection].label.slice(0, -1)
-                  : 'Item'}
+                ➕ Add Item
               </button>
             </div>
 
@@ -427,16 +425,19 @@ export default function ActivityListsPage() {
                 {currentActivities.map((activity, index) => (
                   <div
                     key={activity.id}
-                    className="bg-gradient-to-r from-yellow-100 to-pink-100 border-4 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
+                    className="bg-pink-100 border-4 border-black p-6 transition-all"
                   >
                     <div className="flex items-start justify-between mb-4">
-                      <div className="bg-black text-white px-4 py-2 font-black text-xl rounded">
-                        #{index + 1}
+                      <div className="flex justify-start">
+                        <div className="bg-black text-white px-4 py-2 font-black text-xl rounded">
+                          #{index + 1}
+                        </div>
+                        <h3 className="text-3xl pl-6 pt-1 font-black">{activity.activityName || activity.awardName}</h3>
                       </div>
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleOpenForm(activity)}
-                          className="bg-blue-400 border-2 border-black px-4 py-2 font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
+                          className="bg-amber-300 border-2 border-black px-4 py-2 font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
                         >
                           ✏️ Edit
                         </button>
@@ -449,14 +450,14 @@ export default function ActivityListsPage() {
                       </div>
                     </div>
                     
-                    <h3 className="text-2xl font-black mb-2">{activity.activityName || activity.awardName}</h3>
+                    
                     
                     {activity.role && (
                       <p className="text-lg font-bold text-purple-700 italic mb-2">{activity.role}</p>
                     )}
                     
                     {(activity.activityCategory || activity.awardCategory || activity.category) && (
-                      <div className="inline-block bg-yellow-300 border-2 border-black px-3 py-1 font-bold text-sm mb-3">
+                      <div className="font-bold text-lg mb-3">
                         {activity.activityCategory || activity.awardCategory || activity.category}
                       </div>
                     )}
@@ -468,22 +469,22 @@ export default function ActivityListsPage() {
                     <div className="flex flex-wrap gap-4 text-sm font-bold">
                       {activity.gradesParticipated && (
                         <div className="bg-white border-2 border-black px-3 py-1">
-                          📚 Grades: {Array.isArray(activity.gradesParticipated) ? activity.gradesParticipated.join(', ') : activity.gradesParticipated}
+                          Grades: {Array.isArray(activity.gradesParticipated) ? activity.gradesParticipated.join(', ') : activity.gradesParticipated}
                         </div>
                       )}
                       {activity.gradeReceived && (
                         <div className="bg-white border-2 border-black px-3 py-1">
-                          🏆 Grade: {Array.isArray(activity.gradeReceived) ? activity.gradeReceived.join(', ') : activity.gradeReceived}
+                          Grade: {Array.isArray(activity.gradeReceived) ? activity.gradeReceived.join(', ') : activity.gradeReceived}
                         </div>
                       )}
                       {activity.recognitionLevel && (
                         <div className="bg-white border-2 border-black px-3 py-1">
-                          🌟 Level: {activity.recognitionLevel}
+                          Level: {activity.recognitionLevel}
                         </div>
                       )}
                       {activity.hoursPerWeek && activity.weeksPerYear && (
                         <div className="bg-white border-2 border-black px-3 py-1">
-                          ⏰ {activity.hoursPerWeek} hrs/week • {activity.weeksPerYear} weeks/year
+                          {activity.hoursPerWeek} hrs/week • {activity.weeksPerYear} weeks/year
                         </div>
                       )}
                     </div>
@@ -639,7 +640,7 @@ function ActivityModal({
 
                 {/* Checkboxes */}
                 {field.type === 'checkboxes' && (
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {field.options.map((option) => (
                       <label key={option} className="flex items-center gap-2 bg-white border-2 border-black p-3 cursor-pointer hover:bg-amber-100 transition-colors">
                         <input

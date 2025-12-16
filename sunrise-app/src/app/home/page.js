@@ -262,17 +262,17 @@ export default function HomePage() {
   }
 
   //icon size
-  const iconSize = 50;
+  const iconSize = 40;
 
   return (
     <div className="min-h-screen bg-amber-50 p-6 md:p-12">
       <div className="max-w-[1600px] mx-auto">
         {/* Welcome Section - RetroUI Style */}
         <div className="mb-10">
-          <h1 className="text-5xl md:text-7xl font-black mb-4 text-black">
+          <h1 className="text-5xl font-black uppercase">
             Welcome back{user.displayName ? `, ${user.displayName.split(' ')[0]}` : ''}!
           </h1>
-          <p className="text-xl md:text-2xl font-bold text-black mt-4.5">
+          <p className="text-2xl font-black mt-2">
             Track your college applications and stay on top of deadlines
           </p>
         </div>

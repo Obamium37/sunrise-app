@@ -611,10 +611,13 @@ function EssayCard({ essay, index, onEdit, onDelete }) {
   const isNearLimit = essay.wordLimit && wordCount > essay.wordLimit * 0.9;
 
   return (
-    <div className="bg-pink-100 border-4 border-black p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+    <div className="bg-pink-100 border-4 border-black p-6">
       <div className="flex items-start justify-between mb-4">
-        <div className="bg-black text-white px-4 py-2 font-black text-xl rounded">
-          #{index + 1}
+        <div className="flex justify-start">
+          <div className="bg-black text-white px-4 py-2 font-black text-xl rounded">
+            #{index + 1}
+          </div>
+          <h3 className="text-3xl font-black pl-6 pt-1">{essay.title}</h3>
         </div>
         <div className="flex gap-2">
           <button
@@ -632,7 +635,7 @@ function EssayCard({ essay, index, onEdit, onDelete }) {
         </div>
       </div>
 
-      <h3 className="text-3xl font-black mb-2">{essay.title}</h3>
+
 
       {essay.category && (
         <div className="py-1 font-bold text-lg mb-2">
@@ -729,7 +732,7 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
 
           {!essay && availablePrompts.length > 0 && (
             <div>
-              <label className="block font-black text-lg mb-3">📝 Available Prompts</label>              
+              <label className="block font-black text-lg mb-3">📝 Available Prompts</label>
               <div className="bg-purple-100 border-2 border-black p-4">
 
                 <div className="space-y-2 max-h-60 overflow-y-auto">

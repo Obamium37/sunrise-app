@@ -128,7 +128,7 @@ export default function CollegesPageRetro() {
         <div className="mb-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <h1 className="text-5xl md:text-6xl font-black uppercase">
-              🎓 Your Colleges
+              Your Colleges
             </h1>
             
             <button

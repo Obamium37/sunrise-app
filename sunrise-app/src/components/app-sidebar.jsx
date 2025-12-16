@@ -82,7 +82,7 @@ export function AppSidebar() {
                   {user?.email?.split('@')[0] || "Account"}
                 </span>
               </div>
-              <span className="text-xl">{showAccountMenu ? '▼' : '▲'}</span>
+              <span className="text-md">{showAccountMenu ? ' ▼' : ' ▲'}</span>
             </div>
           </button>
 
