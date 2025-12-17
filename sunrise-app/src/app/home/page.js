@@ -198,6 +198,9 @@ import EnhancedCalendar from "@/components/EnhancedCalendar";
 import HomeIcon from "@/components/icons/HomeIcon";
 import ClockIcon from "@/components/icons/ClockIcon";
 import PencilIcon from "@/components/icons/PencilIcon";
+import ListIcon from "@/components/icons/ListIcon";
+import CapIcon from "@/components/icons/CapIcon";
+import StarIcon from "@/components/icons/StarIcon";
 
 export default function HomePage() {
   const { user } = useAuth();
@@ -283,7 +286,8 @@ export default function HomePage() {
           <Link href="/colleges" className="group">
             <div className="bg-pink-400 border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-4px] hover:translate-y-[-4px] transition-all cursor-pointer">
               <div className="flex items-center justify-between mb-4">
-                <HomeIcon size={iconSize}></HomeIcon>
+                
+                <CapIcon size={iconSize} />
                 <div className="bg-white border-2 border-black px-3 py-1 font-mono text-sm font-bold">
                   CLICK →
                 </div>
@@ -301,7 +305,7 @@ export default function HomePage() {
           <Link href="/activitylists" className="group">
             <div className="bg-amber-300 border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-4px] hover:translate-y-[-4px] transition-all cursor-pointer">
               <div className="flex items-center justify-between mb-4">
-                <PencilIcon size={iconSize}></PencilIcon>
+                <ListIcon size={iconSize}></ListIcon>
                 <div className="bg-white border-2 border-black px-3 py-1 font-mono text-sm font-bold">
                   CLICK →
                 </div>
@@ -337,7 +341,7 @@ export default function HomePage() {
         {/* Quick Actions - RetroUI Buttons */}
         <div className="bg-white border-4 border-black p-8 md:p-10 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <h2 className="text-4xl font-black mb-6 text-black uppercase tracking-wider border-b-4 border-black pb-4">
-            ⚡ Quick Actions
+            Quick Actions
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -345,8 +349,8 @@ export default function HomePage() {
             <Link href="/colleges">
               <button className="w-full bg-pink-400 border-4 border-black px-6 py-4 font-bold text-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all flex items-center justify-between group">
                 <span className="flex items-center gap-3">
-                  <span className="text-3xl">➕</span>
-                  <span>Add College</span>
+                  <CapIcon size={iconSize-15} />
+                  <span>Colleges</span>
                 </span>
                 <span className="text-2xl group-hover:translate-x-1 transition-transform">→</span>
               </button>
@@ -356,7 +360,7 @@ export default function HomePage() {
             <Link href="/activitylists">
               <button className="w-full bg-amber-300 border-4 border-black px-6 py-4 font-bold text-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all flex items-center justify-between group">
                 <span className="flex items-center gap-3">
-                  <PencilIcon size={iconSize-15}></PencilIcon>
+                  <ListIcon size={iconSize-15}></ListIcon>
                   <span>Activities</span>
                 </span>
                 <span className="text-2xl group-hover:translate-x-1 transition-transform">→</span>
@@ -377,15 +381,15 @@ export default function HomePage() {
         </div>
 
         {/* Fun Motivational Box */}
-        <div className="mt-10 bg-gradient-to-r from-purple-400 to-pink-400 border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+        <div className="mt-10 bg-gradient-to-r from-pink-400 to-purple-400 border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <div className="flex items-center gap-4">
-            <div className="text-5xl">💪</div>
+            <StarIcon size={iconSize}></StarIcon>
             <div>
               <div className="text-2xl font-black text-black mb-1">
                 You're doing great!
               </div>
               <div className="text-lg font-bold text-black">
-                Keep working on those applications. Your dream school is waiting! 🎯
+                Keep working on those applications. Your dream school is waiting!
               </div>
             </div>
           </div>

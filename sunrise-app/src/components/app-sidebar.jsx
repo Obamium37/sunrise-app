@@ -7,23 +7,28 @@ import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 
 import HomeIcon from "./icons/HomeIcon";
+import CapIcon from "./icons/CapIcon";
+import ListIcon from "./icons/ListIcon";
+import BagIcon from "./icons/BagIcon";
 
 export function AppSidebar() {
   const pathname = usePathname();
   const { user } = useAuth();
   const router = useRouter();
-  const [showAccountMenu, setShowAccountMenu] = React.useState(false);
+  const [showAccountMenu, setShowAccountMenu] = React.useState(false)
   
   const handleLogout = async () => {
     await auth.signOut();
     router.push("/login");
   };
 
+  const iconSize = 25;
+
   const navItems = [
-    { title: "🏠 Home", url: "/home", emoji: "🏠" },
-    { title: "🎓 Colleges", url: "/colleges", emoji: "🎓" },
-    { title: "📋 Activity Lists", url: "/activitylists", emoji: "📋" },
-    { title: "💰 Scholarships", url: "#", emoji: "💰" },
+    { title: "🏠 Home", url: "/home", emoji:  <HomeIcon size={iconSize}></HomeIcon>},
+    { title: "🎓 Colleges", url: "/colleges", emoji: <CapIcon size={iconSize}></CapIcon> },
+    { title: "📋 Activity Lists", url: "/activitylists", emoji: <ListIcon size={iconSize}></ListIcon> },
+    { title: "💰 Scholarships", url: "#", emoji: <BagIcon size={iconSize}></BagIcon> },
   ];
 
   const isActive = (url) => {

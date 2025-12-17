@@ -11,6 +11,9 @@ import { Button } from "@/components/retroui/Button";
 import { formatAppType } from "@/lib/formatters";
 //import axios from "axios";
 
+import PlusIcon from "@/components/icons/PlusIcon";
+import CalendarIcon from "@/components/icons/CalendarIcon";
+
 export default function CollegesPageRetro() {
   const { user } = useAuth();
   const router = useRouter();
@@ -133,9 +136,10 @@ export default function CollegesPageRetro() {
             
             <button
               onClick={() => setAddCollegeFormVisible(true)}
-              className="bg-amber-300 border-4 border-black px-6 py-4 font-black text-xl shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
+              className="flex justify-center bg-amber-300 border-4 border-black px-6 py-4 font-black text-xl shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
             >
-              ➕ Add College
+              <div className="mt-1 mr-3"><PlusIcon size={20}></PlusIcon></div>
+              Add College
             </button>
           </div>
         </div>
@@ -205,9 +209,9 @@ export default function CollegesPageRetro() {
                 {/* Deadline */}
                 <div className="mb-4 bg-pink-300 p-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-2xl">📅</span>
-                    <div>
-                      <div className="text-xs font-bold uppercase text-gray-700">Deadline</div>
+                    <CalendarIcon size={30}/>
+                    <div className="ml-2">
+                      <div className="mt-1 text-xs font-bold uppercase">Deadline</div>
                       <div className="text-lg font-black">
                         {new Date(college.data.deadline).toLocaleDateString('en-US', {
                           month: 'short',

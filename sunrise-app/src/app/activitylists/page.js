@@ -22,6 +22,8 @@ import {
   getCategoriesForSection,
   getMaxItemsForSection
 } from "../../lib/activityTemplates";
+import ListIcon from "@/components/icons/ListIcon";
+import PlusIcon from "@/components/icons/PlusIcon";
 
 export default function ActivityListsPage() {
   const { user } = useAuth();
@@ -288,7 +290,7 @@ export default function ActivityListsPage() {
           </h1>
           
           <div className="bg-white border-4 border-black p-12 text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-            <div className="text-8xl mb-6">📝</div>
+            <ListIcon size={30}></ListIcon>
             <h2 className="text-3xl font-black mb-4 uppercase">No Colleges Yet!</h2>
             <p className="text-xl font-bold mb-6">
               Add colleges to your list to start building your activity lists for each application type.
@@ -403,22 +405,25 @@ export default function ActivityListsPage() {
                 disabled={currentActivities.length >= (hasSections && selectedSection
                   ? getMaxItemsForSection(currentTemplate, selectedSection)
                   : currentTemplate.maxActivities)}
-                className="bg-amber-300 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase whitespace-nowrap"
+                className="flex justify-center bg-amber-300 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase whitespace-nowrap"
               >
-                ➕ Add Item
+                <div className="mt-1 mr-3"><PlusIcon size={20}></PlusIcon></div>
+                Add Item
               </button>
             </div>
 
             {/* Activities List */}
             {currentActivities.length === 0 ? (
               <div className="text-center py-12 bg-gray-100 border-2 border-black">
-                <div className="text-6xl mb-4">📝</div>
+                <div className="flex justify-center mb-7">
+                  <ListIcon size={75}></ListIcon>
+                </div>
                 <p className="text-xl font-bold mb-4">
                   No {hasSections && selectedSection
                     ? currentTemplate.sections[selectedSection].label.toLowerCase()
                     : 'activities'} added yet for {currentTemplate.name}.
                 </p>
-                <p className="text-gray-600">Click "Add" to get started!</p>
+                <p className="text-gray-600">Click "Add Item" to get started!</p>
               </div>
             ) : (
               <div className="grid gap-4">
