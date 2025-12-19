@@ -190,8 +190,8 @@ const NewCollegeModal = ({ setIsOpen, onSubmit }) => {
         {/* Header */}
         <div className="sticky top-0 bg-pink-400 border-b-4 border-black p-6 z-10">
           <div className="flex items-center justify-between">
-            <h2 className="text-3xl md:text-4xl font-black uppercase">
-              🎓 Add a College
+            <h2 className="text-3xl md:text-4xl font-black uppercase ml-1">
+              Add a College
             </h2>
             <button
               onClick={() => setIsOpen(false)}
@@ -205,7 +205,7 @@ const NewCollegeModal = ({ setIsOpen, onSubmit }) => {
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Search College Section */}
           <label className="block text-xl font-black mb-3 uppercase">
-            🔍 Search College
+            Search College
           </label>
 
           <div className="relative" ref={dropdownRef}>
@@ -288,7 +288,7 @@ const NewCollegeModal = ({ setIsOpen, onSubmit }) => {
 
           {/* Deadline Selection */}
           {selectedCollege && availableDeadlines.length > 0 && (
-            <div className="bg-purple-200 p-4">
+            <div>
               <label className="block text-xl font-black mb-3 uppercase">
                 Application Deadline Type
               </label>

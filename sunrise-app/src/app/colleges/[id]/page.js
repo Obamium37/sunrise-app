@@ -17,6 +17,13 @@ import Link from "next/link";
 import { essayPrompts } from "../../../lib/essayPrompts";
 import { formatAppType, formatDeadline } from "../../../lib/formatters";
 
+import ClockIcon from "@/components/icons/ClockIcon";
+import CalendarIcon from "@/components/icons/CalendarIcon";
+import PencilIcon from "@/components/icons/PencilIcon";
+import CycleIcon from "@/components/icons/CycleIcon";
+import PlusIcon from "@/components/icons/PlusIcon";
+import BookIcon from "@/components/icons/BookIcon";
+
 export default function CollegeDetailPage({ params }) {
   const { user } = useAuth();
   const router = useRouter();
@@ -35,6 +42,8 @@ export default function CollegeDetailPage({ params }) {
   const [editingEssay, setEditingEssay] = useState(null);
   const [selectedPrompts, setSelectedPrompts] = useState([]);
   const [activeInfoTab, setActiveInfoTab] = useState("overview");
+
+  const iconSize = 23;
 
   // Load college data
   useEffect(() => {
@@ -169,7 +178,7 @@ export default function CollegeDetailPage({ params }) {
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-6">
+        <div className="mb-4">
           <Link href="/colleges">
             <button className="bg-white border-4 border-black px-4 py-2 font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all mb-4">
               ← Back to Colleges
@@ -180,13 +189,13 @@ export default function CollegeDetailPage({ params }) {
         {/* Messages */}
         {success && (
           <div className="mb-6 bg-green-400 border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-            <p className="font-bold">✅ {success}</p>
+            <p className="font-bold">{success}</p>
           </div>
         )}
 
         {error && (
           <div className="mb-6 bg-red-400 border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-            <p className="font-bold">❌ {error}</p>
+            <p className="font-bold">{error}</p>
           </div>
         )}
 
@@ -199,14 +208,14 @@ export default function CollegeDetailPage({ params }) {
 
           <div className="bg-pink-300 border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <div className="text-sm font-bold mb-1 uppercase">Deadline</div>
-            <div className="text-xl font-black">
-              {college.deadline === "Rolling" ? "🔄" : "⏰"} {formatDeadline(college.deadline)}
+            <div className="flex text-xl font-black">
+              {college.deadline === "Rolling" ? <div className="mr-3 mt-1"><CycleIcon size={iconSize}></CycleIcon></div> : <div className="mr-3 mt-1"><ClockIcon size={iconSize}></ClockIcon></div>} {formatDeadline(college.deadline)}
             </div>
           </div>
 
           <div className="bg-purple-300 border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <div className="text-sm font-bold mb-1 uppercase">Deadline Type</div>
-            <div className="text-xl font-black">📅 {college.deadlineType}</div>
+            <div className="flex text-xl font-black"><div className="mr-3 mt-1"><CalendarIcon size={iconSize}></CalendarIcon></div> {college.deadlineType}</div>
           </div>
         </div>
 
@@ -216,8 +225,9 @@ export default function CollegeDetailPage({ params }) {
             {/* College Information Section */}
             {collegeDetails && (
               <div className="bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-                <h2 className="text-3xl font-black uppercase mb-6 pb-4 border-b-4 border-black">
-                  📚 College Information
+                <h2 className="flex text-3xl font-black uppercase mb-6 pb-4 border-b-4 border-black">
+                  <BookIcon size={35}></BookIcon>
+                  <p className="ml-4">College Information</p>
                 </h2>
 
                 {/* Info Tabs */}
@@ -304,7 +314,7 @@ export default function CollegeDetailPage({ params }) {
 
                           {collegeDetails.middle_50_percent.SAT_composite?.low && collegeDetails.middle_50_percent.SAT_composite?.high && (
                             <InfoCard
-                              icon="📝"
+                              
                               label="SAT Composite"
                               value={`${collegeDetails.middle_50_percent.SAT_composite.low} - ${collegeDetails.middle_50_percent.SAT_composite.high}`}
                             />
@@ -312,7 +322,7 @@ export default function CollegeDetailPage({ params }) {
 
                           {collegeDetails.middle_50_percent.ACT_composite?.low && collegeDetails.middle_50_percent.ACT_composite?.high && (
                             <InfoCard
-                              icon="✏️"
+                             
                               label="ACT Composite"
                               value={`${collegeDetails.middle_50_percent.ACT_composite.low} - ${collegeDetails.middle_50_percent.ACT_composite.high}`}
                             />
@@ -320,7 +330,6 @@ export default function CollegeDetailPage({ params }) {
 
                           {collegeDetails.middle_50_percent.GPA_unweighted?.low && collegeDetails.middle_50_percent.GPA_unweighted?.high && (
                             <InfoCard
-                              icon="📚"
                               label="GPA (Unweighted)"
                               value={`${collegeDetails.middle_50_percent.GPA_unweighted.low} - ${collegeDetails.middle_50_percent.GPA_unweighted.high}`}
                             />
@@ -348,7 +357,6 @@ export default function CollegeDetailPage({ params }) {
 
                       {!collegeDetails.middle_50_percent && !collegeDetails.popular_majors && (
                         <div className="bg-gray-100 border-2 border-black p-8 text-center">
-                          <div className="text-6xl mb-4">📊</div>
                           <p className="text-xl font-bold">Academic information not available</p>
                         </div>
                       )}
@@ -361,7 +369,7 @@ export default function CollegeDetailPage({ params }) {
                       {collegeDetails.application_info && (
                         <>
                           <InfoCard
-                            icon="📝"
+                            
                             label="Application Platform"
                             value={formatAppType(collegeDetails.application_info.app_type)}
                           />
@@ -424,7 +432,7 @@ export default function CollegeDetailPage({ params }) {
                           {/* Show in-state cost if available */}
                           {collegeDetails.total_cost.in_state != null && (
                             <InfoCard
-                              icon="💰"
+                              
                               label={collegeDetails.total_cost.type === "public" ? "In-State Cost of Attendance" : "Total Cost of Attendance"}
                               value={"$" + Number(collegeDetails.total_cost.in_state).toLocaleString() + " per year"}
                             />
@@ -435,7 +443,7 @@ export default function CollegeDetailPage({ params }) {
                             collegeDetails.total_cost.type === "public" &&
                             collegeDetails.total_cost.out_of_state !== collegeDetails.total_cost.in_state && (
                               <InfoCard
-                                icon="💸"
+                                
                                 label="Out-of-State Cost of Attendance"
                                 value={"$" + Number(collegeDetails.total_cost.out_of_state).toLocaleString() + " per year"}
 
@@ -473,7 +481,7 @@ export default function CollegeDetailPage({ params }) {
                           {collegeDetails.total_cost.type && (
 
                             <InfoCard
-                              icon="🏛️"
+                              
                               label="Institution Type"
                               value={collegeDetails.total_cost.type === "public" ? "Public University" : "Private University"}
                             />
@@ -504,7 +512,7 @@ export default function CollegeDetailPage({ params }) {
                           {/* Show note about cost estimates */}
 
                           <p className="text-sm font-bold text-gray-700">
-                            💡 <strong>Note:</strong> Cost estimates include tuition, fees, room, board, books, and other expenses.
+                            <strong>Note:</strong> Cost estimates include tuition, fees, room, board, books, and other expenses.
                             Actual costs may vary. Check the college website for the most current information.
                           </p>
 
@@ -525,18 +533,25 @@ export default function CollegeDetailPage({ params }) {
             {/* Essays Section */}
             <div className="bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
               <div className="flex items-center justify-between mb-6 pb-4 border-b-4 border-black">
-                <h2 className="text-3xl font-black uppercase">✍️ Essays</h2>
+                <div className="flex justify-start">
+                  <PencilIcon size={35}></PencilIcon>
+                  <h2 className="ml-4 text-3xl font-black uppercase">Essays</h2>
+                </div>
                 <button
                   onClick={() => handleOpenEssayModal()}
-                  className="bg-green-400 border-4 border-black px-6 py-3 font-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
+                  className="flex justify-center bg-amber-300 border-4 border-black px-6 py-3 font-black text-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
                 >
-                  ➕ Add Essay
+                  <div className="mt-1 mr-3"><PlusIcon size={20}></PlusIcon></div>
+                  Add Essay
                 </button>
+
               </div>
 
               {essays.length === 0 ? (
                 <div className="text-center py-12 bg-gray-100 border-2 border-black">
-                  <div className="text-6xl mb-4">📝</div>
+                  <div className="flex justify-center mb-5">
+                    <PencilIcon size={50}></PencilIcon>
+                  </div>
                   <p className="text-xl font-bold">No essays yet!</p>
                   <p className="text-gray-600 mt-2">Click "Add Essay" to start writing.</p>
                 </div>
@@ -594,7 +609,7 @@ function InfoCard({ icon, label, value, highlight }) {
           "bg-white";
 
   return (
-    <div className={`${bgColor} flex items-center gap-3`}>
+    <div className={`${bgColor} flex items-center`}>
       <span className="text-2xl">{icon}</span>
       <div className="flex-1">
         <div className="text-md font-bold text-gray-600 uppercase">{label}</div>
@@ -694,8 +709,8 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
       <div className="relative bg-white border-4 border-black w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
         <div className="sticky top-0 bg-gradient-to-r from-yellow-300 to-pink-300 border-b-4 border-black p-6 z-10">
           <div className="flex items-center justify-between">
-            <h2 className="text-3xl font-black uppercase">
-              {essay ? '✏️ Edit Essay' : '➕ Add Essay'}
+            <h2 className="text-3xl font-black uppercase ml-1">
+              {essay ? 'Edit Essay' : 'Add Essay'}
             </h2>
             <button
               onClick={onClose}
@@ -708,7 +723,7 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           <div>
-            <label className="block font-black text-lg mb-2">✏️ Essay Title *</label>
+            <label className="block font-black text-lg mb-2">Essay Title *</label>
             <input
               type="text"
               value={formData.title}
@@ -720,7 +735,7 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
           </div>
 
           <div>
-            <label className="block font-black text-lg mb-2">❓ Prompt</label>
+            <label className="block font-black text-lg mb-2">Prompt</label>
             <textarea
               value={formData.promptText}
               onChange={(e) => setFormData({ ...formData, promptText: e.target.value })}
@@ -732,7 +747,7 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
 
           {!essay && availablePrompts.length > 0 && (
             <div>
-              <label className="block font-black text-lg mb-3">📝 Available Prompts</label>
+              <label className="block font-black text-lg mb-3">Available Prompts</label>
               <div className="bg-purple-100 border-2 border-black p-4">
 
                 <div className="space-y-2 max-h-60 overflow-y-auto">
@@ -768,7 +783,7 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
 
 
           <div>
-            <label className="block font-black text-lg mb-2">📝 Essay Content *</label>
+            <label className="block font-black text-lg mb-2">Essay Content *</label>
             <textarea
               value={formData.content}
               onChange={(e) => setFormData({ ...formData, content: e.target.value })}
@@ -779,7 +794,7 @@ function EssayModal({ essay, availablePrompts, onClose, onSave }) {
             />
             <div className={`text-right font-black mt-2 ${isOverLimit ? 'text-red-600' : 'text-gray-600'}`}>
               {wordCount} / {formData.wordLimit} words
-              {isOverLimit && ' ⚠️ OVER LIMIT'}
+              {isOverLimit && ' ! OVER LIMIT !'}
             </div>
           </div>
 

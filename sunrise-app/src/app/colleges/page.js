@@ -13,6 +13,9 @@ import { formatAppType } from "@/lib/formatters";
 
 import PlusIcon from "@/components/icons/PlusIcon";
 import CalendarIcon from "@/components/icons/CalendarIcon";
+import TrashIcon from "@/components/icons/TrashIcon";
+import CapIcon from "@/components/icons/CapIcon";
+import StatsIcon from "@/components/icons/StatsIcon";
 
 export default function CollegesPageRetro() {
   const { user } = useAuth();
@@ -147,7 +150,7 @@ export default function CollegesPageRetro() {
         {/* Messages */}
         {errorMsg && (
           <div className="mb-6 bg-red-400 border-4 border-black p-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-            <p className="font-bold text-lg">❌ {errorMsg}</p>
+            <p className="font-bold text-lg">{errorMsg}</p>
           </div>
         )}
         
@@ -168,16 +171,23 @@ export default function CollegesPageRetro() {
         {/* Empty State */}
         {colleges.length === 0 ? (
           <div className="bg-white border-4 border-black p-12 text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-            <div className="text-8xl mb-6">🎓</div>
+            <div className="flex justify-center mb-7">
+              <CapIcon size={75}></CapIcon>
+            </div>
             <h2 className="text-3xl font-black mb-4 uppercase">No Colleges Yet!</h2>
-            <p className="text-xl font-bold mb-6">
+            <p className="text-xl font-bold mb-12">
               Click "Add College" to start building your college list.
             </p>
             <button
               onClick={() => setAddCollegeFormVisible(true)}
-              className="bg-yellow-300 border-4 border-black px-8 py-4 font-black text-xl shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
+              className="content-center bg-amber-300 border-4 border-black px-8 py-4 font-black text-xl shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
             >
-              ➕ Add Your First College
+              <div className="flex">
+              <div className="mt-1 mr-3">
+                <PlusIcon size={20}></PlusIcon>
+              </div>
+              Add Your First College
+              </div>
             </button>
           </div>
         ) : (
@@ -244,7 +254,7 @@ export default function CollegesPageRetro() {
                     disabled={deletingId === college.id}
                     className="bg-rose-400 border-2 border-black px-4 py-2 font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {deletingId === college.id ? "..." : "🗑️"}
+                    {deletingId === college.id ? "..." : <TrashIcon size={20}></TrashIcon>}
                   </button>
                 </div>
               </div>
@@ -256,8 +266,8 @@ export default function CollegesPageRetro() {
         {colleges.length > 0 && (
           <div className="mt-8 bg-gradient-to-r from-green-300 to-blue-300 border-4 border-black p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <span className="text-5xl">📊</span>
+              <div className="flex items-center gap-8">
+                <StatsIcon size={45}></StatsIcon>
                 <div>
                   <div className="text-sm font-bold uppercase text-gray-700">Total Colleges</div>
                   <div className="text-4xl font-black">{colleges.length}</div>
@@ -265,7 +275,6 @@ export default function CollegesPageRetro() {
               </div>
               
               <div className="text-right">
-                <div className="text-sm font-bold uppercase text-gray-700 mb-2">Quick Stats</div>
                 <div className="flex gap-4">
                   {colleges.filter(c => new Date(c.data.deadline) < new Date()).length > 0 && (
                     <div className="bg-white border-2 border-black px-3 py-2">

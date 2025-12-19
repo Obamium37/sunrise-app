@@ -7,9 +7,9 @@ import { db } from "../../lib/firebase";
 import { collection, query, onSnapshot, addDoc } from "firebase/firestore";
 import { encryptData, decryptData } from "../../lib/crypto";
 import Link from "next/link";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
+//import FullCalendar from "@fullcalendar/react";
+//import dayGridPlugin from "@fullcalendar/daygrid";
+//import interactionPlugin from "@fullcalendar/interaction";
 import styles from "./home.module.css";
 
 
