@@ -4,27 +4,34 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
 import { db } from "../../lib/firebase";
-import { collection, query, onSnapshot, addDoc, deleteDoc, doc } from "firebase/firestore";
+import { collection, query, onSnapshot, addDoc } from "firebase/firestore";
+import { encryptData, decryptData } from "../../lib/crypto";
 import Link from "next/link";
+import { isCommonAppCollege } from "../../lib/collegeClassification";
+import SidebarLayout from "../../components/SidebarLayout";
+import styles from "./colleges.module.css";
 import NewCollegeModal from "@/components/NewCollegeModal";
-import { Button } from "@/components/retroui/Button";
-import { formatAppType } from "@/lib/formatters";
+import mapboxgl from "mapbox-gl";
 import axios from "axios";
 
-export default function CollegesPageRetro() {
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+
+export default function CollegesPage() {
   const { user } = useAuth();
   const router = useRouter();
 
   const [addCollegeFormVisible, setAddCollegeFormVisible] = useState(false);
   const [colleges, setColleges] = useState([]);
+  const [newCollegeName, setNewCollegeName] = useState("");
+  const [deadline, setDeadline] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const [successMsg, setSuccessMsg] = useState("");
-  const [deletingId, setDeletingId] = useState(null);
 
   useEffect(() => {
     if (!user) {
+      router.push("/");
       return;
     }
+
     const q = query(collection(db, "users", user.uid, "colleges"));
     const unsub = onSnapshot(q, (snap) => {
       const arr = snap.docs.map((doc) => ({
@@ -33,56 +40,59 @@ export default function CollegesPageRetro() {
       }));
       setColleges(arr);
     });
+
     return () => unsub();
-  }, [user]);
+  }, [user, router]);
 
-  const handleAddCollege = async (collegeData) => {
+  const handleAddCollege = async (e) => {
     setErrorMsg("");
-    setSuccessMsg("");
 
-    if (!collegeData.name || !collegeData.deadline) {
+    if (!newCollegeName || !deadline) {
       setErrorMsg("College name and deadline are required.");
       return false;
     }
 
     try {
-        let lat = null;
-        let lng = null;
+      const encName = await encryptData(user.uid, newCollegeName);
+      const encDeadline = await encryptData(user.uid, deadline);
 
-        try {
-      const response = await axios.get(
-        "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
-          encodeURIComponent(collegeData.name) +
-          ".json",
-        {
-          params: {
-            access_token: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
-            limit: 1,
-          },
+      const appType = isCommonAppCollege(newCollegeName)
+        ? "commonApp"
+        : "other";
+
+      let lat = null;
+      let lng = null;
+
+      try {
+        const res = await axios.get(
+          "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+            encodeURIComponent(newCollegeName) +
+            ".json",
+          {
+            params: {
+              access_token: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
+              limit: 1,
+            },
+          }
+        );
+
+        if (res.data.features?.length) {
+          lng = res.data.features[0].center[0];
+          lat = res.data.features[0].center[1];
         }
-      );
-
-      if (response.data.features && response.data.features.length > 0) {
-        lng = response.data.features[0].center[0];
-        lat = response.data.features[0].center[1];
-      }
-    } catch (geoErr) {
-      console.error("Geocoding error:", geoErr);
-    }
+      } catch {}
 
       await addDoc(collection(db, "users", user.uid, "colleges"), {
-        collegeName: collegeData.name,
-        deadline: collegeData.deadline,
-        deadlineType: collegeData.deadlineType,
-        appType: collegeData.appType,
-        activityTemplateType: collegeData.appType,
-        collegeId: collegeData.collegeId,
+        encryptedCollegeName: encName,
+        encryptedDeadline: encDeadline,
+        appType,
+        activityTemplateType: appType,
         lat,
         lng,
-        addedAt: new Date().toISOString(),
       });
 
-      setSuccessMsg("College added successfully!");
+      setNewCollegeName("");
+      setDeadline("");
       return true;
     } catch (err) {
       console.error("Add college error:", err);
@@ -91,198 +101,127 @@ export default function CollegesPageRetro() {
     }
   };
 
-  const handleDeleteCollege = async (collegeId, collegeName) => {
-    const confirmDelete = confirm(
-      `Are you sure you want to delete "${collegeName}" from your list?\n\nNote: This will also remove associated activity lists if no other colleges use that application type.`
-    );
-    
-    if (!confirmDelete) return;
+  useEffect(() => {
+    if (!user || colleges.length === 0) return;
 
-    setDeletingId(collegeId);
-    setErrorMsg("");
-    setSuccessMsg("");
+    const map = new mapboxgl.Map({
+      container: "college-map",
+      style: "mapbox://styles/mapbox/streets-v12",
+      center: [-98.5795, 39.8283],
+      zoom: 3,
+    });
 
-    try {
-      await deleteDoc(doc(db, "users", user.uid, "colleges", collegeId));
-      setSuccessMsg(`"${collegeName}" has been removed from your list.`);
-    } catch (err) {
-      console.error("Delete college error:", err);
-      setErrorMsg("Failed to delete college: " + err.message);
-    } finally {
-      setDeletingId(null);
-    }
-  };
+    colleges.forEach((c) => {
+      if (!c.data.lat || !c.data.lng) return;
 
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 flex items-center justify-center">
-        <div className="text-4xl font-black">Loading...</div>
-      </div>
-    );
-  }
+      const el = document.createElement("div");
+      el.innerHTML = "📍";
+      el.style.fontSize = "24px";
+      el.style.cursor = "pointer";
+
+      const marker = new mapboxgl.Marker(el)
+        .setLngLat([c.data.lng, c.data.lat])
+        .addTo(map);
+
+      decryptData(user.uid, c.data.encryptedCollegeName).then((name) => {
+        marker.setPopup(
+          new mapboxgl.Popup({ offset: 20 }).setHTML(
+            `<strong>${name}</strong><br/><a href="/colleges/${c.id}">View College →</a>`
+          )
+        );
+      });
+    });
+
+    return () => map.remove();
+  }, [colleges, user]);
 
   return (
-    <div className="min-h-screen bg-amber-50 p-6 md:p-12">
-      <div className="max-w-[1600px] mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <h1 className="text-5xl md:text-6xl font-black uppercase">
-              🎓 Your Colleges
-            </h1>
-            
-            <button
-              onClick={() => setAddCollegeFormVisible(true)}
-              className="bg-amber-300 border-4 border-black px-6 py-4 font-black text-xl shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
-            >
-              ➕ Add College
-            </button>
-          </div>
+    <div className={styles["container"]}>
+      <div className={styles["content"]}>
+        <h2>Your Colleges</h2>
+
+        {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
+
+        <div className={styles["add-college-button-container"]}>
+          <button
+            className={styles["add-college-button"]}
+            onClick={() => setAddCollegeFormVisible(true)}
+          >
+            Add a college
+          </button>
         </div>
 
-        {/* Messages */}
-        {errorMsg && (
-          <div className="mb-6 bg-red-400 border-4 border-black p-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-            <p className="font-bold text-lg">❌ {errorMsg}</p>
-          </div>
-        )}
-        
-        {successMsg && (
-          <div className="mb-6 bg-green-400 border-4 border-black p-4 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-            <p className="font-bold text-lg">{successMsg}</p>
-          </div>
-        )}
-
-        {/* Modal */}
         {addCollegeFormVisible && (
           <NewCollegeModal
             setIsOpen={setAddCollegeFormVisible}
             onSubmit={handleAddCollege}
+            newCollegeName={newCollegeName}
+            setNewCollegeName={setNewCollegeName}
+            deadline={deadline}
+            setDeadline={setDeadline}
           />
         )}
 
-        {/* Empty State */}
         {colleges.length === 0 ? (
-          <div className="bg-white border-4 border-black p-12 text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-            <div className="text-8xl mb-6">🎓</div>
-            <h2 className="text-3xl font-black mb-4 uppercase">No Colleges Yet!</h2>
-            <p className="text-xl font-bold mb-6">
-              Click "Add College" to start building your college list.
-            </p>
-            <button
-              onClick={() => setAddCollegeFormVisible(true)}
-              className="bg-yellow-300 border-4 border-black px-8 py-4 font-black text-xl shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
-            >
-              ➕ Add Your First College
-            </button>
-          </div>
+          <p>No colleges added yet.</p>
         ) : (
-          /* Colleges Grid */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {colleges.map((college) => (
-              <div
-                key={college.id}
-                className="bg-white border-4 border-black p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
-              >
-                {/* College Header */}
-                <div className="mb-4">
-                  <Link 
-                    href={`/colleges/${college.id}`}
-                    className="group"
-                  >
-                    <h3 className="text-2xl font-black mb-2 group-hover:text-purple-600 transition-colors">
-                      {college.data.collegeName}
-                    </h3>
-                  </Link>
-                  
-                  {college.data.deadlineType && (
-                    <div className="font-bold text-sm uppercase mb-2">
-                      {college.data.deadlineType}
+          <table className={styles["table"]}>
+            <thead>
+              <tr className={styles["table-header"]}>
+                <th className={styles["table-column-name"]}>Name</th>
+                <th className={styles["table-column-deadline"]}>Deadline</th>
+              </tr>
+            </thead>
+            <tbody>
+              {colleges.map((c) => (
+                <tr key={c.id}>
+                  <td className={styles["table-names"]}>
+                    <div className={styles["table-text"]}>
+                      <Link href={`/colleges/${c.id}`}>
+                        <DecryptCollegeName
+                          userId={user.uid}
+                          encrypted={c.data.encryptedCollegeName}
+                        />
+                      </Link>
                     </div>
-                  )}
-                </div>
-
-                {/* Deadline */}
-                <div className="mb-4 bg-pink-300 p-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl">📅</span>
-                    <div>
-                      <div className="text-xs font-bold uppercase text-gray-700">Deadline</div>
-                      <div className="text-lg font-black">
-                        {new Date(college.data.deadline).toLocaleDateString('en-US', {
-                          month: 'short',
-                          day: 'numeric',
-                          year: 'numeric'
-                        })}
-                      </div>
+                  </td>
+                  <td className={styles["table-deadlines"]}>
+                    <div className={styles["table-text"]}>
+                      {c.data.appType}
                     </div>
-                  </div>
-                </div>
-
-                {/* App Type */}
-                {college.data.appType && (
-                  <div className="px-3 py-2 font-bold text-sm">
-                    {formatAppType(college.data.appType)}  {/* ✅ NEW */}
-                  </div>
-                )}
-
-                {/* Actions */}
-                <div className="flex gap-3">
-                  <Link
-                    href={`/colleges/${college.id}`}
-                    className="flex-1 bg-amber-300 border-2 border-black px-4 py-2 font-bold text-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
-                  >
-                    View →
-                  </Link>
-                  
-                  <button
-                    onClick={() => handleDeleteCollege(college.id, college.data.collegeName)}
-                    disabled={deletingId === college.id}
-                    className="bg-rose-400 border-2 border-black px-4 py-2 font-bold shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {deletingId === college.id ? "..." : "🗑️"}
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
 
-        {/* Stats Footer */}
         {colleges.length > 0 && (
-          <div className="mt-8 bg-gradient-to-r from-green-300 to-blue-300 border-4 border-black p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <span className="text-5xl">📊</span>
-                <div>
-                  <div className="text-sm font-bold uppercase text-gray-700">Total Colleges</div>
-                  <div className="text-4xl font-black">{colleges.length}</div>
-                </div>
-              </div>
-              
-              <div className="text-right">
-                <div className="text-sm font-bold uppercase text-gray-700 mb-2">Quick Stats</div>
-                <div className="flex gap-4">
-                  {colleges.filter(c => new Date(c.data.deadline) < new Date()).length > 0 && (
-                    <div className="bg-white border-2 border-black px-3 py-2">
-                      <div className="text-2xl font-black text-red-600">
-                        {colleges.filter(c => new Date(c.data.deadline) < new Date()).length}
-                      </div>
-                      <div className="text-xs font-bold">Past Due</div>
-                    </div>
-                  )}
-                  <div className="bg-white border-2 border-black px-3 py-2">
-                    <div className="text-2xl font-black text-green-600">
-                      {colleges.filter(c => new Date(c.data.deadline) >= new Date()).length}
-                    </div>
-                    <div className="text-xs font-bold">Upcoming</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div style={{ marginTop: "2rem" }}>
+            <h3>Your Colleges on the Map</h3>
+            <div
+              id="college-map"
+              style={{
+                height: "400px",
+                border: "2px solid black",
+                borderRadius: "8px",
+              }}
+            />
           </div>
         )}
       </div>
     </div>
   );
+}
+
+function DecryptCollegeName({ userId, encrypted }) {
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    decryptData(userId, encrypted)
+      .then((dec) => setName(dec || "Unknown"))
+      .catch(() => setName("Unknown"));
+  }, [userId, encrypted]);
+
+  return <>{name}</>;
 }
