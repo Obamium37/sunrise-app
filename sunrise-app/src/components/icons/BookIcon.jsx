@@ -1,7 +1,6 @@
 const CalendarIcon = ({ size }) => {
   return (
     <svg viewBox="0 0 32 32" className="outlined" xmlns="http://www.w3.org/2000/svg" width={size} height={size}>
-      <g clip-path="url(#clip0_1128_6383)">
         <path d="M32 4.57498H30.48V27.425H32V4.57498Z" className="outlined" />
         <path d="M30.48 27.425H19.81V28.955H30.48V27.425Z" className="outlined" />
         <path d="M25.91 4.57498H24.39V6.09498H25.91V4.57498Z" className="outlined" />
@@ -25,7 +24,6 @@ const CalendarIcon = ({ size }) => {
         <path d="M6.10002 15.235H7.62002V13.715H9.15002V15.235H10.67V3.04499H15.24V1.52499H4.58002V3.04499H6.10002V15.235Z" className="outlined" />
         <path d="M3.05003 25.905H13.72V27.425H18.29V25.905H28.96V4.57498H30.48V3.04498H27.43V24.385H16.77V3.04498H15.24V24.385H4.58003V3.04498H1.53003V4.57498H3.05003V25.905Z" className="outlined" />
         <path d="M1.53 4.57498H0V27.425H1.53V4.57498Z" className="outlined" />
-      </g>
     </svg>
 
   );

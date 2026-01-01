@@ -10,6 +10,10 @@ import HomeIcon from "./icons/HomeIcon";
 import CapIcon from "./icons/CapIcon";
 import ListIcon from "./icons/ListIcon";
 import BagIcon from "./icons/BagIcon";
+import GearIcon from "./icons/GearIcon";
+import LogOutIcon from "./icons/LogOutIcon";
+import PersonIcon from "./icons/PersonIcon";
+import ChevronIcon from "./icons/ChevronIcon";
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -23,6 +27,7 @@ export function AppSidebar() {
   };
 
   const iconSize = 25;
+  const footerIconSize = 20;
 
   const navItems = [
     { title: "🏠 Home", url: "/home", emoji:  <HomeIcon size={iconSize}></HomeIcon>},
@@ -82,12 +87,12 @@ export function AppSidebar() {
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="text-2xl">👤</span>
-                <span className="text-sm truncate">
+                <PersonIcon size={footerIconSize}></PersonIcon>
+                <span className="text-sm text-black truncate pr-2">
                   {user?.email?.split('@')[0] || "Account"}
                 </span>
               </div>
-              <span className="text-md">{showAccountMenu ? ' ▼' : ' ▲'}</span>
+              <span className="text-md">{showAccountMenu ? <ChevronIcon size={footerIconSize} rotation={180}></ChevronIcon> : <ChevronIcon size={footerIconSize}></ChevronIcon>}</span>
             </div>
           </button>
 
@@ -96,19 +101,21 @@ export function AppSidebar() {
             <div className="absolute bottom-full left-0 right-0 mb-2 bg-white border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
               <Link
                 href="/account"
-                className="block px-4 py-3 font-bold hover:bg-amber-100 border-b-4 border-black"
+                className="flex block px-4 py-3 font-bold hover:bg-amber-100 border-b-4 border-black"
                 onClick={() => setShowAccountMenu(false)}
               >
-                ⚙️ Account Details
+                <GearIcon size={footerIconSize}></GearIcon>
+                <div className="pl-2">Account</div>
               </Link>
               <button
                 onClick={() => {
                   setShowAccountMenu(false);
                   handleLogout();
                 }}
-                className="w-full text-left px-4 py-3 font-bold hover:bg-amber-100"
+                className="flex w-full text-left px-4 py-3 font-bold hover:bg-amber-100"
               >
-                🚪 Log Out
+                <LogOutIcon size={20}></LogOutIcon>
+                <div className="pl-2">Log out</div>
               </button>
             </div>
           )}

@@ -543,7 +543,7 @@ function ActivityModal({
         <div className="sticky top-0 bg-amber-300 border-b-4 border-black p-6 z-10">
           <div className="flex items-center justify-between">
             <h2 className="text-3xl font-black uppercase">
-              {editingId ? '✏️ Edit' : '➕ Add'}{' '}
+              {editingId ? 'Edit' : 'Add'}{' '}
               {selectedSection && currentTemplate.sections
                 ? currentTemplate.sections[selectedSection].label.slice(0, -1)
                 : 'Item'}{' '}
@@ -571,7 +571,7 @@ function ActivityModal({
                 
                 {field.helpText && (
                   <p className="text-sm font-semibold text-gray-600 mb-3 italic">
-                    💡 {field.helpText}
+                    {field.helpText}
                   </p>
                 )}
 
@@ -696,7 +696,7 @@ function ActivityModal({
               type="submit"
               className="flex-1 bg-amber-300 border-4 border-black px-6 py-4 font-black text-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all uppercase"
             >
-              💾 {editingId ? 'Update' : 'Add'}{' '}
+              {editingId ? 'Update' : 'Add'}{' '}
               {selectedSection && currentTemplate.sections
                 ? currentTemplate.sections[selectedSection].label.slice(0, -1)
                 : 'Item'}

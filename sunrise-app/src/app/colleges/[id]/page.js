@@ -203,7 +203,7 @@ export default function CollegeDetailPage({ params }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="bg-blue-300 border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <div className="text-sm font-bold mb-1 uppercase">Application Type</div>
-            <div className="text-xl font-black">📝 {formatAppType(college.appType)}</div>
+            <div className="flex text-xl font-black"><div className="mr-3 mt-1"><PencilIcon size={iconSize}></PencilIcon></div>{formatAppType(college.appType)}</div>
           </div>
 
           <div className="bg-pink-300 border-4 border-black p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
@@ -376,7 +376,7 @@ export default function CollegeDetailPage({ params }) {
 
                           {collegeDetails.application_info.deadlines && (
                             <div>
-                              <h3 className="font-black text-2xl mb-3 uppercase">All Deadlines</h3>
+                              <h3 className="font-black text-lg mb-3 uppercase">All Deadlines</h3>
                               <div className="space-y-2">
                                 {Object.entries(collegeDetails.application_info.deadlines).map(([type, date]) => {
                                   if (date === null || date === false) return null;
@@ -578,7 +578,7 @@ export default function CollegeDetailPage({ params }) {
               rel="noopener noreferrer"
               className="block bg-blue-400 border-4 border-black p-4 font-black text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all"
             >
-              🌐 Visit College Website →
+              Visit College Website →
             </a>
           )}
         </div>
@@ -666,10 +666,10 @@ function EssayCard({ essay, index, onEdit, onDelete }) {
         {essay.content}
       </p>
 
-      <div className={`text-sm font-black ${isOverLimit ? 'text-red-600' : isNearLimit ? 'text-orange-600' : 'text-gray-600'}`}>
+      <div className={`text-sm font-black ${isOverLimit ? 'text-red-600' : isNearLimit ? 'text-gray-600' : 'text-gray-600'}`}>
         Words: {wordCount} {essay.wordLimit ? `/ ${essay.wordLimit}` : ''}
-        {isOverLimit && ' ⚠️ OVER LIMIT'}
-        {isNearLimit && !isOverLimit && ' ⚠️ NEAR LIMIT'}
+        {isOverLimit && ' --- OVER LIMIT'}
+        {isNearLimit && !isOverLimit && ' --- NEAR LIMIT'}
       </div>
     </div>
   );

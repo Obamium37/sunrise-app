@@ -1,7 +1,7 @@
 const BagIcon = ({ size }) => {
     return (
         <svg viewBox="0 0 32 32" className="outlined" xmlns="http://www.w3.org/2000/svg" width={size} height={size}>
-            <g clip-path="url(#clip0_1128_6434)">
+            
                 <path d="M12.955 0V1.52H9.90503V3.05H12.955V4.57H14.475V3.05H17.525V4.57H19.045V3.05H22.095V4.57H23.625V3.05H25.145V6.1H26.665V4.57H28.195V30.48H11.435V32H29.715V30.48H31.235V4.57H29.715V3.05H28.195V1.52H23.625V0H22.095V1.52H19.045V0H17.525V1.52H14.475V0H12.955Z" className="outlined" />
                 <path d="M25.145 6.10001H23.625V9.14001H25.145V6.10001Z" className="outlined" />
                 <path d="M22.095 12.19H26.665V10.67H23.625V9.14001H22.095V12.19Z" className="outlined" />
@@ -20,7 +20,7 @@ const BagIcon = ({ size }) => {
                 <path d="M5.33506 12.19H3.81506V15.24H5.33506V12.19Z" className="outlined" />
                 <path d="M3.81503 15.24H2.28503V18.29H3.81503V15.24Z" className="outlined" />
                 <path d="M2.28501 18.29H0.765015V21.33H2.28501V18.29Z" className="outlined" />
-            </g>
+            
         </svg>
 
 

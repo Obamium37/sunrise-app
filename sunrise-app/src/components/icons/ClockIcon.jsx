@@ -2,7 +2,7 @@ const ClockIcon = ({ size }) => {
     return (
 
         <svg viewBox="0 0 32 32" className="outlined" xmlns="http://www.w3.org/2000/svg" width={size} height={size}>
-            <g clip-path="url(#clip0_1128_14757)">
+            
                 <path d="M32 3.04999H30.47V7.61999H32V3.04999Z" className="outlined" />
                 <path d="M30.4699 7.62H28.95V9.14H30.4699V7.62Z" className="outlined" />
                 <path d="M30.4699 1.52002H28.95V3.05002H30.4699V1.52002Z" className="outlined" />
@@ -50,7 +50,7 @@ const ClockIcon = ({ size }) => {
                 <path d="M3.05002 7.62H1.52002V9.14H3.05002V7.62Z" className="outlined" />
                 <path d="M3.05002 1.52002H1.52002V3.05002H3.05002V1.52002Z" className="outlined" />
                 <path d="M1.52 3.04999H0V7.61999H1.52V3.04999Z" className="outlined" />
-            </g>
+            
         </svg>
     );
 };

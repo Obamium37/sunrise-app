@@ -1,7 +1,7 @@
 const StarIcon = ({ size }) => {
     return (
         <svg viewBox="0 0 32 32" className="outlined" xmlns="http://www.w3.org/2000/svg" width={size} height={size}>
-            <g clip-path="url(#clip0_1135_3635)">
+            
                 <path d="M32 12.1899H30.48V13.7099H32V12.1899Z" className="outlined" />
                 <path d="M30.4799 13.71H28.95V15.23H30.4799V13.71Z" className="outlined" />
                 <path d="M28.9501 27.4301H27.4301V30.4701H28.9501V27.4301Z" className="outlined" />
@@ -43,7 +43,7 @@ const StarIcon = ({ size }) => {
                 <path d="M10.67 10.66H1.52002V12.19H10.67V10.66Z" className="outlined" />
                 <path d="M3.05002 13.71H1.52002V15.23H3.05002V13.71Z" className="outlined" />
                 <path d="M1.52 12.1899H0V13.7099H1.52V12.1899Z" className="outlined" />
-            </g>
+            
         </svg>
 
     );

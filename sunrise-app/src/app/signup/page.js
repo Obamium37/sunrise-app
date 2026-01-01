@@ -76,30 +76,31 @@ export default function SignupPage() {
 
         {/* Rising Sun Layer */}
         <div 
-          className="parallax-layer absolute inset-0 flex items-end justify-center pb-24"
-          style={{ transform: "translateZ(-30px) scale(1.3)" }}
+          className="parallax-layer absolute inset-0 flex items-end justify-center pb-32"
+          style={{ transform: "translateZ(-30px) translateX(-475px) scale(1.3)" }}
         >
-          <div className="relative">
-            {/* Sun Glow */}
-            <div className="absolute inset-0 animate-pulse-slow">
-              <div className="w-72 h-72 bg-orange-300 rounded-full blur-3xl opacity-60" />
-            </div>
-            {/* Sun Core - Larger for signup */}
-            <div className="relative w-56 h-56 bg-gradient-to-br from-yellow-300 via-orange-500 to-red-600 rounded-full animate-float shadow-2xl">
-              {/* Inner glow */}
-              <div className="absolute inset-4 bg-gradient-to-br from-yellow-100 to-orange-300 rounded-full blur-md" />
-            </div>
             {/* Sun Rays - More dramatic */}
             {[...Array(16)].map((_, i) => (
               <div
                 key={i}
                 className="absolute top-1/2 left-1/2 w-3 h-40 bg-gradient-to-t from-orange-400 via-yellow-300 to-transparent origin-bottom animate-rotate-rays"
                 style={{
-                  transform: `translate(-50%, -100%) rotate(${i * 22.5}deg)`,
+                  transform: `translate(-50%, -100%) translateY(+160px) rotate(${i * 22.5}deg) scale(1.2)`,
                   animationDelay: `${i * 0.08}s`,
                 }}
               />
             ))}
+          <div className="relative">
+            {/* Sun Glow */}
+            <div className="absolute inset-0 animate-pulse-slow">
+              <div className="w-72 h-72 bg-orange-300 rounded-full blur-3xl opacity-60" />
+            </div>
+            {/* Sun Core */}
+            <div className="relative w-48 h-48 bg-gradient-to-br from-yellow-300 via-orange-400 to-red-500 rounded-full shadow-2xl">
+              {/* Inner glow */}
+              <div className="absolute inset-6 bg-gradient-to-br from-yellow-200 to-orange-300 rounded-full blur-md" />
+            </div>
+
           </div>
         </div>
 
@@ -117,14 +118,14 @@ export default function SignupPage() {
         {/* Mountains Layer */}
         <div 
           className="parallax-layer absolute bottom-0 left-0 right-0"
-          style={{ transform: "translateZ(-10px) scale(1.1)" }}
+          style={{ transform: "translateZ(-5px) scale(1.1)" }}
         >
           {/* Back Mountains */}
           <svg className="absolute bottom-0 w-full" viewBox="0 0 1200 300" preserveAspectRatio="none">
             <path
               d="M0,200 L200,100 L400,150 L600,50 L800,120 L1000,80 L1200,140 L1200,300 L0,300 Z"
               fill="#2d3561"
-              opacity="0.6"
+              opacity="0.8"
             />
           </svg>
           {/* Front Mountains */}
@@ -132,7 +133,7 @@ export default function SignupPage() {
             <path
               d="M0,250 L150,180 L300,220 L500,140 L700,200 L900,160 L1200,220 L1200,300 L0,300 Z"
               fill="#1a1f3a"
-              opacity="0.8"
+              opacity="0.7"
             />
           </svg>
         </div>

@@ -73,26 +73,27 @@ export default function LoginPage() {
         {/* Sun Layer */}
         <div 
           className="parallax-layer absolute inset-0 flex items-end justify-center pb-32"
-          style={{ transform: "translateZ(-30px) scale(1.3)" }}
+          style={{ transform: "translateZ(-30px) translateX(-475px) scale(1.3)" }}
         >
           <div className="relative">
-            {/* Sun Glow */}
-            <div className="absolute inset-0 animate-pulse-slow">
-              <div className="w-64 h-64 bg-yellow-300 rounded-full blur-3xl opacity-50" />
-            </div>
-            {/* Sun Core */}
-            <div className="relative w-48 h-48 bg-gradient-to-br from-yellow-200 via-orange-400 to-red-500 rounded-full animate-float shadow-2xl" />
             {/* Sun Rays */}
             {[...Array(12)].map((_, i) => (
               <div
                 key={i}
                 className="absolute top-1/2 left-1/2 w-2 h-32 bg-gradient-to-t from-yellow-300 to-transparent origin-bottom animate-rotate-rays"
                 style={{
-                  transform: `translate(-50%, -100%) rotate(${i * 30}deg)`,
+                  transform: `translate(-50%, -100%) rotate(${i * 30}deg) scale(1.6)`,
                   animationDelay: `${i * 0.1}s`,
                 }}
               />
             ))}
+            {/* Sun Glow */}
+            <div className="absolute inset-0 animate-pulse-slow">
+              <div className="w-64 h-64 bg-yellow-300 rounded-full blur-3xl opacity-50" />
+            </div>
+            {/* Sun Core */}
+            <div className="relative w-48 h-48 bg-gradient-to-br from-yellow-200 via-orange-400 to-red-500 rounded-full shadow-2xl" />
+
           </div>
         </div>
 
@@ -109,14 +110,14 @@ export default function LoginPage() {
         {/* Mountains Layer */}
         <div 
           className="parallax-layer absolute bottom-0 left-0 right-0"
-          style={{ transform: "translateZ(-10px) scale(1.1)" }}
+          style={{ transform: "translateZ(-5px) scale(1.1)" }}
         >
           {/* Back Mountains */}
           <svg className="absolute bottom-0 w-full" viewBox="0 0 1200 300" preserveAspectRatio="none">
             <path
               d="M0,200 L200,100 L400,150 L600,50 L800,120 L1000,80 L1200,140 L1200,300 L0,300 Z"
-              fill="#2d3561"
-              opacity="0.6"
+              fill="#6c488aff"
+              opacity="0.8"
             />
           </svg>
           {/* Front Mountains */}
@@ -124,7 +125,7 @@ export default function LoginPage() {
             <path
               d="M0,250 L150,180 L300,220 L500,140 L700,200 L900,160 L1200,220 L1200,300 L0,300 Z"
               fill="#1a1f3a"
-              opacity="0.8"
+              opacity="0.7"
             />
           </svg>
         </div>

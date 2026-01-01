@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import ClockIcon from './icons/ClockIcon';
+import ChevronIcon from './icons/ChevronIcon';
 
 export default function EnhancedCalendarRetro({ user }) {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -218,9 +219,9 @@ export default function EnhancedCalendarRetro({ user }) {
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={previousMonth}
-            className="bg-amber-300 border-2 border-black px-4 py-2 font-bold text-2xl hover:bg-yellow-400 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]"
+            className="bg-amber-300 border-2 border-black px-4 py-2 font-bold text-2xl hover:bg-amber-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]"
           >
-            ◀
+            <ChevronIcon size={25} rotation={270}></ChevronIcon>
           </button>
           
           <h3 className="text-2xl md:text-3xl font-black uppercase">
@@ -229,9 +230,9 @@ export default function EnhancedCalendarRetro({ user }) {
           
           <button
             onClick={nextMonth}
-            className="bg-amber-300 border-2 border-black px-4 py-2 font-bold text-2xl hover:bg-yellow-400 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]"
+            className="bg-amber-300 border-2 border-black px-4 py-2 font-bold text-2xl hover:bg-amber-100 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]"
           >
-            ▶
+            <ChevronIcon size={25} rotation={90}></ChevronIcon>
           </button>
         </div>
 
