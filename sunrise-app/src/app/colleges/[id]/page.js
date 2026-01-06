@@ -530,6 +530,12 @@ export default function CollegeDetailPage({ params }) {
               </div>
             )}
 
+            {/* Map Section */}
+            <p>
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d131043.89181969792!2d-122.34173839771178!3d47.65775255407205!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x549014929d8535eb%3A0x6b742c7901b82ba3!2sUniversity%20of%20Washington!5e0!3m2!1sen!2sus!4v1767588132724!5m2!1sen!2sus" width="600" height="450" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+            </p>
+
+
             {/* Essays Section */}
             <div className="bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
               <div className="flex items-center justify-between mb-6 pb-4 border-b-4 border-black">
